@@ -38,7 +38,13 @@
             android:name=".Interest"
             android:theme="@style/AppTheme1" />
         <activity android:name=".StartTest" />
-        <activity android:name=".Test"></activity>
+        <activity android:name=".Test" />
+        <activity android:name=".TestResult" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Profile" />
+        <activity android:name=".TestResult2" />
+        <activity android:name=".Settings" />
+        <activity android:name=".Orders"></activity>
     </application>
 
 </manifest>

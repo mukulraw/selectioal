@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="always"
+        android:orderInCategory="1"
+        />
+
+    <item
+        android:id="@+id/college"
+        android:title="College Info"
+        android:icon="@drawable/ic_college_graduation"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        />
+
+    <item
+        android:id="@+id/test"
+        android:title="My Test"
+        android:icon="@drawable/ic_test_1"
+        app:showAsAction="always"
+        android:orderInCategory="3"
+        />
+
+</menu>

@@ -13,6 +13,7 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -32,8 +33,10 @@ public class Test extends AppCompatActivity {
 
         tabs = findViewById(R.id.textView34);
 
-        adapter = new FragAdapter(getSupportFragmentManager());
         pager = findViewById(R.id.pager);
+
+        adapter = new FragAdapter(getSupportFragmentManager() , pager);
+
 
         pager.setAdapter(adapter);
 
@@ -52,16 +55,15 @@ public class Test extends AppCompatActivity {
         tabs.getTabAt(3).setText(builder);
 
 
-
-
-
     }
 
-    class FragAdapter extends FragmentStatePagerAdapter
-    {
+    class FragAdapter extends FragmentStatePagerAdapter {
 
-        public FragAdapter(FragmentManager fm) {
+        ViewPager pager;
+
+        FragAdapter(FragmentManager fm , ViewPager pager) {
             super(fm);
+            this.pager = pager;
         }
 
         @Nullable
@@ -72,7 +74,19 @@ public class Test extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int i) {
-            return new TestFrag();
+            TestFrag frag = new TestFrag();
+
+            Bundle b = new Bundle();
+            b.putInt("position", i);
+            if (i == 11) {
+                b.putBoolean("last", true);
+            } else {
+                b.putBoolean("last", false);
+            }
+            frag.setData(pager);
+
+            frag.setArguments(b);
+            return frag;
         }
 
         @Override
