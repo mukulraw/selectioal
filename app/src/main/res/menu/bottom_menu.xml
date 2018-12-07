@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/college"
-        android:title="College Info"
+        android:title="Institution"
         android:icon="@drawable/ic_college_graduation"
         app:showAsAction="always"
         android:orderInCategory="2"
