@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.selectial.selectial.response.SignupResp;
 import com.selectial.selectial.response.SignupResponse;
 import com.selectial.selectial.util.DataValidation;
 import com.selectial.selectial.util.Constant;
+import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
@@ -107,19 +109,36 @@ public class Signup extends AppCompatActivity {
     }
 
     private void signupReq() {
-        Call<SignupResponse> call = serviceInterface.signup(convertPlainString(mClass), convertPlainString(mUsername),
+        Call<SignupResp> call = serviceInterface.signup(convertPlainString(mClass), convertPlainString(mUsername),
                 convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword));
 
-        call.enqueue(new Callback<SignupResponse>() {
+        call.enqueue(new Callback<SignupResp>() {
             @Override
-            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
+            public void onResponse(Call<SignupResp> call, Response<SignupResp> response) {
                 if (response.body() != null && response.isSuccessful()) {
                     pBar.setVisibility(View.GONE);
 
-                    if (response.body().getStatus() == 1) {
-                        Toast.makeText(Signup.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    if (response.body().getStatus().equals("1")) {
+                        Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
+                        SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_date, response.body().getData().getCreatedDate());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_isPaid, response.body().getData().getIsPaid());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
+                        SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
+
+
                         Intent intent = new Intent(Signup.this, SetProfileImage.class);
                         startActivity(intent);
+                    } else {
+                        Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -127,7 +146,7 @@ public class Signup extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<SignupResponse> call, Throwable t) {
+            public void onFailure(Call<SignupResp> call, Throwable t) {
                 pBar.setVisibility(View.GONE);
                 Log.e("error", "" + t);
 
@@ -145,13 +164,13 @@ public class Signup extends AppCompatActivity {
         genderPositionToggle = toggleSwitchGender.getCheckedTogglePosition();
 
         if (classPositionToggle == 0) {
-            mClass = String.valueOf(10);
+            mClass = String.valueOf("1");
         }
         if (classPositionToggle == 1) {
-            mClass = String.valueOf(12);
+            mClass = String.valueOf("2");
         }
         if (classPositionToggle == 2) {
-            mClass = "NEET";
+            mClass = "3";
         }
 
 

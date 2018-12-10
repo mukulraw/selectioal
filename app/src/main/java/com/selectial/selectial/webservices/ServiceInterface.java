@@ -1,7 +1,9 @@
 package com.selectial.selectial.webservices;
 
 
+import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SigninResponse;
+import com.selectial.selectial.response.SignupResp;
 import com.selectial.selectial.response.SignupResponse;
 
 import okhttp3.RequestBody;
@@ -12,7 +14,7 @@ import retrofit2.http.Part;
 
 public interface ServiceInterface {
 
-    @Multipart
+   /* @Multipart
     @POST("selectial/signup.php")
     Call<SignupResponse> signup(
             @Part("class") RequestBody mclass,
@@ -21,11 +23,31 @@ public interface ServiceInterface {
             @Part("age") RequestBody age,
             @Part("email") RequestBody email,
             @Part("password") RequestBody password
-    );
+    );*/
 
-    @Multipart
+   /* @Multipart
     @POST ("selectial/signin.php")
     Call<SigninResponse> signin(
+            @Part("email") RequestBody email,
+            @Part("password") RequestBody password
+    );*/
+
+
+    @Multipart
+    @POST("selectial/api/sign_up.php")
+    Call<SignupResp> signup(
+            @Part("class") RequestBody mclass,
+            @Part("name") RequestBody username,
+            @Part("gender") RequestBody gender,
+            @Part("age") RequestBody age,
+            @Part("email") RequestBody email,
+            @Part("password") RequestBody password
+    );
+
+
+    @Multipart
+    @POST ("selectial/api/login.php")
+    Call<SigninResp> signin(
             @Part("email") RequestBody email,
             @Part("password") RequestBody password
     );

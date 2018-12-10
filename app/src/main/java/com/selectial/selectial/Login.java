@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SigninResponse;
 import com.selectial.selectial.util.DataValidation;
 import com.selectial.selectial.util.Constant;
+import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
 
 import okhttp3.MediaType;
@@ -103,28 +105,40 @@ public class Login extends AppCompatActivity {
     private void signinReq() {
 
 
-        Call<SigninResponse> call = serviceInterface.signin(convertPlainString(mEmail), convertPlainString(mPassword));
-        call.enqueue(new Callback<SigninResponse>() {
+        Call<SigninResp> call = serviceInterface.signin(convertPlainString(mEmail), convertPlainString(mPassword));
+        call.enqueue(new Callback<SigninResp>() {
             @Override
-            public void onResponse(Call<SigninResponse> call, Response<SigninResponse> response) {
+            public void onResponse(Call<SigninResp> call, Response<SigninResp> response) {
                 if (response.body() != null && response.isSuccessful()) {
-                    if (response.body().getStatus() == 1) {
+                    if (response.body().getStatus().equals("1")) {
                         pBar.setVisibility(View.GONE);
-                        Toast.makeText(Login.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(Login.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
+                        SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_date, response.body().getData().getCreatedDate());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_isPaid, response.body().getData().getIsPaid());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
+                        SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
                         Intent intent = new Intent(Login.this, StartTest.class);
                         startActivity(intent);
 
                     } else {
                         pBar.setVisibility(View.GONE);
-                        Toast.makeText(Login.this, "invalid login", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
             }
 
             @Override
-            public void onFailure(Call<SigninResponse> call, Throwable t) {
+            public void onFailure(Call<SigninResp> call, Throwable t) {
                 pBar.setVisibility(View.GONE);
 
                 Log.e("error", "" + t);
