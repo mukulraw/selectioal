@@ -28,21 +28,29 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Signup extends AppCompatActivity {
 
     Button signup;
+
     EditText username, age, email, password;
+
     String mUsername, mAge, mEmail, mPassword;
+
     ToggleSwitch toggleSwitchClass, toggleSwitchGender;
+
     int classPositionToggle, genderPositionToggle;
+
     String mGender, mClass;
+
     TextView alreadyMember;
+
     ProgressBar pBar;
 
     Retrofit retrofit;
-    ServiceInterface serviceInterface;
 
+    ServiceInterface serviceInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +62,12 @@ public class Signup extends AppCompatActivity {
 
         pBar.setVisibility(View.GONE);
 
-
         //Retrofit
         // pBar.setVisibility(View.GONE);
 
-        Gson gson = new GsonBuilder().create();
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -89,17 +96,16 @@ public class Signup extends AppCompatActivity {
                     pBar.setVisibility(View.VISIBLE);
                 }
 
-
-
-
                 /*Intent intent = new Intent(Signup.this, SetProfileImage.class);
                 startActivity(intent);*/
 
             }
         });
+
         alreadyMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent loginIntent = new Intent(Signup.this, Login.class);
                 startActivity(loginIntent);
                 finish();
@@ -133,7 +139,9 @@ public class Signup extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
                         SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
+                        SharePreferenceUtils.getInstance().getString(Constant.CLS_id, response.body().getData().getClassId());
 
+                        Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_id));
 
                         Intent intent = new Intent(Signup.this, SetProfileImage.class);
                         startActivity(intent);
@@ -141,7 +149,6 @@ public class Signup extends AppCompatActivity {
                         Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-
 
             }
 
@@ -172,7 +179,6 @@ public class Signup extends AppCompatActivity {
         if (classPositionToggle == 2) {
             mClass = "3";
         }
-
 
         if (genderPositionToggle == 0) {
             mGender = "Male";

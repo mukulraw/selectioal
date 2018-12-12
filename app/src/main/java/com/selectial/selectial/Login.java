@@ -27,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Login extends AppCompatActivity {
 
@@ -48,12 +49,9 @@ public class Login extends AppCompatActivity {
         setUpWidget();
         pBar.setVisibility(View.GONE);
 
-        //Retrofit
-        // pBar.setVisibility(View.GONE);
-
-        Gson gson = new GsonBuilder().create();
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

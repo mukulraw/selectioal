@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 public class bean extends Application {
     private static Context context;
     private String TAG ="myApp";
@@ -16,6 +19,8 @@ public class bean extends Application {
 
         context = getApplicationContext();
         Log.e(TAG, "  myapp stater");
+
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
     }
     public static Context getContext(){
         return context;

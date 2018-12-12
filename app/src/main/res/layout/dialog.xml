@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="300dp"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take new photo"
+        android:padding="15dp"
+        android:textSize="15sp"
+        android:id="@+id/capture"
+        android:background="@color/colorAccent"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="10dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select new photo"
+        android:padding="15dp"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:id="@+id/profile"
+        android:background="@color/colorAccent"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"/>
+
+
+
+</LinearLayout>

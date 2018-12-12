@@ -7,6 +7,7 @@ public class Constant {
 
     public static final String USER_DATA = "USER_DATA";
     public static final String USER_id = "USER_id";
+    public static final String CLS_id = "CLS_id";
     public static final String USER_class = "USER_class";
     public static final String USER_email = "USER_email";
     public static final String USER_gender = "USER_gender";

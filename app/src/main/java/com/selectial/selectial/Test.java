@@ -37,7 +37,6 @@ public class Test extends AppCompatActivity {
 
         adapter = new FragAdapter(getSupportFragmentManager() , pager);
 
-
         pager.setAdapter(adapter);
 
         tabs.setupWithViewPager(pager);

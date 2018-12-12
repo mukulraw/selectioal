@@ -19,11 +19,14 @@ import java.util.Objects;
 public class TestResult extends AppCompatActivity {
 
     RecyclerView grid;
-    GridLayoutManager manager;
-    SolutionAdapter adapter;
-    NestedScrollView scroll;
-    ImageButton back;
 
+    GridLayoutManager manager;
+
+    SolutionAdapter adapter;
+
+    NestedScrollView scroll;
+
+    ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +34,18 @@ public class TestResult extends AppCompatActivity {
         setContentView(R.layout.activity_test_result);
 
         grid = findViewById(R.id.grid);
+
         scroll = findViewById(R.id.scroll);
+
         back = findViewById(R.id.imageButton4);
+
         adapter = new SolutionAdapter(TestResult.this);
+
         manager = new GridLayoutManager(this , 1);
 
         grid.setAdapter(adapter);
+
         grid.setLayoutManager(manager);
-
-
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,14 +56,15 @@ public class TestResult extends AppCompatActivity {
             }
         });
 
-
-
     }
 
     @Override
     public void onBackPressed() {
+
         Intent intent = new Intent(TestResult.this , MainActivity.class);
+
         startActivity(intent);
+
         finishAffinity();
     }
 
