@@ -128,6 +128,7 @@ public class Login extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
                         Intent intent = new Intent(Login.this, StartTest.class);
                         startActivity(intent);
+                        finish();
 
                     } else {
                         pBar.setVisibility(View.GONE);

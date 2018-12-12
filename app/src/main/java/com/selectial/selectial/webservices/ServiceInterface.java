@@ -1,6 +1,7 @@
 package com.selectial.selectial.webservices;
 
 
+import com.selectial.selectial.response.ImageResp;
 import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SigninResponse;
 import com.selectial.selectial.response.SignupResp;
@@ -32,7 +33,7 @@ public interface ServiceInterface {
             @Part("password") RequestBody password
     );*/
 
-
+//Register new user
     @Multipart
     @POST("selectial/api/sign_up.php")
     Call<SignupResp> signup(
@@ -44,14 +45,21 @@ public interface ServiceInterface {
             @Part("password") RequestBody password
     );
 
-
+// login
     @Multipart
-    @POST ("selectial/api/login.php")
+    @POST("selectial/api/login.php")
     Call<SigninResp> signin(
             @Part("email") RequestBody email,
             @Part("password") RequestBody password
     );
 
+    //uploading profile image
+    @Multipart
+    @POST("selectial/api/updateProfilePic.php")
+    Call<ImageResp> uploadProfileImage(
+            @Part("userId") RequestBody userid,
+            @Part("image\"; filename=\"myfile.jpg\" ") RequestBody file
+    );
 
 
 

@@ -41,4 +41,7 @@ dependencies {
     // Retrofit API Interceptor for Debuging
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    //image compressing library
+    implementation 'id.zelory:compressor:2.1.0'
 }

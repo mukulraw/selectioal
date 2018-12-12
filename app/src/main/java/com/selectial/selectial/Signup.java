@@ -134,9 +134,9 @@ public class Signup extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
                         SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
 
-
                         Intent intent = new Intent(Signup.this, SetProfileImage.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
