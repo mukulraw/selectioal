@@ -2,6 +2,7 @@ package com.selectial.selectial.webservices;
 
 
 import com.selectial.selectial.GetStreamPOJO.GetStreamBean;
+import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
 import com.selectial.selectial.UpdateprofilePOJO.UpdateprofileBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.response.SigninResp;
@@ -73,6 +74,13 @@ public interface ServiceInterface {
     @POST("selectial/api/getStreams.php")
     Call<GetStreamBean> steam
             (@Part("class_id") String cls);
+
+    @Multipart
+    @POST("selectial/api/updateStream.php")
+    Call<UpdateStreamBean> udatestream
+            (@Part("stream_id") String cls,
+            @Part("userId") String user
+             );
 
 
 

@@ -29,7 +29,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SplashActivity extends AppCompatActivity {
 
-    //
+
     Retrofit retrofit;
     ServiceInterface serviceInterface;
 

@@ -45,8 +45,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         setUpWidget();
+
         pBar.setVisibility(View.GONE);
 
         Retrofit retrofit = new Retrofit.Builder()

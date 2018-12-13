@@ -149,7 +149,6 @@ public class SetProfileImage extends AppCompatActivity {
                 Log.d("image", file.getName());
                 Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_id));
 
-
                 bar.setVisibility(View.VISIBLE);
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(Constant.BASE_URL)
@@ -167,12 +166,10 @@ public class SetProfileImage extends AppCompatActivity {
 
                         if (Objects.equals(response.body().getStatus(), "1")) {
 
-
-
                             Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SetProfileImage.this , Interest.class);
                             startActivity(intent);
-                            finishAffinity();
+                           // finishAffinity();
 
                         } else {
                             Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

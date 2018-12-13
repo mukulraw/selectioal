@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawer;
     ImageButton toggle;
-    TextView profile , myTest , orders;
+    TextView profile , myTest , orders , compare;
     BottomNavigationView bottom;
     TextView toolbar;
     TextView settings1;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         myTest = findViewById(R.id.textView59);
         settings1 = findViewById(R.id.textView62);
         settings = findViewById(R.id.imageButton6);
+        compare = findViewById(R.id.textView24);
 
         toggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +154,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, Orders.class);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+
+        compare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, Compare.class);
                 startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
 

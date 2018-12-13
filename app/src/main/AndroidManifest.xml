@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.selectial.selectial">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".bean"
@@ -30,14 +31,11 @@
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
-
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"
                 tools:replace="android:resource" />
         </provider>
-
 
         <activity
             android:name=".SignupLogin"
@@ -64,7 +62,9 @@
         <activity android:name=".Profile" />
         <activity android:name=".TestResult2" />
         <activity android:name=".Settings" />
-        <activity android:name=".Orders"></activity>
+        <activity android:name=".Orders" />
+        <activity android:name=".insititudedetails" />
+        <activity android:name=".Compare"></activity>
     </application>
 
 </manifest>

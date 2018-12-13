@@ -15,7 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:src="@drawable/download"
-            android:scaleType="centerCrop"
+            android:padding="10dp"
+            android:background="#fff"
+            android:scaleType="centerInside"
             android:id="@+id/image"/>
 
         <TextView

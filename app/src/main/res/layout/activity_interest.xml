@@ -94,6 +94,7 @@
             app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
+
     <TextView
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
@@ -102,11 +103,14 @@
         android:layout_marginEnd="16dp"
         android:text="PROCEED >>"
         android:textColor="#ffffff"
+        android:visibility="gone"
         android:typeface="monospace"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3" />
+        app:layout_constraintTop_toBottomOf="@+id/view3"/>
+
+
 
     <ProgressBar
         android:id="@+id/progressBar5"
@@ -116,6 +120,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:visibility="gone"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

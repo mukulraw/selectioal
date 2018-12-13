@@ -1,6 +1,7 @@
 package com.selectial.selectial;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,10 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.Objects;
-
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class CollegeInfo extends Fragment {
 
@@ -51,17 +48,26 @@ public class CollegeInfo extends Fragment {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = null;
-            if (inflater != null) {
-                view = inflater.inflate(R.layout.college_list_model , viewGroup , false);
-            }
-            return new ViewHolder(Objects.requireNonNull(view));
+
+
+            View view = LayoutInflater.from(context).inflate(R.layout.college_list_model , viewGroup , false);
+
+            return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Intent i = new Intent(context , insititudedetails.class);
+                    context.startActivity(i);
+                }
+            });
 
         }
 

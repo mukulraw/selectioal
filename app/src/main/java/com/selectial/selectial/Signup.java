@@ -138,8 +138,8 @@ public class Signup extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
-                        SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
-                        SharePreferenceUtils.getInstance().getString(Constant.CLS_id, response.body().getData().getClassId());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
+                        SharePreferenceUtils.getInstance().saveString(Constant.CLS_id, response.body().getData().getClassId());
 
                         Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_id));
 
