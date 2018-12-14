@@ -166,7 +166,7 @@ public class SetProfileImage extends AppCompatActivity {
 
                         if (Objects.equals(response.body().getStatus(), "1")) {
 
-                            Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SetProfileImage.this , Interest.class);
                             startActivity(intent);
                            // finishAffinity();

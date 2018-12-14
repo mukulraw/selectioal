@@ -64,7 +64,9 @@
         <activity android:name=".Settings" />
         <activity android:name=".Orders" />
         <activity android:name=".insititudedetails" />
-        <activity android:name=".Compare"></activity>
+        <activity android:name=".Compare" />
+        <activity android:name=".EditProfile" />
+        <activity android:name=".ChangePassword"></activity>
     </application>
 
 </manifest>

@@ -70,11 +70,6 @@ public class MyTest extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-
-
-
-
-
         }
 
        /* public void setgrid(List<>list){

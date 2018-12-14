@@ -1,5 +1,6 @@
 package com.selectial.selectial;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,12 +18,20 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawer;
+
     ImageButton toggle;
+
     TextView profile , myTest , orders , compare;
+
     BottomNavigationView bottom;
-    TextView toolbar;
+
+    TextView toolbar , edit;
+
     TextView settings1;
+
     ImageButton settings;
+
+    //TextView change;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +39,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         drawer = findViewById(R.id.drawer);
+
         toggle = findViewById(R.id.imageButton4);
+
         profile = findViewById(R.id.textView58);
+
         orders = findViewById(R.id.textView61);
+
         bottom = findViewById(R.id.bottomNavigationView);
+
         toolbar = findViewById(R.id.textView27);
+
         myTest = findViewById(R.id.textView59);
+
         settings1 = findViewById(R.id.textView62);
+        edit = findViewById(R.id.textView56);
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(MainActivity.this , EditProfile.class);
+                startActivity(i);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+
         settings = findViewById(R.id.imageButton6);
+
         compare = findViewById(R.id.textView24);
 
         toggle.setOnClickListener(new View.OnClickListener() {

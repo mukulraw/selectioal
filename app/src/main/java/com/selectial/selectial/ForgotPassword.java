@@ -3,6 +3,7 @@ package com.selectial.selectial;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -24,10 +25,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ForgotPassword extends AppCompatActivity {
 
-
     EditText email;
-
     ProgressBar bar;
+
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,48 +37,61 @@ public class ForgotPassword extends AppCompatActivity {
 
         email = findViewById(R.id.editText);
         bar = findViewById(R.id.progress);
+        btn = findViewById(R.id.button3);
 
-        String e = email.getText().toString();
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        if (e.length() > 0) {
+                String e = email.getText().toString();
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant.BASE_URL)
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            ServiceInterface cr = retrofit.create(ServiceInterface.class);
+                if (e.length() > 0) {
 
-            Call<ForgotBean> call = cr.forgot(e);
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(Constant.BASE_URL)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-            call.enqueue(new Callback<ForgotBean>() {
-                @Override
-                public void onResponse(Call<ForgotBean> call, Response<ForgotBean> response) {
+                    Call<ForgotBean> call = cr.forgot(e);
 
-                    if (Objects.equals(response.body().getStatus(), "1")) {
+                    call.enqueue(new Callback<ForgotBean>() {
+                        @Override
+                        public void onResponse(Call<ForgotBean> call, Response<ForgotBean> response) {
 
-                        Toast.makeText(ForgotPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    } else {
+                            if (Objects.equals(response.body().getStatus(), "1")) {
 
-                        Toast.makeText(ForgotPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                                Toast.makeText(ForgotPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                finish();
 
-                    bar.setVisibility(View.GONE);
+                                email.setText("");
+                            } else {
+
+                                Toast.makeText(ForgotPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            bar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ForgotBean> call, Throwable t) {
+
+                            bar.setVisibility(View.GONE);
+
+                        }
+                    });
+
+
+                } else {
+
+                    Toast.makeText(ForgotPassword.this, "Please enter a Email", Toast.LENGTH_SHORT).show();
                 }
 
-                @Override
-                public void onFailure(Call<ForgotBean> call, Throwable t) {
 
-                    bar.setVisibility(View.GONE);
+            }
+        });
 
-                }
-            });
-
-
-        } else {
-
-            Toast.makeText(this, "Please enter a Email", Toast.LENGTH_SHORT).show();
-        }
 
 
     }

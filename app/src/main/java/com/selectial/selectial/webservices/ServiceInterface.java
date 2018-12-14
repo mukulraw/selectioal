@@ -1,6 +1,9 @@
 package com.selectial.selectial.webservices;
 
 
+import com.selectial.selectial.ChangePasswordPOJo.ChangePasswordBean;
+import com.selectial.selectial.EditProfilePOJO.EditProfileBean;
+import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
 import com.selectial.selectial.GetStreamPOJO.GetStreamBean;
 import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
 import com.selectial.selectial.UpdateprofilePOJO.UpdateprofileBean;
@@ -59,7 +62,7 @@ public interface ServiceInterface {
 
 
     @Multipart
-    @POST("selectial/api/updateProfilePic.php")
+    @POST("selectial/api/forgotPassword.php")
     Call<ForgotBean> forgot
             (@Part("email") String email);
 
@@ -82,7 +85,26 @@ public interface ServiceInterface {
             @Part("userId") String user
              );
 
+    @Multipart
+    @POST("selectial/api/getProfile.php")
+    Call<GetProfileBean> profilee
+            (@Part("userId") String ft);
 
+    @Multipart
+    @POST("selectial/api/updateProfile.php")
+    Call<EditProfileBean> edit
+            (@Part("userId") String e,
+             @Part("name") String usrrer ,
+             @Part("gender") String r ,
+             @Part("age") String fds
+            );
+
+    @Multipart
+    @POST("selectial/api/changePassword.php")
+    Call<ChangePasswordBean> cpp
+            (@Part("userId") String e,
+             @Part("password") String usrrer
+            );
 
 
 

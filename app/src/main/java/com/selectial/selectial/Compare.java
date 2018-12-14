@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 public class Compare extends AppCompatActivity {
 
-
     RecyclerView grid;
 
     LinearLayoutManager manager;

@@ -90,7 +90,7 @@ public class Signup extends AppCompatActivity {
                 } else if (DataValidation.isNotValidEmail(mEmail)) {
                     Toast.makeText(Signup.this, " Fill Valid Email", Toast.LENGTH_SHORT).show();
                 } else if (DataValidation.isNotValidPassword(mPassword)) {
-                    Toast.makeText(Signup.this, "Fill Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Signup.this, "Please enter atleat 4 digits password", Toast.LENGTH_SHORT).show();
                 } else {
                     signupReq();
                     pBar.setVisibility(View.VISIBLE);

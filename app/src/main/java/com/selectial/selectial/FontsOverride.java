@@ -16,15 +16,21 @@ public class FontsOverride {
 
     protected static void replaceFont(String staticTypefaceFieldName,
                                       final Typeface newTypeface) {
+
         try {
+
             final Field staticField = Typeface.class
                     .getDeclaredField(staticTypefaceFieldName);
             staticField.setAccessible(true);
             staticField.set(null, newTypeface);
+
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+
         }
+
     }
 }

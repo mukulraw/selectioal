@@ -93,7 +93,7 @@ public class Interest extends AppCompatActivity {
 
                     adapter.setgrid(response.body().getData());
 
-                    Toast.makeText(Interest.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Interest.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
                 } else {
 

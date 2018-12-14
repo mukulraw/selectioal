@@ -28,9 +28,12 @@ public class insititudedetails extends AppCompatActivity {
             }
         });
 
-        name = findViewById(R.id.name);
+        //name = findViewById(R.id.name);
+
         namee = findViewById(R.id.namee);
+
         des = findViewById(R.id.des);
+
         feature = findViewById(R.id.feature);
 
 
