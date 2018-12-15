@@ -6,12 +6,9 @@ import com.selectial.selectial.EditProfilePOJO.EditProfileBean;
 import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
 import com.selectial.selectial.GetStreamPOJO.GetStreamBean;
 import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
-import com.selectial.selectial.UpdateprofilePOJO.UpdateprofileBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.response.SigninResp;
-import com.selectial.selectial.response.SigninResponse;
 import com.selectial.selectial.response.SignupResp;
-import com.selectial.selectial.response.SignupResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -68,7 +65,7 @@ public interface ServiceInterface {
 
     @Multipart
     @POST ("selectial/api/updateProfilePic.php")
-    Call<UpdateprofileBean> updatebean(
+    Call<ForgotBean> updatebean(
             @Part("userId") String userid,
             @Part MultipartBody.Part file
     );
