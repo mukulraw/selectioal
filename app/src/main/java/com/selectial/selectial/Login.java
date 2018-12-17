@@ -123,9 +123,9 @@ public class Login extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
                         SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
-                        Intent intent = new Intent(Login.this, StartTest.class);
+                        Intent intent = new Intent(Login.this, MainActivity.class);
                         startActivity(intent);
-
+                        finishAffinity();
                     } else {
                         pBar.setVisibility(View.GONE);
                         Toast.makeText(Login.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();

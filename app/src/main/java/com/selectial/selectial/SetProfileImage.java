@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -21,10 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.selectial.selectial.UpdateprofilePOJO.UpdateprofileBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
@@ -36,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -159,17 +155,31 @@ public class SetProfileImage extends AppCompatActivity {
 
                 ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-                Call<UpdateprofileBean> call = cr.updatebean(SharePreferenceUtils.getInstance().getString(Constant.USER_id), body);
-                call.enqueue(new Callback<UpdateprofileBean>() {
+                Call<ForgotBean> call = cr.updatebean(SharePreferenceUtils.getInstance().getString(Constant.USER_id), body);
+                call.enqueue(new Callback<ForgotBean>() {
                     @Override
-                    public void onResponse(Call<UpdateprofileBean> call, Response<UpdateprofileBean> response) {
+                    public void onResponse(Call<ForgotBean> call, Response<ForgotBean> response) {
 
                         if (Objects.equals(response.body().getStatus(), "1")) {
 
                             //Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SetProfileImage.this , Interest.class);
-                            startActivity(intent);
-                           // finishAffinity();
+
+                            if (SharePreferenceUtils.getInstance().getString(Constant.CLS_id).equals("1"))
+                            {
+
+                                Intent intent = new Intent(SetProfileImage.this , MainActivity.class);
+                                startActivity(intent);
+                                finishAffinity();
+
+                            }
+                            else
+                            {
+
+                                Intent intent = new Intent(SetProfileImage.this , Interest.class);
+                                startActivity(intent);
+                                finishAffinity();
+
+                            }
 
                         } else {
                             Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -180,7 +190,7 @@ public class SetProfileImage extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<UpdateprofileBean> call, Throwable t) {
+                    public void onFailure(Call<ForgotBean> call, Throwable t) {
 
                         bar.setVisibility(View.GONE);
 

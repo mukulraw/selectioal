@@ -145,6 +145,7 @@ public class Signup extends AppCompatActivity {
 
                         Intent intent = new Intent(Signup.this, SetProfileImage.class);
                         startActivity(intent);
+                        finishAffinity();
                     } else {
                         Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
