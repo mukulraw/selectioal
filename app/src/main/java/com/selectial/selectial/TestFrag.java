@@ -19,8 +19,11 @@ import android.widget.Button;
 public class TestFrag extends Fragment {
 
     Button skip, submit;
+
     boolean last;
+
     int position;
+
     ViewPager pager;
 
     public void setData(ViewPager pager) {
@@ -65,7 +68,7 @@ public class TestFrag extends Fragment {
                         @Override
                         public void onClick(View v) {
 
-                            Intent intent = new Intent(getContext() , TestResult.class);
+                            Intent intent = new Intent(getContext(), TestResult.class);
                             startActivity(intent);
                             dialog.dismiss();
 

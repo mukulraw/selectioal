@@ -12,17 +12,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.Objects;
 
 public class TestResult2 extends AppCompatActivity {
 
     RecyclerView grid;
-    GridLayoutManager manager;
-    SolutionAdapter adapter;
-    NestedScrollView scroll;
-    ImageButton back;
 
+    GridLayoutManager manager;
+
+    SolutionAdapter adapter;
+
+    NestedScrollView scroll;
+
+    ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +34,18 @@ public class TestResult2 extends AppCompatActivity {
         setContentView(R.layout.activity_test_result2);
 
         grid = findViewById(R.id.grid);
+
         scroll = findViewById(R.id.scroll);
+
         back = findViewById(R.id.imageButton4);
+
         adapter = new SolutionAdapter(this);
+
         manager = new GridLayoutManager(this , 1);
 
         grid.setAdapter(adapter);
+
         grid.setLayoutManager(manager);
-
-
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +82,8 @@ public class TestResult2 extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
+
+
         }
 
         @Override
@@ -82,11 +91,20 @@ public class TestResult2 extends AppCompatActivity {
             return 10;
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
+
+            TextView ques ,ans , marks , yranswer;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
+
+                ques = itemView.findViewById(R.id.textView50);
+
+                ans = itemView.findViewById(R.id.textView51);
+
+                marks = itemView.findViewById(R.id.textView53);
+
+                yranswer = itemView.findViewById(R.id.textView52);
             }
         }
     }

@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Compare extends AppCompatActivity {
 
     RecyclerView grid;
@@ -57,9 +60,12 @@ public class Compare extends AppCompatActivity {
 
         Context context;
 
+       // List<>list = new ArrayList();
+
         public CompareAdapter(Context context){
 
             this.context = context;
+            //this.list = list;
 
         }
 
@@ -75,8 +81,17 @@ public class Compare extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull CompareAdapter.MyViewHolder myViewHolder, int i) {
 
+
+
+
         }
 
+      /*  public void setgrid(List<>list){
+
+            this.list = list;
+            notifyDataSetChanged();
+        }
+*/
         @Override
         public int getItemCount() {
             return 16;
@@ -84,15 +99,15 @@ public class Compare extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-
             TextView title , feature , remove;
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-
                 title = findViewById(R.id.title);
+
                 feature = findViewById(R.id.feature);
+
                 remove = findViewById(R.id.remove);
             }
         }

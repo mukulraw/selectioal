@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.Objects;
 
@@ -99,11 +100,21 @@ public class TestResult extends AppCompatActivity {
             return 10;
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
+
+            TextView ques ,ans , marks , yranswer;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
+
+                ques = itemView.findViewById(R.id.textView50);
+
+                ans = itemView.findViewById(R.id.textView51);
+
+                marks = itemView.findViewById(R.id.textView53);
+
+                yranswer = itemView.findViewById(R.id.textView52);
+
             }
         }
     }

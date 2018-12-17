@@ -26,6 +26,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ForgotPassword extends AppCompatActivity {
 
     EditText email;
+
     ProgressBar bar;
 
     Button btn;
@@ -36,7 +37,9 @@ public class ForgotPassword extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
 
         email = findViewById(R.id.editText);
+
         bar = findViewById(R.id.progress);
+
         btn = findViewById(R.id.button3);
 
         btn.setOnClickListener(new View.OnClickListener() {

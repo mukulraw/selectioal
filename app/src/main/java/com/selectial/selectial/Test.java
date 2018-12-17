@@ -22,7 +22,9 @@ public class Test extends AppCompatActivity {
 
 
     TabLayout tabs;
+
     FragAdapter adapter;
+
     ViewPager pager;
 
 

@@ -61,7 +61,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="200 likes"
-            android:drawableStart="@drawable/ic_like_1"
+            android:drawableStart="@drawable/hear"
             android:drawablePadding="10dp"
             android:typeface="monospace"
             android:gravity="center_vertical"

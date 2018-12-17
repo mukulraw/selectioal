@@ -102,7 +102,6 @@ public class Login extends AppCompatActivity {
 
     private void signinReq() {
 
-
         Call<SigninResp> call = serviceInterface.signin(convertPlainString(mEmail), convertPlainString(mPassword));
         call.enqueue(new Callback<SigninResp>() {
             @Override

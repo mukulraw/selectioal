@@ -12,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -20,7 +23,9 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 public class Home extends Fragment {
 
     RecyclerView grid;
+
     TestAdapter adapter;
+
     GridLayoutManager manager;
 
     @Nullable
@@ -44,15 +49,21 @@ public class Home extends Fragment {
 
         Context context;
 
+      //  List<>list = new ArrayList();
+
         TestAdapter(Context context)
         {
             this.context = context;
+            //this.list = list;
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
+
             View view = null;
             if (inflater != null) {
                 view = inflater.inflate(R.layout.home_test_list_model , viewGroup , false);
@@ -75,18 +86,34 @@ public class Home extends Fragment {
 
         }
 
+        /*public void setgrid(List<>list){
+
+            this.list = list;
+            notifyDataSetChanged();
+        }
+*/
         @Override
         public int getItemCount() {
             return 5;
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder{
+
             Button takeTest;
+
+            TextView math , status , commerace;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
+
                 takeTest = itemView.findViewById(R.id.button10);
+
+                math = itemView.findViewById(R.id.textView68);
+
+                status = itemView.findViewById(R.id.textView69);
+
+                commerace = itemView.findViewById(R.id.textView67);
+
             }
         }
     }
