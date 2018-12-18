@@ -14,12 +14,28 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.selectial.selectial.util.Constant;
+import com.selectial.selectial.util.SharePreferenceUtils;
+import com.selectial.selectial.webservices.ServiceInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class CollegeInfo extends Fragment {
 
@@ -35,6 +51,9 @@ public class CollegeInfo extends Fragment {
 
     String list;
 
+    List<String> lis;
+
+    ProgressBar bar;
 
     @Nullable
     @Override
@@ -45,7 +64,11 @@ public class CollegeInfo extends Fragment {
 
         grid = view.findViewById(R.id.grid);
 
-        adapter = new CollegeAdapter(getContext());
+        bar = view.findViewById(R.id.progress);
+
+        lis = new ArrayList<>();
+
+        adapter = new CollegeAdapter(getContext(), lis);
 
         manager = new GridLayoutManager(getContext(), 1);
 
@@ -67,7 +90,6 @@ public class CollegeInfo extends Fragment {
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -84,6 +106,39 @@ public class CollegeInfo extends Fragment {
         });
 
 
+       /* bar.setVisibility(View.GONE);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+        Call<String> call = cr.ss(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (Objects.equals(response.body().getStatus() , "1")){
+
+                    Toast.makeText(getContext(), "P", Toast.LENGTH_SHORT).show();
+                }
+                bar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+
+                bar.setVisibility(View.GONE);
+
+            }
+        });
+*/
+
         return view;
     }
 
@@ -91,11 +146,12 @@ public class CollegeInfo extends Fragment {
 
         Context context;
 
-        //List<>list = new ArrayList();
+        List<String> lis = new ArrayList();
 
-        CollegeAdapter(Context context) {
+        CollegeAdapter(Context context, List<String> lis) {
+
             this.context = context;
-            //this.list = list;
+            this.lis = lis;
         }
 
         @NonNull
@@ -110,6 +166,15 @@ public class CollegeInfo extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
+            String item = lis.get(i);
+            viewHolder.name.setText("");
+            viewHolder.likes.setText("");
+
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).
+                    cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+
+            loader.displayImage("", viewHolder.imageView, options);
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,15 +187,15 @@ public class CollegeInfo extends Fragment {
 
         }
 
-        /*public void setgrid(List<>list){
+        public void setgrid(List<String> list) {
 
-            this.list = list;
+            this.lis = list;
             notifyDataSetChanged();
         }
-*/
+
         @Override
         public int getItemCount() {
-            return 10;
+            return lis.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -151,6 +216,8 @@ public class CollegeInfo extends Fragment {
                 ratingBar = itemView.findViewById(R.id.ratingBar);
 
                 imageView = itemView.findViewById(R.id.imageView7);
+
+
             }
         }
     }

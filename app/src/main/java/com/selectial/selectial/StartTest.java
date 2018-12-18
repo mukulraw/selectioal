@@ -6,6 +6,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
+import com.selectial.selectial.util.Constant;
+import com.selectial.selectial.util.SharePreferenceUtils;
+import com.selectial.selectial.webservices.ServiceInterface;
+
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class StartTest extends AppCompatActivity {
 
@@ -21,6 +36,42 @@ public class StartTest extends AppCompatActivity {
         start = findViewById(R.id.button5);
 
         text = findViewById(R.id.textView30);
+
+       /* bar.setVisibility(View.GONE);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+        Call<String> call = cr.s(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (Objects.equals(response.body().getStatus(), "1")) {
+
+
+                } else {
+
+                    Toast.makeText(StartTest.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                bar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                bar.setVisibility(View.GONE);
+
+            }
+        });*/
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override

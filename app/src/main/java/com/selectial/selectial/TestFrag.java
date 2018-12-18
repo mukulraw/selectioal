@@ -36,11 +36,12 @@ public class TestFrag extends Fragment {
         View view = inflater.inflate(R.layout.test_frag_layout, container, false);
 
         last = getArguments().getBoolean("last");
+
         position = getArguments().getInt("position");
 
         skip = view.findViewById(R.id.button7);
-        submit = view.findViewById(R.id.button6);
 
+        submit = view.findViewById(R.id.button6);
 
         if (last) {
             skip.setVisibility(View.GONE);

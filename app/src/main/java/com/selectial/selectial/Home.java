@@ -13,10 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.selectial.selectial.util.Constant;
+import com.selectial.selectial.util.SharePreferenceUtils;
+import com.selectial.selectial.webservices.ServiceInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -28,18 +40,61 @@ public class Home extends Fragment {
 
     GridLayoutManager manager;
 
+    List<String>list;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.home_layout , container , false);
 
         grid = view.findViewById(R.id.grid);
-        adapter = new TestAdapter(getContext());
+
+        list = new ArrayList<>();
+
+        adapter = new TestAdapter(getContext() , list);
+
         manager = new GridLayoutManager(getContext() , 1);
 
         grid.setAdapter(adapter);
+
         grid.setLayoutManager(manager);
 
+
+     /*    bar.setVisibility(View.GONE);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+        Call<String> call = cr.ss(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+
+                if (Objects.equals(response.body().getStatus() , "1")){
+
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+
+
+            }
+        });
+
+
+*/
 
         return view;
     }
@@ -48,13 +103,12 @@ public class Home extends Fragment {
     {
 
         Context context;
+        List<String>list = new ArrayList();
 
-      //  List<>list = new ArrayList();
-
-        TestAdapter(Context context)
+        TestAdapter(Context context , List<String>list)
         {
             this.context = context;
-            //this.list = list;
+            this.list = list;
         }
 
         @NonNull
@@ -62,17 +116,20 @@ public class Home extends Fragment {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
 
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-
-            View view = null;
-            if (inflater != null) {
-                view = inflater.inflate(R.layout.home_test_list_model , viewGroup , false);
-            }
-            return new ViewHolder(Objects.requireNonNull(view));
+           View view = LayoutInflater.from(context).inflate(R.layout.home_test_list_model , viewGroup , false);
+            return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+
+
+
+            String item = list.get(i);
+            viewHolder.math.setText("");
+            viewHolder.status.setText("");
+            viewHolder.commerace.setText("");
+
 
             viewHolder.takeTest.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,15 +143,15 @@ public class Home extends Fragment {
 
         }
 
-        /*public void setgrid(List<>list){
+        public void setgrid(List<String>list){
 
             this.list = list;
             notifyDataSetChanged();
         }
-*/
+
         @Override
         public int getItemCount() {
-            return 5;
+            return list.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{

@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class TestResult2 extends AppCompatActivity {
@@ -28,6 +30,8 @@ public class TestResult2 extends AppCompatActivity {
 
     ImageButton back;
 
+    List<String> list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +43,11 @@ public class TestResult2 extends AppCompatActivity {
 
         back = findViewById(R.id.imageButton4);
 
-        adapter = new SolutionAdapter(this);
+        list = new ArrayList<>();
 
-        manager = new GridLayoutManager(this , 1);
+        adapter = new SolutionAdapter(this, list);
+
+        manager = new GridLayoutManager(this, 1);
 
         grid.setAdapter(adapter);
 
@@ -55,45 +61,90 @@ public class TestResult2 extends AppCompatActivity {
         });
 
 
+ /* bar.setVisibility(View.GONE);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+        Call<String> call = cr.ss(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+
+                if (Objects.equals(response.body().getStatus() , "1")){
+
+                    Toast.makeText(getContext(), "P", Toast.LENGTH_SHORT).show();
+                }
+                bar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+
+                bar.setVisibility(View.GONE);
+
+            }
+        });
+*/
+
 
     }
 
-    class SolutionAdapter extends RecyclerView.Adapter<SolutionAdapter.ViewHolder>
-    {
+    class SolutionAdapter extends RecyclerView.Adapter<SolutionAdapter.ViewHolder> {
 
         Context context;
+        List<String> list = new ArrayList();
 
-        SolutionAdapter(Context context)
-        {
+        SolutionAdapter(Context context, List<String> list) {
             this.context = context;
+            this.list = list;
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = null;
-            if (inflater != null) {
-                view = inflater.inflate(R.layout.solution_list_model , viewGroup , false);
-            }
-            return new ViewHolder(Objects.requireNonNull(view));
+
+
+            View view = LayoutInflater.from(context).inflate(R.layout.solution_list_model, viewGroup, false);
+            return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
+            String item = list.get(i);
 
+            viewHolder.ques.setText("");
+            viewHolder.ans.setText("");
+            viewHolder.marks.setText("");
+            viewHolder.yranswer.setText("");
+
+
+        }
+
+        public void setgrid(List<String>list){
+
+            this.list = list;
+            notifyDataSetChanged();
 
         }
 
         @Override
         public int getItemCount() {
-            return 10;
+            return list.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView ques ,ans , marks , yranswer;
+            TextView ques, ans, marks, yranswer;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);

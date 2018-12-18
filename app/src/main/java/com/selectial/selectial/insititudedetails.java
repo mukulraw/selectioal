@@ -17,8 +17,6 @@ public class insititudedetails extends AppCompatActivity {
 
     RatingBar ratingBar;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +76,38 @@ public class insititudedetails extends AppCompatActivity {
                 likes.setVisibility(View.GONE);
             }
         });
+
+
+
+
+         /* bar.setVisibility(View.GONE);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+        Call<String> call = cr.ss(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+
+
+            }
+        });
+*/
+
 
     }
 }

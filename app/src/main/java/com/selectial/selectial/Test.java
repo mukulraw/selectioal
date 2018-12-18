@@ -27,7 +27,6 @@ public class Test extends AppCompatActivity {
 
     ViewPager pager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
