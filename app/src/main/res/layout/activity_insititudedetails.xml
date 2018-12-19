@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#fff"
-                    app:title="Mukul Rawat"></android.support.v7.widget.Toolbar>
+                    ></android.support.v7.widget.Toolbar>
 
 
                 <ImageView
@@ -47,8 +47,7 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                 />
+                android:scaleType="centerCrop" />
 
 
             <LinearLayout

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -14,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.selectial.selectial.AddComparePOJO.AddCompareBean;
 import com.selectial.selectial.GetInsititudePOJO.GetInsititudeBean;
 import com.selectial.selectial.InsitituteDetailsPOJO.InsititutedetailsBean;
@@ -46,6 +49,8 @@ public class insititudedetails extends AppCompatActivity {
 
     String insid, nme, icon, imge, lik, ratt, fees, estyr, airme, airen, center, students, islike, facu;
 
+
+    ImageView imageView;
     LinearLayout rat;
 
 
@@ -82,6 +87,7 @@ public class insititudedetails extends AppCompatActivity {
         student = findViewById(R.id.student);
 
         faculties = findViewById(R.id.faculties);
+        imageView = findViewById(R.id.image);
 
         name = findViewById(R.id.namee);
 
@@ -339,6 +345,12 @@ public class insititudedetails extends AppCompatActivity {
                     name.setText(response.body().getData().getName());
                     faculties.setText(response.body().getData().getFaculties());
                     ratingBar.setRating(Float.parseFloat(response.body().getData().getRating()));
+                    toolbar.setTitle(response.body().getData().getName());
+
+                    DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                    ImageLoader loader = ImageLoader.getInstance();
+                    loader.displayImage(response.body().getData().getImage() , imageView , options);
+
 
 
 
