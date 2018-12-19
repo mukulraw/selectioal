@@ -1,21 +1,53 @@
 package com.selectial.selectial;
 
+import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.selectial.selectial.AddComparePOJO.AddCompareBean;
+import com.selectial.selectial.GetInsititudePOJO.GetInsititudeBean;
+import com.selectial.selectial.InsitituteDetailsPOJO.InsititutedetailsBean;
+import com.selectial.selectial.LikeInsititutePOJO.GetLikeInsitituteBean;
+import com.selectial.selectial.RatePOJO.RateBean;
+import com.selectial.selectial.util.Constant;
+import com.selectial.selectial.util.SharePreferenceUtils;
+import com.selectial.selectial.webservices.ServiceInterface;
+
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class insititudedetails extends AppCompatActivity {
 
-    TextView name , namee , des ,feature , addcompare;
+    TextView name, namee, fee, estyrr, centerr, airengg, airmed, student, faculties, addcompare;
 
     Toolbar toolbar;
 
-    TextView like , likes;
+    TextView like, likes;
 
     RatingBar ratingBar;
+
+    ProgressBar bar;
+
+    String insid, nme, icon, imge, lik, ratt, fees, estyr, airme, airen, center, students, islike, facu;
+
+    LinearLayout rat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +69,69 @@ public class insititudedetails extends AppCompatActivity {
 
         namee = findViewById(R.id.namee);
 
-        des = findViewById(R.id.des);
+        fee = findViewById(R.id.fees);
 
-        feature = findViewById(R.id.feature);
+        estyrr = findViewById(R.id.estyr);
+
+        centerr = findViewById(R.id.center);
+
+        airengg = findViewById(R.id.airengg);
+
+        airmed = findViewById(R.id.airmed);
+
+        student = findViewById(R.id.student);
+
+        faculties = findViewById(R.id.faculties);
+
+        name = findViewById(R.id.namee);
 
         like = findViewById(R.id.like);
 
         likes = findViewById(R.id.likes);
 
         addcompare = findViewById(R.id.addcompare);
+        rat = findViewById(R.id.rat);
+
 
         addcompare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                bar.setVisibility(View.GONE);
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Constant.BASE_URL)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+                Call<AddCompareBean> call = cr.addd(insid, SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+                call.enqueue(new Callback<AddCompareBean>() {
+                    @Override
+                    public void onResponse(Call<AddCompareBean> call, Response<AddCompareBean> response) {
+
+
+                        if (Objects.equals(response.body().getStatus(), "1")) {
+
+                            Toast.makeText(insititudedetails.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            Toast.makeText(insititudedetails.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        bar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(Call<AddCompareBean> call, Throwable t) {
+
+                        bar.setVisibility(View.GONE);
+
+                    }
+                });
 
 
             }
@@ -58,7 +139,11 @@ public class insititudedetails extends AppCompatActivity {
 
         ratingBar = findViewById(R.id.ratingBar);
 
-        like.setOnClickListener(new View.OnClickListener() {
+        bar = findViewById(R.id.progress);
+
+
+
+       /* like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -75,12 +160,157 @@ public class insititudedetails extends AppCompatActivity {
                 like.setVisibility(View.VISIBLE);
                 likes.setVisibility(View.GONE);
             }
+        });*/
+
+
+        insid = getIntent().getStringExtra("id");
+        nme = getIntent().getStringExtra("name");
+        icon = getIntent().getStringExtra("icon");
+        imge = getIntent().getStringExtra("image");
+        lik = getIntent().getStringExtra("likes");
+        ratt = getIntent().getStringExtra("rating");
+        fees = getIntent().getStringExtra("fees");
+        estyr = getIntent().getStringExtra("establish");
+        center = getIntent().getStringExtra("center");
+        islike = getIntent().getStringExtra("isliked");
+        students = getIntent().getStringExtra("students");
+        airen = getIntent().getStringExtra("airengg");
+        airme = getIntent().getStringExtra("airmed");
+        facu = getIntent().getStringExtra("faculties");
+
+
+        like.setText(lik);
+        likes.setText(lik);
+
+        if (islike.equals("1")) {
+
+
+            likes.setVisibility(View.VISIBLE);
+
+        } else {
+            likes.setVisibility(View.GONE);
+        }
+
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                bar.setVisibility(View.GONE);
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Constant.BASE_URL)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+                Call<GetLikeInsitituteBean> call = cr.likee(SharePreferenceUtils.getInstance().getString(Constant.USER_id), insid);
+                call.enqueue(new Callback<GetLikeInsitituteBean>() {
+                    @Override
+                    public void onResponse(Call<GetLikeInsitituteBean> call, Response<GetLikeInsitituteBean> response) {
+
+
+                        if (Objects.equals(response.body().getStatus(), "1")) {
+
+
+                            likes.setVisibility(View.VISIBLE);
+                            start();
+
+                            Toast.makeText(insititudedetails.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            Toast.makeText(insititudedetails.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        bar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetLikeInsitituteBean> call, Throwable t) {
+
+                        bar.setVisibility(View.GONE);
+
+                    }
+                });
+
+
+            }
+        });
+        rat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("rating", "rating");
+                final Dialog dialog = new Dialog(insititudedetails.this);
+                dialog.setContentView(R.layout.rating_dialog);
+                dialog.setCancelable(true);
+                dialog.show();
+
+                RatingBar ratin = dialog.findViewById(R.id.rate);
+                Button sub = dialog.findViewById(R.id.submit);
+
+                final ProgressBar bar = dialog.findViewById(R.id.propgress);
+
+                sub.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        bar.setVisibility(View.VISIBLE);
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(Constant.BASE_URL)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+                        Call<RateBean> call = cr.rate(SharePreferenceUtils.getInstance().getString(Constant.USER_id), insid, ratt);
+                        call.enqueue(new Callback<RateBean>() {
+                            @Override
+                            public void onResponse(Call<RateBean> call, Response<RateBean> response) {
+
+
+                                if (Objects.equals(response.body().getStatus(), "1")) {
+
+                                    Toast.makeText(insititudedetails.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    start();
+                                } else {
+
+                                    Toast.makeText(insititudedetails.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                                bar.setVisibility(View.GONE);
+                                dialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<RateBean> call, Throwable t) {
+
+                                bar.setVisibility(View.GONE);
+
+                            }
+                        });
+
+
+                    }
+                });
+
+
+            }
         });
 
 
+    }
 
-
-         /* bar.setVisibility(View.GONE);
+    public void start() {
+        bar.setVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
@@ -90,24 +320,54 @@ public class insititudedetails extends AppCompatActivity {
 
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-        Call<String> call = cr.ss(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
-        call.enqueue(new Callback<String>() {
+        Call<InsititutedetailsBean> call = cr.insi(insid, SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call.enqueue(new Callback<InsititutedetailsBean>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<InsititutedetailsBean> call, Response<InsititutedetailsBean> response) {
 
+
+                if (Objects.equals(response.body().getStatus(), "1")) {
+
+
+                    fee.setText(response.body().getData().getFees());
+                    estyrr.setText(response.body().getData().getEstYear());
+                    centerr.setText(response.body().getData().getCentres());
+                    airengg.setText(response.body().getData().getAirEngg());
+                    airmed.setText(response.body().getData().getAirMed());
+                    student.setText(response.body().getData().getStudents());
+                    faculties.setText(response.body().getData().getFaculties());
+                    name.setText(response.body().getData().getName());
+                    faculties.setText(response.body().getData().getFaculties());
+                    ratingBar.setRating(Float.parseFloat(response.body().getData().getRating()));
+
+
+
+                } else {
+
+                    Toast.makeText(insititudedetails.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+
+                bar.setVisibility(View.GONE);
 
 
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<InsititutedetailsBean> call, Throwable t) {
 
-
+                bar.setVisibility(View.GONE);
 
             }
         });
-*/
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        start();
 
     }
 }

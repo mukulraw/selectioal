@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.selectial.selectial.GetInsititudePOJO.Datum;
+import com.selectial.selectial.GetInsititudePOJO.GetInsititudeBean;
 import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
@@ -51,7 +53,7 @@ public class CollegeInfo extends Fragment {
 
     String list;
 
-    List<String> lis;
+    List<Datum> lis;
 
     ProgressBar bar;
 
@@ -105,8 +107,14 @@ public class CollegeInfo extends Fragment {
             }
         });
 
+        return view;
+    }
 
-       /* bar.setVisibility(View.GONE);
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        bar.setVisibility(View.GONE);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
@@ -116,39 +124,43 @@ public class CollegeInfo extends Fragment {
 
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-        Call<String> call = cr.ss(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
-        call.enqueue(new Callback<String>() {
+        Call<GetInsititudeBean> call = cr.insi(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call.enqueue(new Callback<GetInsititudeBean>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<GetInsititudeBean> call, Response<GetInsititudeBean> response) {
+
 
                 if (Objects.equals(response.body().getStatus() , "1")){
 
-                    Toast.makeText(getContext(), "P", Toast.LENGTH_SHORT).show();
+                    adapter.setgrid(response.body().getData());
+
+
+                }else {
+
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
                 bar.setVisibility(View.GONE);
 
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
+            public void onFailure(Call<GetInsititudeBean> call, Throwable t) {
 
                 bar.setVisibility(View.GONE);
 
             }
         });
-*/
 
-        return view;
     }
 
     class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.ViewHolder> {
 
         Context context;
 
-        List<String> lis = new ArrayList();
+        List<Datum> lis = new ArrayList();
 
-        CollegeAdapter(Context context, List<String> lis) {
+        CollegeAdapter(Context context, List<Datum> lis) {
 
             this.context = context;
             this.lis = lis;
@@ -166,28 +178,53 @@ public class CollegeInfo extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-            String item = lis.get(i);
-            viewHolder.name.setText("");
-            viewHolder.likes.setText("");
+            final Datum item = lis.get(i);
+            viewHolder.name.setText(item.getName());
+            viewHolder.likes.setText(item.getLikes());
+            viewHolder.like.setText(item.getLikes());
+            viewHolder.ratingBar.setRating(Float.parseFloat(item.getRating()));
+
+
+            if (item.getIsLiked().equals("1")){
+
+                viewHolder.likes.setVisibility(View.VISIBLE);
+            }
+            else {
+                viewHolder.likes.setVisibility(View.GONE);
+            }
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).
                     cacheOnDisk(true).resetViewBeforeLoading(false).build();
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage("", viewHolder.imageView, options);
+            loader.displayImage(item.getImage(), viewHolder.imageView, options);
 
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     Intent i = new Intent(context, insititudedetails.class);
+                    i.putExtra("id" ,item.getId());
+                    i.putExtra("name" ,item.getName());
+                    i.putExtra("icon" ,item.getIcon());
+                    i.putExtra("image" ,item.getImage());
+                    i.putExtra("likes" ,item.getLikes());
+                    i.putExtra("rating" ,item.getRating());
+                    i.putExtra("fees" ,item.getFees());
+                    i.putExtra("establish" ,item.getEstYear());
+                    i.putExtra("airengg" ,item.getAirEngg());
+                    i.putExtra("airmed" ,item.getAirMed());
+                    i.putExtra("center" ,item.getCentres());
+                    i.putExtra("students" ,item.getStudents());
+                    i.putExtra("faculties" ,item.getFaculties());
+                    i.putExtra("isliked" ,item.getIsLiked());
                     context.startActivity(i);
                 }
             });
 
         }
 
-        public void setgrid(List<String> list) {
+        public void setgrid(List<Datum> list) {
 
             this.lis = list;
             notifyDataSetChanged();
@@ -200,7 +237,7 @@ public class CollegeInfo extends Fragment {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView name, likes;
+            TextView name, like , likes;
 
             RatingBar ratingBar;
 
@@ -211,7 +248,8 @@ public class CollegeInfo extends Fragment {
 
                 name = itemView.findViewById(R.id.textView71);
 
-                likes = itemView.findViewById(R.id.textView72);
+                like = itemView.findViewById(R.id.like);
+                likes = itemView.findViewById(R.id.likes);
 
                 ratingBar = itemView.findViewById(R.id.ratingBar);
 

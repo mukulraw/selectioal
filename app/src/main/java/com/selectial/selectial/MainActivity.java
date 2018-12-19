@@ -14,6 +14,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
+import com.selectial.selectial.util.Constant;
+import com.selectial.selectial.util.SharePreferenceUtils;
+import com.selectial.selectial.webservices.ServiceInterface;
+
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,11 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottom;
 
-    TextView toolbar , edit;
+    TextView toolbar , edit , name;
 
     TextView settings1;
 
     ImageButton settings;
+
+    RoundedImageView imageView;
 
     //TextView change;
 
@@ -54,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
         settings1 = findViewById(R.id.textView62);
         edit = findViewById(R.id.textView56);
+        imageView = findViewById(R.id.imageView1);
+        name = findViewById(R.id.textView55);
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +221,50 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
 
+
+
+
+            }
+        });
+
+
+
+
+        //bar.setVisibility(View.GONE);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+        Call<GetProfileBean> call = cr.profilee(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call.enqueue(new Callback<GetProfileBean>() {
+            @Override
+            public void onResponse(Call<GetProfileBean> call, Response<GetProfileBean> response) {
+
+                if (Objects.equals(response.body().getStatus() , "1")){
+
+                    name.setText(response.body().getData().getName());
+
+                    DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                    ImageLoader loader = ImageLoader.getInstance();
+                    loader.displayImage(response.body().getData().getImage() , imageView , options);
+
+                }else {
+                    Toast.makeText(MainActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                //bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<GetProfileBean> call, Throwable t) {
+
+
+               // bar.setVisibility(View.GONE);
             }
         });
 

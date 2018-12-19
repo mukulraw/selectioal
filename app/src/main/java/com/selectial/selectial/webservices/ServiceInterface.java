@@ -1,10 +1,15 @@
 package com.selectial.selectial.webservices;
 
 
+import com.selectial.selectial.AddComparePOJO.AddCompareBean;
 import com.selectial.selectial.ChangePasswordPOJo.ChangePasswordBean;
 import com.selectial.selectial.EditProfilePOJO.EditProfileBean;
+import com.selectial.selectial.GetInsititudePOJO.GetInsititudeBean;
 import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
 import com.selectial.selectial.GetStreamPOJO.GetStreamBean;
+import com.selectial.selectial.InsitituteDetailsPOJO.InsititutedetailsBean;
+import com.selectial.selectial.LikeInsititutePOJO.GetLikeInsitituteBean;
+import com.selectial.selectial.RatePOJO.RateBean;
 import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.response.SigninResp;
@@ -103,7 +108,46 @@ public interface ServiceInterface {
              @Part("password") String usrrer
             );
 
+    @Multipart
+    @POST("selectial/api/getInstitutes.php")
+    Call<GetInsititudeBean> insi
+            (@Part("userId") String e);
 
 
+
+
+    @Multipart
+    @POST("selectial/api/rateInstitute.php")
+    Call<RateBean> rate
+            (@Part("userId") String e ,
+            @Part("instId") String insd ,
+            @Part("rating") String rat
+             );
+
+
+
+    @Multipart
+    @POST("selectial/api/likeInstitute.php")
+    Call<GetLikeInsitituteBean> likee
+            (@Part("userId") String e ,
+            @Part("instId") String ajsdjdsa
+             );
+
+
+    @Multipart
+    @POST("selectial/api/getInstitutesDetails.php")
+    Call<InsititutedetailsBean> insi
+            (@Part("instId") String e ,
+             @Part("userId") String ajsdjdsa
+            );
+
+
+
+    @Multipart
+    @POST("selectial/api/addToCompare.php")
+    Call<AddCompareBean> addd
+            (@Part("instId") String e ,
+             @Part("userId") String ajsdjdsa
+            );
 
 }
