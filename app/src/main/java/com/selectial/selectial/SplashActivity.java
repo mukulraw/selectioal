@@ -62,30 +62,11 @@ public class SplashActivity extends AppCompatActivity {
         serviceInterface = retrofit.create(ServiceInterface.class);
 
 
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-
-                if (SharePreferenceUtils.getInstance().getString(Constant.USER_id).equalsIgnoreCase("")) {
-
-                    Intent intent = new Intent(SplashActivity.this, SignupLogin.class);
-                    startActivity(intent);
-                    finishAffinity();
-                } else {
-                    updateLoginData();
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finishAffinity();
-                }
-
-
-            }
-        }, 800);
 
 
         if (hasPermissions(this, PERMISSIONS)) {
-            updateLoginData();
+
+startApp();
         } else {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE_ASK_PERMISSIONS);
         }
@@ -110,21 +91,28 @@ public class SplashActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == REQUEST_CODE_ASK_PERMISSIONS) {
-            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
 
-                updateLoginData();
+            Log.d("permmm" , "1");
+
+            if (hasPermissions(this , PERMISSIONS)) {
+
+                Log.d("permmm" , "2");
+
+               startApp();
 
             } else {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
 
+                    Log.d("permmm" , "3");
+
                     Toast.makeText(getApplicationContext(), "Permissions are required for this app", Toast.LENGTH_SHORT).show();
                     finish();
 
                 } else {
+
+                    Log.d("permmm" , "4");
                     Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG)
                             .show();
                     finish();
@@ -188,4 +176,29 @@ public class SplashActivity extends AppCompatActivity {
         RequestBody plainString = RequestBody.create(MediaType.parse("text/plain"), data);
         return plainString;
     }
+
+    void startApp()
+    {
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                if (SharePreferenceUtils.getInstance().getString(Constant.USER_id).equalsIgnoreCase("")) {
+
+                    Intent intent = new Intent(SplashActivity.this, SignupLogin.class);
+                    startActivity(intent);
+                    finishAffinity();
+                } else {
+                    updateLoginData();
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finishAffinity();
+                }
+
+
+            }
+        }, 1500);
+    }
+
 }
