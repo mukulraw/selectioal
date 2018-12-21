@@ -102,7 +102,7 @@ public class Login extends AppCompatActivity {
 
     private void signinReq() {
 
-        Call<SigninResp> call = serviceInterface.signin(convertPlainString(mEmail), convertPlainString(mPassword));
+        Call<SigninResp> call = serviceInterface.signin(mEmail, mPassword);
         call.enqueue(new Callback<SigninResp>() {
             @Override
             public void onResponse(Call<SigninResp> call, Response<SigninResp> response) {
@@ -116,13 +116,14 @@ public class Login extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
                         SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_class_id, response.body().getData().getClassId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_date, response.body().getData().getCreatedDate());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_isPaid, response.body().getData().getIsPaid());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
-                        SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
                         Intent intent = new Intent(Login.this, MainActivity.class);
                         startActivity(intent);
                         finishAffinity();

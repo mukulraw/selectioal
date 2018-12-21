@@ -12,6 +12,7 @@ import com.selectial.selectial.LikeInsititutePOJO.GetLikeInsitituteBean;
 import com.selectial.selectial.RatePOJO.RateBean;
 import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
+import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SignupResp;
 
@@ -58,8 +59,8 @@ public interface ServiceInterface {
     @Multipart
     @POST ("selectial/api/login.php")
     Call<SigninResp> signin(
-            @Part("email") RequestBody email,
-            @Part("password") RequestBody password
+            @Part("email") String email,
+            @Part("password") String password
     );
 
 
@@ -148,6 +149,14 @@ public interface ServiceInterface {
     Call<AddCompareBean> addd
             (@Part("instId") String e ,
              @Part("userId") String ajsdjdsa
+            );
+
+    @Multipart
+    @POST("selectial/api/getHome.php")
+    Call<getHomeBean> getHome
+            (@Part("stream_id") String streamId,
+             @Part("userId") String userId,
+             @Part("class_id") String classId
             );
 
 }

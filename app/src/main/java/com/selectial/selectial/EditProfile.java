@@ -64,8 +64,8 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String n = name.getText().toString();
-                String a = age.getText().toString();
+                final String n = name.getText().toString();
+                final String a = age.getText().toString();
                 g = toggleSwitch.getCheckedTogglePosition();
 
                 if (g == 0) {
@@ -95,6 +95,10 @@ public class EditProfile extends AppCompatActivity {
                         if (Objects.equals(response.body().getStatus() , "1")){
 
                             Toast.makeText(EditProfile.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_name , n);
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_gender , gender);
+                            SharePreferenceUtils.getInstance().saveString(Constant.User_age , a);
 
                             finish();
                             name.setText("");

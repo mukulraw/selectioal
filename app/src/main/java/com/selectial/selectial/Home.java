@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,8 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
+import com.selectial.selectial.getHomePOJO.Sucject;
+import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
@@ -44,11 +49,16 @@ public class Home extends Fragment {
 
     GridLayoutManager manager;
 
-    List<String>list;
+    List<Sucject> list;
 
     CircleImageView circleImageView;
 
     TextView name , email;
+
+    CardView packageView , scholarshipView;
+
+    TextView packageTitle , packageFeature;
+    Button packgePurchase;
 
     @Nullable
     @Override
@@ -60,6 +70,12 @@ public class Home extends Fragment {
         name = view.findViewById(R.id.textView80);
         email = view.findViewById(R.id.textView81);
         grid = view.findViewById(R.id.grid);
+        packageView = view.findViewById(R.id.view12);
+        scholarshipView = view.findViewById(R.id.view13);
+
+        packageTitle = view.findViewById(R.id.textView82);
+        packageFeature = view.findViewById(R.id.textView83);
+        packgePurchase = view.findViewById(R.id.button9);
 
         list = new ArrayList<>();
 
@@ -71,53 +87,26 @@ public class Home extends Fragment {
 
         grid.setLayoutManager(manager);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.BASE_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        ServiceInterface cr = retrofit.create(ServiceInterface.class);
-
-        Call<GetProfileBean> call = cr.profilee(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
-        call.enqueue(new Callback<GetProfileBean>() {
-            @Override
-            public void onResponse(Call<GetProfileBean> call, Response<GetProfileBean> response) {
-
-                if (Objects.equals(response.body().getStatus() , "1")){
-
-                    name.setText(response.body().getData().getName());
-                    email.setText(response.body().getData().getName());
-
-                    DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
-                    ImageLoader loader = ImageLoader.getInstance();
-                    loader.displayImage(response.body().getData().getImage() , circleImageView , options);
-
-                }else {
-                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-                //bar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<GetProfileBean> call, Throwable t) {
-
-
-                // bar.setVisibility(View.GONE);
-            }
-        });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadData();
+
     }
 
     class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder>
     {
 
         Context context;
-        List<String>list = new ArrayList();
+        List<Sucject>list;
 
-        TestAdapter(Context context , List<String>list)
+        TestAdapter(Context context , List<Sucject>list)
         {
             this.context = context;
             this.list = list;
@@ -135,27 +124,14 @@ public class Home extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
+            Sucject item = list.get(i);
 
+            viewHolder.math.setText(item.getTitle());
 
-            String item = list.get(i);
-            viewHolder.math.setText("");
-            viewHolder.status.setText("");
-            viewHolder.commerace.setText("");
-
-
-            viewHolder.takeTest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent intent = new Intent(context , StartTest.class);
-                    context.startActivity(intent);
-
-                }
-            });
 
         }
 
-        public void setgrid(List<String>list){
+        public void setgrid(List<Sucject>list){
 
             this.list = list;
             notifyDataSetChanged();
@@ -168,23 +144,89 @@ public class Home extends Fragment {
 
         class ViewHolder extends RecyclerView.ViewHolder{
 
-            Button takeTest;
-
-            TextView math , status , commerace;
+            TextView math;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                takeTest = itemView.findViewById(R.id.button10);
-
                 math = itemView.findViewById(R.id.textView68);
-
-                status = itemView.findViewById(R.id.textView69);
-
-                commerace = itemView.findViewById(R.id.textView67);
 
             }
         }
+    }
+
+    void loadData()
+    {
+
+        name.setText(SharePreferenceUtils.getInstance().getString(Constant.USER_name));
+        email.setText(SharePreferenceUtils.getInstance().getString(Constant.USER_email));
+
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+        ImageLoader loader = ImageLoader.getInstance();
+        loader.displayImage(SharePreferenceUtils.getInstance().getString(Constant.USER_image) , circleImageView , options);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+
+        Log.d("streamm1" , SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id));
+        Log.d("streamm2" , SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        Log.d("streamm3" , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+
+        Call<getHomeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+        call.enqueue(new Callback<getHomeBean>() {
+            @Override
+            public void onResponse(Call<getHomeBean> call, Response<getHomeBean> response) {
+
+                if (Objects.equals(response.body().getStatus() , "1")){
+
+
+                    if (response.body().getData().getPackage().size() > 0)
+                    {
+                        packageView.setVisibility(View.VISIBLE);
+
+                        packageTitle.setText(response.body().getData().getPackage().get(0).getTitle());
+                        packageFeature.setText(Html.fromHtml(response.body().getData().getPackage().get(0).getFeatures()));
+                        packgePurchase.setText(response.body().getData().getPackage().get(0).getPrice() + " INR");
+
+                    }
+                    else
+                    {
+                        packageView.setVisibility(View.GONE);
+                    }
+
+                    if (response.body().getData().getScholarship().size() > 0)
+                    {
+                        //scholarshipView.setVisibility(View.VISIBLE);
+                        scholarshipView.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        scholarshipView.setVisibility(View.GONE);
+                    }
+
+                    adapter.setgrid(response.body().getData().getSucjects());
+
+                }else {
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                //bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<getHomeBean> call, Throwable t) {
+
+
+                // bar.setVisibility(View.GONE);
+            }
+        });
     }
 
 }

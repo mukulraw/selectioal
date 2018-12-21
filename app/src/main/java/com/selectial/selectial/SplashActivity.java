@@ -55,8 +55,8 @@ public class SplashActivity extends AppCompatActivity {
         Gson gson = new GsonBuilder().create();
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         serviceInterface = retrofit.create(ServiceInterface.class);
@@ -126,13 +126,25 @@ startApp();
 
     private void updateLoginData() {
 
-        Call<SigninResp> call = serviceInterface.signin(convertPlainString(SharePreferenceUtils.getInstance().getString(Constant.USER_email)), convertPlainString(SharePreferenceUtils.getInstance().getString(Constant.USER_password)));
+        Log.d("data" , "123123");
+        Log.d("data" , SharePreferenceUtils.getInstance().getString(Constant.USER_email));
+        Log.d("data" , SharePreferenceUtils.getInstance().getString(Constant.USER_password));
+
+        Call<SigninResp> call = serviceInterface.signin(SharePreferenceUtils.getInstance().getString(Constant.USER_email), SharePreferenceUtils.getInstance().getString(Constant.USER_password));
         call.enqueue(new Callback<SigninResp>() {
             @Override
             public void onResponse(Call<SigninResp> call, Response<SigninResp> response) {
+
+
+
                 if (response.body() != null && response.isSuccessful()) {
+
+                    //Log.d("data" , response.body().getData().getUserId());
+
                     if (response.body().getStatus().equals("1")) {
                         // pBar.setVisibility(View.GONE);
+
+
                         Toast.makeText(SplashActivity.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
@@ -140,13 +152,18 @@ startApp();
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
                         SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_class_id, response.body().getData().getClassId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_date, response.body().getData().getCreatedDate());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_isPaid, response.body().getData().getIsPaid());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
-                        SharePreferenceUtils.getInstance().getString(Constant.USER_password, response.body().getData().getPassword());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
+
+                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finishAffinity();
 
                         // Toast.makeText(SplashActivity.this, ""+SharePreferenceUtils.getInstance().getString(Constant.USER_name), Toast.LENGTH_SHORT).show();
 
@@ -191,9 +208,7 @@ startApp();
                     finishAffinity();
                 } else {
                     updateLoginData();
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finishAffinity();
+
                 }
 
 

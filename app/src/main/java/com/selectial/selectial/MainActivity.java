@@ -232,6 +232,35 @@ public class MainActivity extends AppCompatActivity {
 
         //bar.setVisibility(View.GONE);
 
+
+
+        toolbar.setText("Home");
+
+        FragmentManager fm2 = getSupportFragmentManager();
+        FragmentTransaction ft2 = fm2.beginTransaction();
+        Home home = new Home();
+        ft2.replace(R.id.replace, home);
+        ft2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        //ft.addToBackStack(null);
+        ft2.commit();
+        drawer.closeDrawer(GravityCompat.START);
+
+        bottom.setSelectedItemId(R.id.home);
+
+
+    }
+
+    void toggleDrawer() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            drawer.openDrawer(GravityCompat.START);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -264,32 +293,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<GetProfileBean> call, Throwable t) {
 
 
-               // bar.setVisibility(View.GONE);
+                // bar.setVisibility(View.GONE);
             }
         });
-
-        toolbar.setText("Home");
-
-        FragmentManager fm2 = getSupportFragmentManager();
-        FragmentTransaction ft2 = fm2.beginTransaction();
-        Home home = new Home();
-        ft2.replace(R.id.replace, home);
-        ft2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        //ft.addToBackStack(null);
-        ft2.commit();
-        drawer.closeDrawer(GravityCompat.START);
-
-        bottom.setSelectedItemId(R.id.home);
-
-
     }
-
-    void toggleDrawer() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            drawer.openDrawer(GravityCompat.START);
-        }
-    }
-
 }
