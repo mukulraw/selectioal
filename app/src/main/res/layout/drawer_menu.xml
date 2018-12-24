@@ -171,6 +171,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
+                android:id="@+id/version"
                 android:text="Version 1.0"
                 android:textColor="#ffffff"
                 android:typeface="monospace" />

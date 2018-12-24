@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
 import com.selectial.selectial.getHomePOJO.Sucject;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.util.Constant;
@@ -38,8 +37,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class Home extends Fragment {
 
@@ -124,10 +121,22 @@ public class Home extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-            Sucject item = list.get(i);
+            final Sucject item = list.get(i);
 
             viewHolder.math.setText(item.getTitle());
 
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context , MyTests.class);
+                    intent.putExtra("sub_id" , item.getId());
+                    intent.putExtra("title" , item.getTitle());
+                    context.startActivity(intent);
+
+                }
+            });
 
         }
 

@@ -8,12 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.selectial.selectial.getHomePOJO.Sucject;
+import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
@@ -39,7 +42,7 @@ public class MyTest extends Fragment {
 
     GridLayoutManager manager;
 
-    List<String> list;
+    List<Sucject> list;
 
     @Nullable
     @Override
@@ -98,12 +101,52 @@ public class MyTest extends Fragment {
         return view;
     }
 
-    class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
+    void loadData()
+    {
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+
+        Call<getHomeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+        call.enqueue(new Callback<getHomeBean>() {
+            @Override
+            public void onResponse(Call<getHomeBean> call, Response<getHomeBean> response) {
+
+                if (Objects.equals(response.body().getStatus() , "1")){
+
+                    adapter.setgrid(response.body().getData().getSucjects());
+
+                }else {
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                //bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<getHomeBean> call, Throwable t) {
+
+
+                // bar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder>
+    {
 
         Context context;
-        List<String> list = new ArrayList();
+        List<Sucject>list;
 
-        TestAdapter(Context context, List<String> list) {
+        TestAdapter(Context context , List<Sucject>list)
+        {
             this.context = context;
             this.list = list;
         }
@@ -112,22 +155,34 @@ public class MyTest extends Fragment {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.test_list_model, viewGroup, false);
+
+            View view = LayoutInflater.from(context).inflate(R.layout.home_test_list_model , viewGroup , false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-            String item = list.get(i);
-            viewHolder.comm.setText("");
-            viewHolder.subject.setText("");
-            viewHolder.status.setText("");
-            viewHolder.vieww.setText("");
+            final Sucject item = list.get(i);
+
+            viewHolder.math.setText(item.getTitle());
+
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context , MyTests.class);
+                    intent.putExtra("sub_id" , item.getId());
+                    intent.putExtra("title" , item.getTitle());
+                    context.startActivity(intent);
+
+                }
+            });
 
         }
 
-        public void setgrid(List<String> list) {
+        public void setgrid(List<Sucject>list){
 
             this.list = list;
             notifyDataSetChanged();
@@ -138,32 +193,24 @@ public class MyTest extends Fragment {
             return list.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder{
 
-            TextView comm, subject, status, vieww;
+            TextView math;
 
-            public ViewHolder(@NonNull View itemView) {
+            ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                comm = itemView.findViewById(R.id.textView67);
+                math = itemView.findViewById(R.id.textView68);
 
-                subject = itemView.findViewById(R.id.textView68);
-
-                status = itemView.findViewById(R.id.textView69);
-
-                vieww = itemView.findViewById(R.id.textView70);
-
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent intent = new Intent(context, TestResult2.class);
-                        context.startActivity(intent);
-
-                    }
-                });
             }
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadData();
+
+    }
 }

@@ -2,6 +2,7 @@ package com.selectial.selectial;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     RoundedImageView imageView;
 
+    TextView version;
+
     //TextView change;
 
     @Override
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer);
 
         toggle = findViewById(R.id.imageButton4);
+        version = findViewById(R.id.version);
 
         profile = findViewById(R.id.textView58);
 
@@ -261,6 +265,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        try {
+            String versionName = getPackageManager()
+                    .getPackageInfo(getPackageName(), 0).versionName;
+
+
+            version.setText("Version " + versionName);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())

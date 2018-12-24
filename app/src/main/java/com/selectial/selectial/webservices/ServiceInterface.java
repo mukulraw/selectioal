@@ -15,6 +15,7 @@ import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SignupResp;
+import com.selectial.selectial.testListPOJO.testListBean;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -157,6 +158,13 @@ public interface ServiceInterface {
             (@Part("stream_id") String streamId,
              @Part("userId") String userId,
              @Part("class_id") String classId
+            );
+
+    @Multipart
+    @POST("selectial/api/getTestsBySubjects.php")
+    Call<testListBean> getTestBySubjects
+            (@Part("subject_id") String subjectId,
+             @Part("userId") String userId
             );
 
 }
