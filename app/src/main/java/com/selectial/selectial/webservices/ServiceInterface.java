@@ -11,6 +11,7 @@ import com.selectial.selectial.InsitituteDetailsPOJO.InsititutedetailsBean;
 import com.selectial.selectial.LikeInsititutePOJO.GetLikeInsitituteBean;
 import com.selectial.selectial.RatePOJO.RateBean;
 import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
+import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.response.SigninResp;
@@ -164,6 +165,13 @@ public interface ServiceInterface {
     @POST("selectial/api/getTestsBySubjects.php")
     Call<testListBean> getTestBySubjects
             (@Part("subject_id") String subjectId,
+             @Part("userId") String userId
+            );
+
+    @Multipart
+    @POST("selectial/api/getCompareList.php")
+    Call<compareBean> getCompare
+            (
              @Part("userId") String userId
             );
 

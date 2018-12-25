@@ -11,10 +11,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.selectial.selectial.comparePOJO.Datum;
+import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
@@ -42,7 +48,7 @@ public class Compare extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    List<String> list;
+    List<Datum> list;
 
     ProgressBar bar;
 
@@ -52,6 +58,7 @@ public class Compare extends AppCompatActivity {
         setContentView(R.layout.activity_compare);
 
         toolbar = findViewById(R.id.toolbar);
+        bar = findViewById(R.id.progress);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrow);
@@ -66,15 +73,10 @@ public class Compare extends AppCompatActivity {
 
         grid = findViewById(R.id.grid);
 
-        manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
 
         list = new ArrayList<>();
 
-        adapter = new CompareAdapter(this, list);
-
-        grid.setLayoutManager(manager);
-
-        grid.setAdapter(adapter);
 
 
        /* bar.setVisibility(View.GONE);
@@ -114,13 +116,67 @@ public class Compare extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        loadData();
+    }
+
+
+
+    void loadData()
+    {
+
+        bar.setVisibility(View.GONE);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+        Call<compareBean> call = cr.getCompare(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+
+        call.enqueue(new Callback<compareBean>() {
+            @Override
+            public void onResponse(Call<compareBean> call, Response<compareBean> response) {
+
+
+                list.clear();
+
+                Datum item = new Datum();
+
+                list.add(item);
+
+                list.addAll(response.body().getData());
+
+
+                adapter = new CompareAdapter(Compare.this, list);
+
+                grid.setLayoutManager(manager);
+
+                grid.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<compareBean> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     public class CompareAdapter extends RecyclerView.Adapter<CompareAdapter.MyViewHolder> {
 
         Context context;
 
-        List<String> list = new ArrayList();
+        List<Datum> list;
 
-        public CompareAdapter(Context context, List<String> list) {
+        CompareAdapter(Context context, List<Datum> list) {
 
             this.context = context;
             this.list = list;
@@ -137,18 +193,56 @@ public class Compare extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CompareAdapter.MyViewHolder myViewHolder, int i) {
+        public void onBindViewHolder(@NonNull CompareAdapter.MyViewHolder holder, int i) {
 
 
-            String item = list.get(i);
-            myViewHolder.remove.setText("");
-            myViewHolder.title.setText("");
-            myViewHolder.feature.setText("");
+            Datum item = list.get(i);
+
+            if (i == 0)
+            {
+
+                try {
+                    holder.title.setText("Title");
+                    holder.fees.setText("Fees");
+                    holder.year.setText("Establishment Year");
+                    holder.centre.setText("No. of Centres");
+                    holder.med.setText("AIR (med)");
+                    holder.engg.setText("AIR (eng)");
+                    holder.students.setText("No. of Students");
+                    holder.faculties.setText("No. of Faculties");
+
+                    holder.rat.setVisibility(View.GONE);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            else
+            {
+                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+                ImageLoader loader = ImageLoader.getInstance();
+                loader.displayImage(item.getImage() , holder.image , options);
+
+                holder.rat.setVisibility(View.VISIBLE);
+                holder.rat.setRating(Float.parseFloat(item.getRating()));
+
+                holder.title.setText(item.getName());
+                holder.fees.setText(item.getFees());
+                holder.year.setText(item.getEstYear());
+                holder.centre.setText(item.getCentres());
+                holder.med.setText(item.getAirMed());
+                holder.engg.setText(item.getAirEngg());
+                holder.students.setText(item.getStudents());
+                holder.faculties.setText(item.getFaculties());
+            }
 
 
         }
 
-        public void setgrid(List<String> list) {
+        public void setgrid(List<Datum> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -159,18 +253,26 @@ public class Compare extends AppCompatActivity {
             return list.size();
         }
 
-        public class MyViewHolder extends RecyclerView.ViewHolder {
+        class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView title, feature, remove;
+            TextView title, fees , year , centre , engg , med , students , faculties;
+            ImageView image;
+            RatingBar rat;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                title = findViewById(R.id.title);
+                title = findViewById(R.id.textView23);
+                fees = findViewById(R.id.textView67);
+                year = findViewById(R.id.textView70);
+                centre = findViewById(R.id.textView72);
+                engg = findViewById(R.id.textView86);
+                med = findViewById(R.id.textView87);
+                students = findViewById(R.id.textView88);
+                faculties = findViewById(R.id.textView89);
+                image = findViewById(R.id.imageView9);
+                rat = findViewById(R.id.ratingBar2);
 
-                feature = findViewById(R.id.feature);
-
-                remove = findViewById(R.id.remove);
             }
         }
     }
