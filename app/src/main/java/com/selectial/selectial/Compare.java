@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,10 +74,15 @@ public class Compare extends AppCompatActivity {
 
         grid = findViewById(R.id.grid);
 
-        manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
+        manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         list = new ArrayList<>();
 
+        adapter = new CompareAdapter(Compare.this, list);
+
+        grid.setLayoutManager(manager);
+
+        grid.setAdapter(adapter);
 
 
        /* bar.setVisibility(View.GONE);
@@ -124,11 +130,9 @@ public class Compare extends AppCompatActivity {
     }
 
 
+    void loadData() {
 
-    void loadData()
-    {
-
-        bar.setVisibility(View.GONE);
+        bar.setVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
@@ -144,27 +148,21 @@ public class Compare extends AppCompatActivity {
             @Override
             public void onResponse(Call<compareBean> call, Response<compareBean> response) {
 
+                if (response.body().getData().size() > 0) {
 
-                list.clear();
+                    adapter.setgrid(response.body().getData());
 
-                Datum item = new Datum();
+                } else {
+                    Toast.makeText(Compare.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                }
 
-                list.add(item);
-
-                list.addAll(response.body().getData());
-
-
-                adapter = new CompareAdapter(Compare.this, list);
-
-                grid.setLayoutManager(manager);
-
-                grid.setAdapter(adapter);
+                bar.setVisibility(View.GONE);
 
             }
 
             @Override
             public void onFailure(Call<compareBean> call, Throwable t) {
-
+                bar.setVisibility(View.GONE);
             }
         });
 
@@ -186,22 +184,26 @@ public class Compare extends AppCompatActivity {
 
         @NonNull
         @Override
-        public CompareAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
             View view = LayoutInflater.from(context).inflate(R.layout.compare_list_model, viewGroup, false);
             return new MyViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CompareAdapter.MyViewHolder holder, int i) {
+        public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
 
 
             Datum item = list.get(i);
 
-            if (i == 0)
-            {
+            Log.d("position" , item.getId());
+
+            /*if (i == 0) {
 
                 try {
+
+                    Log.d("asdasd" , "asdasd");
+
                     holder.title.setText("Title");
                     holder.fees.setText("Fees");
                     holder.year.setText("Establishment Year");
@@ -212,19 +214,15 @@ public class Compare extends AppCompatActivity {
                     holder.faculties.setText("No. of Faculties");
 
                     holder.rat.setVisibility(View.GONE);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
 
-
-            }
-            else
-            {
+            } else {*/
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
                 ImageLoader loader = ImageLoader.getInstance();
-                loader.displayImage(item.getImage() , holder.image , options);
+                loader.displayImage(item.getImage(), holder.image, options);
 
                 holder.rat.setVisibility(View.VISIBLE);
                 holder.rat.setRating(Float.parseFloat(item.getRating()));
@@ -237,13 +235,12 @@ public class Compare extends AppCompatActivity {
                 holder.engg.setText(item.getAirEngg());
                 holder.students.setText(item.getStudents());
                 holder.faculties.setText(item.getFaculties());
-            }
+            //}
 
 
         }
 
-        public void setgrid(List<Datum> list) {
-
+        void setgrid(List<Datum> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -255,23 +252,23 @@ public class Compare extends AppCompatActivity {
 
         class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView title, fees , year , centre , engg , med , students , faculties;
+            TextView title, fees, year, centre, engg, med, students, faculties;
             ImageView image;
             RatingBar rat;
 
             MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                title = findViewById(R.id.textView23);
-                fees = findViewById(R.id.textView67);
-                year = findViewById(R.id.textView70);
-                centre = findViewById(R.id.textView72);
-                engg = findViewById(R.id.textView86);
-                med = findViewById(R.id.textView87);
-                students = findViewById(R.id.textView88);
-                faculties = findViewById(R.id.textView89);
-                image = findViewById(R.id.imageView9);
-                rat = findViewById(R.id.ratingBar2);
+                title = itemView.findViewById(R.id.textView23);
+                fees = itemView.findViewById(R.id.textView67);
+                year = itemView.findViewById(R.id.textView70);
+                centre = itemView.findViewById(R.id.textView72);
+                engg = itemView.findViewById(R.id.textView86);
+                med = itemView.findViewById(R.id.textView87);
+                students = itemView.findViewById(R.id.textView88);
+                faculties = itemView.findViewById(R.id.textView89);
+                image = itemView.findViewById(R.id.imageView9);
+                rat = itemView.findViewById(R.id.ratingBar2);
 
             }
         }

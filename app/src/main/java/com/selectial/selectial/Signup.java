@@ -34,9 +34,9 @@ public class Signup extends AppCompatActivity {
 
     Button signup;
 
-    EditText username, age, email, password;
+    EditText username, age, email, password, confirm;
 
-    String mUsername, mAge, mEmail, mPassword;
+    String mUsername, mAge, mEmail, mPassword , mConfirm;
 
     ToggleSwitch toggleSwitchClass, toggleSwitchGender;
 
@@ -91,7 +91,12 @@ public class Signup extends AppCompatActivity {
                     Toast.makeText(Signup.this, " Fill Valid Email", Toast.LENGTH_SHORT).show();
                 } else if (DataValidation.isNotValidPassword(mPassword)) {
                     Toast.makeText(Signup.this, "Please enter atleat 4 digits password", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else if(!mConfirm.equals(mPassword))
+                {
+                    Toast.makeText(Signup.this, "Password did not match", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     signupReq();
                     pBar.setVisibility(View.VISIBLE);
                 }
@@ -169,6 +174,7 @@ public class Signup extends AppCompatActivity {
         mAge = age.getText().toString().trim();
         mEmail = email.getText().toString().trim();
         mPassword = password.getText().toString().trim();
+        mConfirm = confirm.getText().toString().trim();
         classPositionToggle = toggleSwitchClass.getCheckedTogglePosition();
         genderPositionToggle = toggleSwitchGender.getCheckedTogglePosition();
 
@@ -199,6 +205,7 @@ public class Signup extends AppCompatActivity {
         age = findViewById(R.id.editText4);
         email = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
+        confirm = findViewById(R.id.editText5);
         toggleSwitchClass = findViewById(R.id.textView15);
         toggleSwitchGender = findViewById(R.id.textView17);
         alreadyMember = findViewById(R.id.textView10);
