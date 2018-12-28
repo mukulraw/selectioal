@@ -54,9 +54,24 @@ public interface ServiceInterface {
             @Part("gender") RequestBody gender,
             @Part("age") RequestBody age,
             @Part("email") RequestBody email,
-            @Part("password") RequestBody password
+            @Part("password") RequestBody password,
+            @Part("phone") RequestBody phone
     );
 
+    @Multipart
+    @POST("selectial/api/verifyOTP.php")
+    Call<SignupResp> verifyOTP(
+            @Part("userId") RequestBody userId,
+            @Part("otp") RequestBody otp
+    );
+
+
+    @Multipart
+    @POST("selectial/api/resendOTP.php")
+    Call<SignupResp> resendOTP(
+            @Part("userId") RequestBody userId,
+            @Part("phone") RequestBody phone
+    );
 
     @Multipart
     @POST ("selectial/api/login.php")

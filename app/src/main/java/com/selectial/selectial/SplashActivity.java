@@ -149,6 +149,7 @@ startApp();
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_phone, response.body().getData().getPhone());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
                         SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());

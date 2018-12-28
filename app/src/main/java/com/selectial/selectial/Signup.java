@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +35,9 @@ public class Signup extends AppCompatActivity {
 
     Button signup;
 
-    EditText username, age, email, password, confirm;
+    EditText username, age, email, password, confirm , phone;
 
-    String mUsername, mAge, mEmail, mPassword , mConfirm;
+    String mUsername, mAge, mEmail, mPassword , mConfirm , mPhone;
 
     ToggleSwitch toggleSwitchClass, toggleSwitchGender;
 
@@ -51,6 +52,8 @@ public class Signup extends AppCompatActivity {
     Retrofit retrofit;
 
     ServiceInterface serviceInterface;
+
+    ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class Signup extends AppCompatActivity {
         serviceInterface = retrofit.create(ServiceInterface.class);
 
         signup = findViewById(R.id.button3);
+        back = findViewById(R.id.imageButton3);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,9 +92,14 @@ public class Signup extends AppCompatActivity {
                 } else if (mAge.isEmpty()) {
                     Toast.makeText(Signup.this, "Fill age First", Toast.LENGTH_SHORT).show();
                 } else if (DataValidation.isNotValidEmail(mEmail)) {
-                    Toast.makeText(Signup.this, " Fill Valid Email", Toast.LENGTH_SHORT).show();
-                } else if (DataValidation.isNotValidPassword(mPassword)) {
-                    Toast.makeText(Signup.this, "Please enter atleat 4 digits password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Signup.this, "Fill Valid Email", Toast.LENGTH_SHORT).show();
+                }
+                if (DataValidation.isValidPhoneNumber(mPhone))
+                {
+                    Toast.makeText(Signup.this, "Fill valid phone number", Toast.LENGTH_SHORT).show();
+                }
+                else if (DataValidation.isNotValidPassword(mPassword)) {
+                    Toast.makeText(Signup.this, "Please enter atleast 4 digits password", Toast.LENGTH_SHORT).show();
                 }
                 else if(!mConfirm.equals(mPassword))
                 {
@@ -104,6 +113,15 @@ public class Signup extends AppCompatActivity {
                 /*Intent intent = new Intent(Signup.this, SetProfileImage.class);
                 startActivity(intent);*/
 
+
+
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -121,7 +139,7 @@ public class Signup extends AppCompatActivity {
 
     private void signupReq() {
         Call<SignupResp> call = serviceInterface.signup(convertPlainString(mClass), convertPlainString(mUsername),
-                convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword));
+                convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword) , convertPlainString(mPhone));
 
         call.enqueue(new Callback<SignupResp>() {
             @Override
@@ -134,6 +152,7 @@ public class Signup extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_phone, response.body().getData().getPhone());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
                         SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
@@ -149,7 +168,8 @@ public class Signup extends AppCompatActivity {
 
                         Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_id));
 
-                        Intent intent = new Intent(Signup.this, SetProfileImage.class);
+                        Intent intent = new Intent(Signup.this, OTP.class);
+                        //Intent intent = new Intent(Signup.this, SetProfileImage.class);
                         startActivity(intent);
                         finishAffinity();
                     } else {
@@ -175,6 +195,7 @@ public class Signup extends AppCompatActivity {
         mEmail = email.getText().toString().trim();
         mPassword = password.getText().toString().trim();
         mConfirm = confirm.getText().toString().trim();
+        mPhone = phone.getText().toString().trim();
         classPositionToggle = toggleSwitchClass.getCheckedTogglePosition();
         genderPositionToggle = toggleSwitchGender.getCheckedTogglePosition();
 
@@ -209,6 +230,7 @@ public class Signup extends AppCompatActivity {
         toggleSwitchClass = findViewById(R.id.textView15);
         toggleSwitchGender = findViewById(R.id.textView17);
         alreadyMember = findViewById(R.id.textView10);
+        phone = findViewById(R.id.phone);
         pBar = findViewById(R.id.progressBar3);
 
     }

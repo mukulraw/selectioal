@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class Login extends AppCompatActivity {
 
     Retrofit retrofit;
     ServiceInterface serviceInterface;
+    ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class Login extends AppCompatActivity {
         setUpWidget();
 
         pBar.setVisibility(View.GONE);
+
+        back = findViewById(R.id.imageButton3);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
@@ -69,6 +73,13 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signupIntent = new Intent(Login.this, Signup.class);
                 startActivity(signupIntent);
+                finish();
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
@@ -109,10 +120,14 @@ public class Login extends AppCompatActivity {
                 if (response.body() != null && response.isSuccessful()) {
                     if (response.body().getStatus().equals("1")) {
                         pBar.setVisibility(View.GONE);
+
+
+
                         Toast.makeText(Login.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
+                        SharePreferenceUtils.getInstance().saveString(Constant.USER_phone, response.body().getData().getPhone());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
                         SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
@@ -124,9 +139,22 @@ public class Login extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
-                        Intent intent = new Intent(Login.this, MainActivity.class);
-                        startActivity(intent);
-                        finishAffinity();
+
+                        if (response.body().getData().getIsVerified().equals("0"))
+                        {
+                            Toast.makeText(Login.this, "Your phone number is not verified, please check OTP", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Login.this, OTP.class);
+                            startActivity(intent);
+                            finishAffinity();
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                            finishAffinity();
+                        }
+
+
                     } else {
                         pBar.setVisibility(View.GONE);
                         Toast.makeText(Login.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();

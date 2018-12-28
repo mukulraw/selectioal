@@ -17,6 +17,7 @@ public class Constant {
     public static final String USER_date = "USER_date";
 
     public static final String USER_phone = "USER_phone";
+    public static final String USER_is_verified = "USER_is_verified";
     public static final String USER_class_id = "USER_class_id";
     public static final String USER_sub_class_id = "USER_sub_class_id";
     public static final String USER_isPaid = "USER_isPaid";

@@ -70,6 +70,9 @@ public class SignupResp {
         @SerializedName("email")
         @Expose
         private String email;
+        @SerializedName("phone")
+        @Expose
+        private String phone;
         @SerializedName("password")
         @Expose
         private String password;
@@ -106,22 +109,12 @@ public class SignupResp {
             this.userId = userId;
         }
 
-        public Data withUserId(String userId) {
-            this.userId = userId;
-            return this;
-        }
-
         public String getName() {
             return name;
         }
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public Data withName(String name) {
-            this.name = name;
-            return this;
         }
 
         public String getGender() {
@@ -132,22 +125,12 @@ public class SignupResp {
             this.gender = gender;
         }
 
-        public Data withGender(String gender) {
-            this.gender = gender;
-            return this;
-        }
-
         public String getAge() {
             return age;
         }
 
         public void setAge(String age) {
             this.age = age;
-        }
-
-        public Data withAge(String age) {
-            this.age = age;
-            return this;
         }
 
         public String getEmail() {
@@ -158,9 +141,12 @@ public class SignupResp {
             this.email = email;
         }
 
-        public Data withEmail(String email) {
-            this.email = email;
-            return this;
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
 
         public String getPassword() {
@@ -171,22 +157,12 @@ public class SignupResp {
             this.password = password;
         }
 
-        public Data withPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
         public String getClassId() {
             return classId;
         }
 
         public void setClassId(String classId) {
             this.classId = classId;
-        }
-
-        public Data withClassId(String classId) {
-            this.classId = classId;
-            return this;
         }
 
         public String getClassName() {
@@ -197,22 +173,12 @@ public class SignupResp {
             this.className = className;
         }
 
-        public Data withClassName(String className) {
-            this.className = className;
-            return this;
-        }
-
         public String getSubClassId() {
             return subClassId;
         }
 
         public void setSubClassId(String subClassId) {
             this.subClassId = subClassId;
-        }
-
-        public Data withSubClassId(String subClassId) {
-            this.subClassId = subClassId;
-            return this;
         }
 
         public String getSubClassName() {
@@ -223,22 +189,12 @@ public class SignupResp {
             this.subClassName = subClassName;
         }
 
-        public Data withSubClassName(String subClassName) {
-            this.subClassName = subClassName;
-            return this;
-        }
-
         public String getIsPaid() {
             return isPaid;
         }
 
         public void setIsPaid(String isPaid) {
             this.isPaid = isPaid;
-        }
-
-        public Data withIsPaid(String isPaid) {
-            this.isPaid = isPaid;
-            return this;
         }
 
         public String getImage() {
@@ -249,11 +205,6 @@ public class SignupResp {
             this.image = image;
         }
 
-        public Data withImage(String image) {
-            this.image = image;
-            return this;
-        }
-
         public String getStatus() {
             return status;
         }
@@ -262,22 +213,12 @@ public class SignupResp {
             this.status = status;
         }
 
-        public Data withStatus(String status) {
-            this.status = status;
-            return this;
-        }
-
         public String getCreatedDate() {
             return createdDate;
         }
 
         public void setCreatedDate(String createdDate) {
             this.createdDate = createdDate;
-        }
-
-        public Data withCreatedDate(String createdDate) {
-            this.createdDate = createdDate;
-            return this;
         }
 
     }

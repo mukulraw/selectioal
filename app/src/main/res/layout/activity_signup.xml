@@ -139,7 +139,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <TextView
+        <TextView
+            android:id="@+id/textView81"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="16dp"
+            android:text="PHONE NUMBER"
+            android:textColor="#ffffff"
+            android:typeface="monospace"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:ems="10"
+            android:hint="tap to enter"
+            android:backgroundTint="#ffffff"
+            android:inputType="phone"
+            android:textColor="#ffffff"
+            android:textColorHint="#cdcdcd"
+            android:typeface="monospace"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView81" />
+
+
+        <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -149,7 +180,7 @@
         android:textColor="#ffffff"
         android:typeface="monospace"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/phone" />
 
     <EditText
         android:id="@+id/editText2"
@@ -210,7 +241,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:text="ALready a member?"
+            android:text="Already a member?"
             android:textColor="#ffffff"
             android:typeface="monospace"
             android:gravity="center_vertical|end"
@@ -251,9 +282,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14"
             app:separatorColor="@color/colorPrimary"
-            app:textToggleCenter="12 th"
+            app:textToggleCenter="12 th (Sci.)"
             app:textToggleLeft="10 th"
-            app:textToggleRight="NEET"
+            app:textToggleRight="Med./ Eng."
             app:toggleWidth="80dp" />
 
         <TextView
@@ -314,6 +345,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
+            android:backgroundTint="#ffffff"
             android:ems="10"
             android:inputType="textPassword"
             android:textColor="#ffffff"

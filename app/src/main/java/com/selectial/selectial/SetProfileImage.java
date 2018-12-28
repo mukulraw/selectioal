@@ -138,64 +138,73 @@ public class SetProfileImage extends AppCompatActivity {
 
                 MultipartBody.Part body = null;
 
-                RequestBody reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                if (file != null)
+                {
+                    RequestBody reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
-                body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
+                    body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
 
-                Log.d("image", file.getName());
-                Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+                    Log.d("image", file.getName());
+                    Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_id));
 
-                bar.setVisibility(View.VISIBLE);
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(Constant.BASE_URL)
-                        .addConverterFactory(ScalarsConverterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create())
+                    bar.setVisibility(View.VISIBLE);
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(Constant.BASE_URL)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
 
-                        .build();
+                            .build();
 
-                ServiceInterface cr = retrofit.create(ServiceInterface.class);
+                    ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-                Call<ForgotBean> call = cr.updatebean(SharePreferenceUtils.getInstance().getString(Constant.USER_id), body);
-                call.enqueue(new Callback<ForgotBean>() {
-                    @Override
-                    public void onResponse(Call<ForgotBean> call, Response<ForgotBean> response) {
+                    Call<ForgotBean> call = cr.updatebean(SharePreferenceUtils.getInstance().getString(Constant.USER_id), body);
+                    call.enqueue(new Callback<ForgotBean>() {
+                        @Override
+                        public void onResponse(Call<ForgotBean> call, Response<ForgotBean> response) {
 
-                        if (Objects.equals(response.body().getStatus(), "1")) {
+                            if (Objects.equals(response.body().getStatus(), "1")) {
 
-                            //Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                            if (SharePreferenceUtils.getInstance().getString(Constant.CLS_id).equals("1"))
-                            {
+                                if (SharePreferenceUtils.getInstance().getString(Constant.CLS_id).equals("1"))
+                                {
 
-                                Intent intent = new Intent(SetProfileImage.this , MainActivity.class);
-                                startActivity(intent);
-                                finishAffinity();
+                                    Intent intent = new Intent(SetProfileImage.this , MainActivity.class);
+                                    startActivity(intent);
+                                    finishAffinity();
 
+                                }
+                                else
+                                {
+
+                                    Intent intent = new Intent(SetProfileImage.this , Interest.class);
+                                    startActivity(intent);
+                                    finishAffinity();
+
+                                }
+
+                            } else {
+                                Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                            else
-                            {
 
-                                Intent intent = new Intent(SetProfileImage.this , Interest.class);
-                                startActivity(intent);
-                                finishAffinity();
+                            bar.setVisibility(View.GONE);
 
-                            }
-
-                        } else {
-                            Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
-                        bar.setVisibility(View.GONE);
+                        @Override
+                        public void onFailure(Call<ForgotBean> call, Throwable t) {
 
-                    }
+                            bar.setVisibility(View.GONE);
 
-                    @Override
-                    public void onFailure(Call<ForgotBean> call, Throwable t) {
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(SetProfileImage.this, "Please upload an image", Toast.LENGTH_SHORT).show();
+                }
 
-                        bar.setVisibility(View.GONE);
 
-                    }
-                });
 
 
             }
