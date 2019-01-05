@@ -11,6 +11,7 @@ import com.selectial.selectial.InsitituteDetailsPOJO.InsititutedetailsBean;
 import com.selectial.selectial.LikeInsititutePOJO.GetLikeInsitituteBean;
 import com.selectial.selectial.RatePOJO.RateBean;
 import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
+import com.selectial.selectial.classesPOJO.classesBean;
 import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
@@ -21,6 +22,7 @@ import com.selectial.selectial.testListPOJO.testListBean;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -28,7 +30,7 @@ import retrofit2.http.Part;
 public interface ServiceInterface {
 
    /* @Multipart
-    @POST("selectial/signup.php")
+    @POST("admin/signup.php")
     Call<SignupResponse> signup(
             @Part("class") RequestBody mclass,
             @Part("username") RequestBody username,
@@ -39,7 +41,7 @@ public interface ServiceInterface {
     );*/
 
    /* @Multipart
-    @POST ("selectial/signin.php")
+    @POST ("admin/signin.php")
     Call<SigninResponse> signin(
             @Part("email") RequestBody email,
             @Part("password") RequestBody password
@@ -47,7 +49,7 @@ public interface ServiceInterface {
 
 
     @Multipart
-    @POST("selectial/api/sign_up.php")
+    @POST("admin/api/sign_up.php")
     Call<SignupResp> signup(
             @Part("class") RequestBody mclass,
             @Part("name") RequestBody username,
@@ -59,7 +61,7 @@ public interface ServiceInterface {
     );
 
     @Multipart
-    @POST("selectial/api/verifyOTP.php")
+    @POST("admin/api/verifyOTP.php")
     Call<SignupResp> verifyOTP(
             @Part("userId") RequestBody userId,
             @Part("otp") RequestBody otp
@@ -67,14 +69,14 @@ public interface ServiceInterface {
 
 
     @Multipart
-    @POST("selectial/api/resendOTP.php")
+    @POST("admin/api/resendOTP.php")
     Call<SignupResp> resendOTP(
             @Part("userId") RequestBody userId,
             @Part("phone") RequestBody phone
     );
 
     @Multipart
-    @POST ("selectial/api/login.php")
+    @POST ("admin/api/login.php")
     Call<SigninResp> signin(
             @Part("email") String email,
             @Part("password") String password
@@ -82,36 +84,36 @@ public interface ServiceInterface {
 
 
     @Multipart
-    @POST("selectial/api/forgotPassword.php")
+    @POST("admin/api/forgotPassword.php")
     Call<ForgotBean> forgot
             (@Part("email") String email);
 
     @Multipart
-    @POST ("selectial/api/updateProfilePic.php")
+    @POST ("admin/api/updateProfilePic.php")
     Call<ForgotBean> updatebean(
             @Part("userId") String userid,
             @Part MultipartBody.Part file
     );
 
     @Multipart
-    @POST("selectial/api/getStreams.php")
+    @POST("admin/api/getStreams.php")
     Call<GetStreamBean> steam
             (@Part("class_id") String cls);
 
     @Multipart
-    @POST("selectial/api/updateStream.php")
+    @POST("admin/api/updateStream.php")
     Call<UpdateStreamBean> udatestream
             (@Part("stream_id") String cls,
             @Part("userId") String user
              );
 
     @Multipart
-    @POST("selectial/api/getProfile.php")
+    @POST("admin/api/getProfile.php")
     Call<GetProfileBean> profilee
             (@Part("userId") String ft);
 
     @Multipart
-    @POST("selectial/api/updateProfile.php")
+    @POST("admin/api/updateProfile.php")
     Call<EditProfileBean> edit
             (@Part("userId") String e,
              @Part("name") String usrrer ,
@@ -120,14 +122,14 @@ public interface ServiceInterface {
             );
 
     @Multipart
-    @POST("selectial/api/changePassword.php")
+    @POST("admin/api/changePassword.php")
     Call<ChangePasswordBean> cpp
             (@Part("userId") String e,
              @Part("password") String usrrer
             );
 
     @Multipart
-    @POST("selectial/api/getInstitutes.php")
+    @POST("admin/api/getInstitutes.php")
     Call<GetInsititudeBean> insi
             (@Part("userId") String e);
 
@@ -135,7 +137,7 @@ public interface ServiceInterface {
 
 
     @Multipart
-    @POST("selectial/api/rateInstitute.php")
+    @POST("admin/api/rateInstitute.php")
     Call<RateBean> rate
             (@Part("userId") String e ,
             @Part("instId") String insd ,
@@ -145,7 +147,7 @@ public interface ServiceInterface {
 
 
     @Multipart
-    @POST("selectial/api/likeInstitute.php")
+    @POST("admin/api/likeInstitute.php")
     Call<GetLikeInsitituteBean> likee
             (@Part("userId") String e ,
             @Part("instId") String ajsdjdsa
@@ -153,7 +155,7 @@ public interface ServiceInterface {
 
 
     @Multipart
-    @POST("selectial/api/getInstitutesDetails.php")
+    @POST("admin/api/getInstitutesDetails.php")
     Call<InsititutedetailsBean> insi
             (@Part("instId") String e ,
              @Part("userId") String ajsdjdsa
@@ -162,14 +164,14 @@ public interface ServiceInterface {
 
 
     @Multipart
-    @POST("selectial/api/addToCompare.php")
+    @POST("admin/api/addToCompare.php")
     Call<AddCompareBean> addd
             (@Part("instId") String e ,
              @Part("userId") String ajsdjdsa
             );
 
     @Multipart
-    @POST("selectial/api/getHome.php")
+    @POST("admin/api/getHome.php")
     Call<getHomeBean> getHome
             (@Part("stream_id") String streamId,
              @Part("userId") String userId,
@@ -177,17 +179,20 @@ public interface ServiceInterface {
             );
 
     @Multipart
-    @POST("selectial/api/getTestsBySubjects.php")
+    @POST("admin/api/getTestsBySubjects.php")
     Call<testListBean> getTestBySubjects
             (@Part("subject_id") String subjectId,
              @Part("userId") String userId
             );
 
     @Multipart
-    @POST("selectial/api/getCompareList.php")
+    @POST("admin/api/getCompareList.php")
     Call<compareBean> getCompare
             (
              @Part("userId") String userId
             );
+
+    @GET("admin/api/getClasses.php")
+    Call<classesBean> getClasses();
 
 }

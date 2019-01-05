@@ -1,25 +1,35 @@
 package com.selectial.selectial;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.selectial.selectial.classesPOJO.classesBean;
 import com.selectial.selectial.response.SignupResp;
 import com.selectial.selectial.response.SignupResponse;
 import com.selectial.selectial.util.DataValidation;
 import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 import okhttp3.MediaType;
@@ -35,11 +45,13 @@ public class Signup extends AppCompatActivity {
 
     Button signup;
 
-    EditText username, age, email, password, confirm , phone;
+    EditText username, age, email, password, confirm, phone;
 
-    String mUsername, mAge, mEmail, mPassword , mConfirm , mPhone;
+    String mUsername, mAge, mEmail, mPassword, mConfirm, mPhone;
 
-    ToggleSwitch toggleSwitchClass, toggleSwitchGender;
+    ToggleSwitch toggleSwitchGender;
+
+    Spinner chooseClass;
 
     int classPositionToggle, genderPositionToggle;
 
@@ -49,16 +61,24 @@ public class Signup extends AppCompatActivity {
 
     ProgressBar pBar;
 
+    String selClass = "";
+
     Retrofit retrofit;
 
     ServiceInterface serviceInterface;
 
     ImageButton back;
 
+    List<String> className;
+    List<String> classId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        className = new ArrayList<>();
+        classId = new ArrayList<>();
 
         setupwidget();
         // getInput();
@@ -87,32 +107,27 @@ public class Signup extends AppCompatActivity {
                /* signupReq();
                 pBar.setVisibility(View.VISIBLE);*/
 
-                if (mUsername.isEmpty()) {
+                if (selClass.isEmpty()) {
+                    Toast.makeText(Signup.this, " Fill Select a Class", Toast.LENGTH_SHORT).show();
+                } else if (mUsername.isEmpty()) {
                     Toast.makeText(Signup.this, " Fill Username First", Toast.LENGTH_SHORT).show();
                 } else if (mAge.isEmpty()) {
                     Toast.makeText(Signup.this, "Fill age First", Toast.LENGTH_SHORT).show();
                 } else if (DataValidation.isNotValidEmail(mEmail)) {
                     Toast.makeText(Signup.this, "Fill Valid Email", Toast.LENGTH_SHORT).show();
-                }
-                if (DataValidation.isValidPhoneNumber(mPhone))
-                {
+                } else if (DataValidation.isValidPhoneNumber(mPhone)) {
                     Toast.makeText(Signup.this, "Fill valid phone number", Toast.LENGTH_SHORT).show();
-                }
-                else if (DataValidation.isNotValidPassword(mPassword)) {
-                    Toast.makeText(Signup.this, "Please enter atleast 4 digits password", Toast.LENGTH_SHORT).show();
-                }
-                else if(!mConfirm.equals(mPassword))
-                {
+                } else if (DataValidation.isNotValidPassword(mPassword)) {
+                    Toast.makeText(Signup.this, "Please enter at least 4 digits password", Toast.LENGTH_SHORT).show();
+                } else if (!mConfirm.equals(mPassword)) {
                     Toast.makeText(Signup.this, "Password did not match", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     signupReq();
                     pBar.setVisibility(View.VISIBLE);
                 }
 
                 /*Intent intent = new Intent(Signup.this, SetProfileImage.class);
                 startActivity(intent);*/
-
 
 
             }
@@ -135,11 +150,93 @@ public class Signup extends AppCompatActivity {
             }
         });
 
+        age.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Dialog dialog = new Dialog(Signup.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dob_popup);
+                dialog.setCancelable(true);
+                dialog.show();
+
+                Button submit = dialog.findViewById(R.id.button11);
+                final DatePicker dp = dialog.findViewById(R.id.view14);
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String dd = String.valueOf(dp.getDayOfMonth()) + "-" + String.valueOf(dp.getMonth() + 1) + "-" + dp.getYear();
+
+                        Log.d("dddd" , dd);
+
+                        age.setText(dd);
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+            }
+        });
+
+        chooseClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position > 0) {
+                    selClass = classId.get(position - 1);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        pBar.setVisibility(View.VISIBLE);
+
+        Call<classesBean> call = serviceInterface.getClasses();
+
+        call.enqueue(new Callback<classesBean>() {
+            @Override
+            public void onResponse(Call<classesBean> call, Response<classesBean> response) {
+
+
+                className.clear();
+                classId.clear();
+
+                className.add("Select Class");
+
+
+                for (int i = 0; i < response.body().getData().size(); i++) {
+                    className.add(response.body().getData().get(i).getName());
+                    classId.add(response.body().getData().get(i).getId());
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(Signup.this,
+                        R.layout.spinner_item,className);
+
+                chooseClass.setAdapter(adapter);
+
+                pBar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<classesBean> call, Throwable t) {
+                pBar.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     private void signupReq() {
         Call<SignupResp> call = serviceInterface.signup(convertPlainString(mClass), convertPlainString(mUsername),
-                convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword) , convertPlainString(mPhone));
+                convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(mPhone));
 
         call.enqueue(new Callback<SignupResp>() {
             @Override
@@ -166,7 +263,7 @@ public class Signup extends AppCompatActivity {
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
                         SharePreferenceUtils.getInstance().saveString(Constant.CLS_id, response.body().getData().getClassId());
 
-                        Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+                        Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
 
                         Intent intent = new Intent(Signup.this, OTP.class);
                         //Intent intent = new Intent(Signup.this, SetProfileImage.class);
@@ -196,18 +293,9 @@ public class Signup extends AppCompatActivity {
         mPassword = password.getText().toString().trim();
         mConfirm = confirm.getText().toString().trim();
         mPhone = phone.getText().toString().trim();
-        classPositionToggle = toggleSwitchClass.getCheckedTogglePosition();
+        mClass = selClass;
         genderPositionToggle = toggleSwitchGender.getCheckedTogglePosition();
 
-        if (classPositionToggle == 0) {
-            mClass = String.valueOf("1");
-        }
-        if (classPositionToggle == 1) {
-            mClass = String.valueOf("2");
-        }
-        if (classPositionToggle == 2) {
-            mClass = "3";
-        }
 
         if (genderPositionToggle == 0) {
             mGender = "Male";
@@ -227,7 +315,8 @@ public class Signup extends AppCompatActivity {
         email = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
         confirm = findViewById(R.id.editText5);
-        toggleSwitchClass = findViewById(R.id.textView15);
+        chooseClass = findViewById(R.id.spinner);
+        //toggleSwitchClass = findViewById(R.id.textView15);
         toggleSwitchGender = findViewById(R.id.textView17);
         alreadyMember = findViewById(R.id.textView10);
         phone = findViewById(R.id.phone);

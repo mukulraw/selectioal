@@ -29,7 +29,7 @@ public class Constant {
 
     // public static final String BASE_URL = "http://dreamhousing.in/";
 
-    public static final String BASE_URL = "http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/";
+    public static final String BASE_URL = "http://selectialindia.com/";
 
 
 }

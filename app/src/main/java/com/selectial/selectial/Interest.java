@@ -81,9 +81,9 @@ public class Interest extends AppCompatActivity {
 
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-        Call<GetStreamBean> call = cr.steam(SharePreferenceUtils.getInstance().getString(Constant.CLS_id));
+        Call<GetStreamBean> call = cr.steam(SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
 
-        Log.d("clsid", SharePreferenceUtils.getInstance().getString(Constant.CLS_id));
+        Log.d("clsid", SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
 
         call.enqueue(new Callback<GetStreamBean>() {
             @Override

@@ -62,11 +62,9 @@ public class SplashActivity extends AppCompatActivity {
         serviceInterface = retrofit.create(ServiceInterface.class);
 
 
-
-
         if (hasPermissions(this, PERMISSIONS)) {
 
-startApp();
+            startApp();
         } else {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE_ASK_PERMISSIONS);
         }
@@ -92,27 +90,27 @@ startApp();
 
         if (requestCode == REQUEST_CODE_ASK_PERMISSIONS) {
 
-            Log.d("permmm" , "1");
+            Log.d("permmm", "1");
 
-            if (hasPermissions(this , PERMISSIONS)) {
+            if (hasPermissions(this, PERMISSIONS)) {
 
-                Log.d("permmm" , "2");
+                Log.d("permmm", "2");
 
-               startApp();
+                startApp();
 
             } else {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
 
-                    Log.d("permmm" , "3");
+                    Log.d("permmm", "3");
 
                     Toast.makeText(getApplicationContext(), "Permissions are required for this app", Toast.LENGTH_SHORT).show();
                     finish();
 
                 } else {
 
-                    Log.d("permmm" , "4");
+                    Log.d("permmm", "4");
                     Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG)
                             .show();
                     finish();
@@ -126,15 +124,14 @@ startApp();
 
     private void updateLoginData() {
 
-        Log.d("data" , "123123");
-        Log.d("data" , SharePreferenceUtils.getInstance().getString(Constant.USER_email));
-        Log.d("data" , SharePreferenceUtils.getInstance().getString(Constant.USER_password));
+        Log.d("data", "123123");
+        Log.d("data", SharePreferenceUtils.getInstance().getString(Constant.USER_email));
+        Log.d("data", SharePreferenceUtils.getInstance().getString(Constant.USER_password));
 
         Call<SigninResp> call = serviceInterface.signin(SharePreferenceUtils.getInstance().getString(Constant.USER_email), SharePreferenceUtils.getInstance().getString(Constant.USER_password));
         call.enqueue(new Callback<SigninResp>() {
             @Override
             public void onResponse(Call<SigninResp> call, Response<SigninResp> response) {
-
 
 
                 if (response.body() != null && response.isSuccessful()) {
@@ -162,9 +159,21 @@ startApp();
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
                         SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
 
-                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finishAffinity();
+                        if (response.body().getData().getIsVerified().equals("1"))
+                        {
+
+                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finishAffinity();
+                        }
+                        else
+                        {
+                            Toast.makeText(SplashActivity.this, "Your phone number is not verified, please check OTP", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SplashActivity.this, OTP.class);
+                            startActivity(intent);
+                            finishAffinity();
+                        }
+
 
                         // Toast.makeText(SplashActivity.this, ""+SharePreferenceUtils.getInstance().getString(Constant.USER_name), Toast.LENGTH_SHORT).show();
 
@@ -195,8 +204,7 @@ startApp();
         return plainString;
     }
 
-    void startApp()
-    {
+    void startApp() {
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override

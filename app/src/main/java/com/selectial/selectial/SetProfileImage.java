@@ -166,7 +166,7 @@ public class SetProfileImage extends AppCompatActivity {
 
                                 //Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                if (SharePreferenceUtils.getInstance().getString(Constant.CLS_id).equals("1"))
+                                if (SharePreferenceUtils.getInstance().getString(Constant.USER_class_id).equals("1"))
                                 {
 
                                     Intent intent = new Intent(SetProfileImage.this , MainActivity.class);

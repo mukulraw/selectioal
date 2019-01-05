@@ -1,9 +1,13 @@
 package com.selectial.selectial;
 
+import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -57,6 +61,37 @@ public class EditProfile extends AppCompatActivity {
 
 
                 finish();
+            }
+        });
+
+        age.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Dialog dialog = new Dialog(EditProfile.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dob_popup);
+                dialog.setCancelable(true);
+                dialog.show();
+
+                Button submit = dialog.findViewById(R.id.button11);
+                final DatePicker dp = dialog.findViewById(R.id.view14);
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String dd = String.valueOf(dp.getDayOfMonth()) + "-" + String.valueOf(dp.getMonth() + 1) + "-" + dp.getYear();
+
+                        Log.d("dddd" , dd);
+
+                        age.setText(dd);
+
+                        dialog.dismiss();
+
+                    }
+                });
+
             }
         });
 

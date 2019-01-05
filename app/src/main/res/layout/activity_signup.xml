@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="16dp"
-            android:text="YOUR AGE"
+            android:text="YOUR DOB"
             android:textColor="#ffffff"
             android:typeface="monospace"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,8 +101,9 @@
         android:inputType="number"
         android:typeface="monospace"
         android:textColor="#ffffff"
+        android:focusable="false"
         android:maxEms="2"
-        android:hint="age"
+        android:hint="dob"
         android:textColorHint="#cdcdcd"
         android:backgroundTint="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
@@ -263,29 +264,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-        <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+        <RelativeLayout
             android:id="@+id/textView15"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
             android:background="@drawable/white_round"
             android:textSize="16sp"
-            app:activeBgColor="@color/colorPrimary"
-            app:activeTextColor="#000000"
-            app:cornerRadius="30dp"
-            app:inactiveBgColor="#00000000"
-            app:inactiveTextColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14"
-            app:separatorColor="@color/colorPrimary"
-            app:textToggleCenter="12 th (Sci.)"
-            app:textToggleLeft="10 th"
-            app:textToggleRight="Med./ Eng."
-            app:toggleWidth="80dp" />
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ffffff"
+                android:id="@+id/spinner"
+                android:spinnerMode="dropdown"
+                android:popupBackground="@color/colorAccent"
+                />
+
+        </RelativeLayout>
+
+
 
         <TextView
             android:id="@+id/textView16"

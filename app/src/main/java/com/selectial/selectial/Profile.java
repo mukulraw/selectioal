@@ -81,7 +81,7 @@ public class Profile extends AppCompatActivity {
 
                     email.setText(response.body().getData().getEmail());
 
-                    yrs.setText(response.body().getData().getAge() + " yrs "  +" | "  + response.body().getData().getGender());
+                    yrs.setText(response.body().getData().getAge() +" | "  + response.body().getData().getGender());
 
                     DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
                     ImageLoader loader = ImageLoader.getInstance();
