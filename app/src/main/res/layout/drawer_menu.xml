@@ -104,6 +104,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_file"
             android:drawablePadding="18dp"
+            android:visibility="gone"
             android:gravity="center_vertical"
             android:padding="18dp"
             android:text="My Documents"

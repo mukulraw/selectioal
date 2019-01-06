@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.selectial.selectial.AddComparePOJO.AddCompareBean;
 import com.selectial.selectial.comparePOJO.Datum;
 import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.util.Constant;
@@ -153,6 +154,7 @@ public class Compare extends AppCompatActivity {
                     adapter.setgrid(response.body().getData());
 
                 } else {
+                    adapter.setgrid(response.body().getData());
                     Toast.makeText(Compare.this, "No Data Found", Toast.LENGTH_SHORT).show();
                 }
 
@@ -194,7 +196,7 @@ public class Compare extends AppCompatActivity {
         public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
 
 
-            Datum item = list.get(i);
+            final Datum item = list.get(i);
 
             Log.d("position" , item.getId());
 
@@ -221,22 +223,59 @@ public class Compare extends AppCompatActivity {
 
             } else {*/
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
-                ImageLoader loader = ImageLoader.getInstance();
+                final ImageLoader loader = ImageLoader.getInstance();
                 loader.displayImage(item.getImage(), holder.image, options);
 
                 holder.rat.setVisibility(View.VISIBLE);
                 holder.rat.setRating(Float.parseFloat(item.getRating()));
 
                 holder.title.setText(item.getName());
-                holder.fees.setText(item.getFees());
-                holder.year.setText(item.getEstYear());
-                holder.centre.setText(item.getCentres());
-                holder.med.setText(item.getAirMed());
-                holder.engg.setText(item.getAirEngg());
-                holder.students.setText(item.getStudents());
-                holder.faculties.setText(item.getFaculties());
+                holder.fees.setText("Fees:       " + item.getFees());
+                holder.year.setText("Est. Yr.:   " + item.getEstYear());
+                holder.centre.setText("Centres:    " + item.getCentres());
+                holder.med.setText("AIR (Med.): " + item.getAirMed());
+                holder.engg.setText("AIR (Eng.): " + item.getAirEngg());
+                holder.students.setText("Students:   " + item.getStudents());
+                holder.faculties.setText("Faculties:  " + item.getFaculties());
             //}
 
+            holder.remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    bar.setVisibility(View.VISIBLE);
+
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(Constant.BASE_URL)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+                    ServiceInterface cr = retrofit.create(ServiceInterface.class);
+
+                    Call<AddCompareBean> call = cr.removeFromCompare(item.getId());
+
+                    call.enqueue(new Callback<AddCompareBean>() {
+                        @Override
+                        public void onResponse(Call<AddCompareBean> call, Response<AddCompareBean> response) {
+
+
+
+                            bar.setVisibility(View.GONE);
+
+                            loadData();
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<AddCompareBean> call, Throwable t) {
+                            bar.setVisibility(View.GONE);
+                        }
+                    });
+
+
+                }
+            });
 
         }
 
@@ -252,7 +291,7 @@ public class Compare extends AppCompatActivity {
 
         class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView title, fees, year, centre, engg, med, students, faculties;
+            TextView title, fees, year, centre, engg, med, students, faculties , remove;
             ImageView image;
             RatingBar rat;
 
@@ -269,7 +308,7 @@ public class Compare extends AppCompatActivity {
                 faculties = itemView.findViewById(R.id.textView89);
                 image = itemView.findViewById(R.id.imageView9);
                 rat = itemView.findViewById(R.id.ratingBar2);
-
+                remove = itemView.findViewById(R.id.textView92);
             }
         }
     }

@@ -55,7 +55,7 @@ public class MyTest extends Fragment {
 
         adapter = new TestAdapter(getContext(), list);
 
-        manager = new GridLayoutManager(getContext(), 1);
+        manager = new GridLayoutManager(getContext(), 2);
 
         grid.setAdapter(adapter);
 
@@ -113,8 +113,19 @@ public class MyTest extends Fragment {
 
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
+        String str = "";
 
-        Call<getHomeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+        if (!SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id).equals("0"))
+        {
+            str = SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id);
+        }
+        else
+        {
+            str = "";
+        }
+
+
+        Call<getHomeBean> call = cr.getHome(str , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
         call.enqueue(new Callback<getHomeBean>() {
             @Override
             public void onResponse(Call<getHomeBean> call, Response<getHomeBean> response) {

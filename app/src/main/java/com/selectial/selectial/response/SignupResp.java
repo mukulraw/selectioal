@@ -73,6 +73,12 @@ public class SignupResp {
         @SerializedName("phone")
         @Expose
         private String phone;
+        @SerializedName("pid")
+        @Expose
+        private String pid;
+        @SerializedName("is_verified")
+        @Expose
+        private String isVerified;
         @SerializedName("password")
         @Expose
         private String password;
@@ -147,6 +153,22 @@ public class SignupResp {
 
         public void setPhone(String phone) {
             this.phone = phone;
+        }
+
+        public String getPid() {
+            return pid;
+        }
+
+        public void setPid(String pid) {
+            this.pid = pid;
+        }
+
+        public String getIsVerified() {
+            return isVerified;
+        }
+
+        public void setIsVerified(String isVerified) {
+            this.isVerified = isVerified;
         }
 
         public String getPassword() {

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
 import com.selectial.selectial.getHomePOJO.Sucject;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.util.Constant;
@@ -78,7 +79,7 @@ public class Home extends Fragment {
 
         adapter = new TestAdapter(getContext() , list);
 
-        manager = new GridLayoutManager(getContext() , 1);
+        manager = new GridLayoutManager(getContext() , 2);
 
         grid.setAdapter(adapter);
 
@@ -171,9 +172,6 @@ public class Home extends Fragment {
         email.setText(SharePreferenceUtils.getInstance().getString(Constant.USER_email));
 
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
-        ImageLoader loader = ImageLoader.getInstance();
-        loader.displayImage(SharePreferenceUtils.getInstance().getString(Constant.USER_image) , circleImageView , options);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
@@ -184,11 +182,56 @@ public class Home extends Fragment {
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
 
+
+        Call<GetProfileBean> call2 = cr.profilee(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call2.enqueue(new Callback<GetProfileBean>() {
+            @Override
+            public void onResponse(Call<GetProfileBean> call, Response<GetProfileBean> response) {
+
+                if (Objects.equals(response.body().getStatus() , "1")){
+
+                    name.setText(response.body().getData().getName());
+
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_image , response.body().getData().getImage());
+
+                    DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                    ImageLoader loader = ImageLoader.getInstance();
+                    loader.displayImage(response.body().getData().getImage() , circleImageView , options);
+
+                }else {
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                //bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<GetProfileBean> call, Throwable t) {
+
+
+                // bar.setVisibility(View.GONE);
+            }
+        });
+
+
+
         Log.d("streamm1" , SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id));
         Log.d("streamm2" , SharePreferenceUtils.getInstance().getString(Constant.USER_id));
         Log.d("streamm3" , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
 
-        Call<getHomeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+        String str = "";
+
+        if (!SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id).equals("0"))
+        {
+            str = SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id);
+        }
+        else
+        {
+            str = "";
+        }
+
+
+        Call<getHomeBean> call = cr.getHome(str , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
         call.enqueue(new Callback<getHomeBean>() {
             @Override
             public void onResponse(Call<getHomeBean> call, Response<getHomeBean> response) {
@@ -220,6 +263,8 @@ public class Home extends Fragment {
                         scholarshipView.setVisibility(View.GONE);
                     }
 
+                    Log.d("asdasd" , String.valueOf(response.body().getData().getSucjects().size()));
+
                     adapter.setgrid(response.body().getData().getSucjects());
 
                 }else {
@@ -232,6 +277,7 @@ public class Home extends Fragment {
             @Override
             public void onFailure(Call<getHomeBean> call, Throwable t) {
 
+                Log.d("asdasda" , t.toString());
 
                 // bar.setVisibility(View.GONE);
             }

@@ -171,6 +171,13 @@ public interface ServiceInterface {
             );
 
     @Multipart
+    @POST("admin/api/removeFromCompare.php")
+    Call<AddCompareBean> removeFromCompare
+            (
+                    @Part("compId") String e
+            );
+
+    @Multipart
     @POST("admin/api/getHome.php")
     Call<getHomeBean> getHome
             (@Part("stream_id") String streamId,

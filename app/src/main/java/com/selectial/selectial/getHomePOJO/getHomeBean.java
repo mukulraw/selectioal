@@ -37,4 +37,5 @@ public class getHomeBean {
     public void setData(Data data) {
         this.data = data;
     }
+
 }
