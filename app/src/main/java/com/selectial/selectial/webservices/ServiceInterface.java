@@ -15,6 +15,8 @@ import com.selectial.selectial.classesPOJO.classesBean;
 import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
+import com.selectial.selectial.onlineTestPOJO.onlineTestBean;
+import com.selectial.selectial.questionPOJO.questionBean;
 import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SignupResp;
 import com.selectial.selectial.testListPOJO.testListBean;
@@ -193,10 +195,41 @@ public interface ServiceInterface {
             );
 
     @Multipart
+    @POST("admin/api/getOnlineTestsBySubjects.php")
+    Call<onlineTestBean> getOnlineTestBySubjects
+            (@Part("subject_id") String subjectId,
+             @Part("userId") String userId
+            );
+
+    @Multipart
     @POST("admin/api/getCompareList.php")
     Call<compareBean> getCompare
             (
              @Part("userId") String userId
+            );
+
+    @Multipart
+    @POST("admin/api/getTestQuestions.php")
+    Call<questionBean> getQuestions
+            (
+                    @Part("testId") String testId
+            );
+
+    @Multipart
+    @POST("admin/api/submitTestAnswers.php")
+    Call<questionBean> submitAnswer
+            (
+                    @Part("userId") String userId,
+                    @Part("quesId") String quesId,
+                    @Part("answer") String answer
+            );
+
+    @Multipart
+    @POST("admin/api/submitTest.php")
+    Call<questionBean> submitTest
+            (
+                    @Part("userId") String userId,
+                    @Part("testId") String testId
             );
 
     @GET("admin/api/getClasses.php")

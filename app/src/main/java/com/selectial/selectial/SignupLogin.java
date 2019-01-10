@@ -125,7 +125,7 @@ public class SignupLogin extends AppCompatActivity {
             public void onClick(View textView) {
 
                 Log.d("clicked" , "privacy");
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://selectialindia.com/privacy-policy.html")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://selectialindia.com/privacy-policy.php")));
 
             }
             @Override
@@ -140,7 +140,7 @@ public class SignupLogin extends AppCompatActivity {
             public void onClick(View textView) {
 
                 Log.d("clicked" , "terms");
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://selectialindia.com/terms-condition.html")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://selectialindia.com/terms-for-students.php")));
 
             }
             @Override
