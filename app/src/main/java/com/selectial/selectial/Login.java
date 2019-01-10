@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity {
 
                 getInput();
 
-                if (DataValidation.isNotValidEmail(mEmail)) {
+                if (mEmail.length() == 0) {
                     Toast.makeText(Login.this, "Not valid email", Toast.LENGTH_SHORT).show();
                 } else if (DataValidation.isNotValidPassword(mPassword)) {
                     Toast.makeText(Login.this, "Not valid password", Toast.LENGTH_SHORT).show();

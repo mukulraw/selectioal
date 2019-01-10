@@ -19,6 +19,7 @@ import com.selectial.selectial.onlineTestPOJO.onlineTestBean;
 import com.selectial.selectial.questionPOJO.questionBean;
 import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SignupResp;
+import com.selectial.selectial.solutionPOJO.solutionBean;
 import com.selectial.selectial.testListPOJO.testListBean;
 
 import okhttp3.MultipartBody;
@@ -227,6 +228,14 @@ public interface ServiceInterface {
     @Multipart
     @POST("admin/api/submitTest.php")
     Call<questionBean> submitTest
+            (
+                    @Part("userId") String userId,
+                    @Part("testId") String testId
+            );
+
+    @Multipart
+    @POST("admin/api/getTestResult.php")
+    Call<solutionBean> viewResult
             (
                     @Part("userId") String userId,
                     @Part("testId") String testId

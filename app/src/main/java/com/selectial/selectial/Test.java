@@ -52,7 +52,7 @@ public class Test extends AppCompatActivity {
 
     String id, time, title;
 
-    TextView ttiittle , ttiimmeer;
+    TextView ttiittle, ttiimmeer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,7 @@ public class Test extends AppCompatActivity {
                 que.setText(String.valueOf(response.body().getData().size()));
                 tim.setText(String.valueOf(Float.parseFloat(time) / 60) + " min.");
 
-                adapter = new FragAdapter(getSupportFragmentManager(), pager , response.body().getData());
+                adapter = new FragAdapter(getSupportFragmentManager(), pager, response.body().getData());
 
                 pager.setAdapter(adapter);
 
@@ -165,7 +165,7 @@ public class Test extends AppCompatActivity {
         ViewPager pager;
         List<Datum> list = new ArrayList<>();
 
-        FragAdapter(FragmentManager fm, ViewPager pager , List<Datum> list) {
+        FragAdapter(FragmentManager fm, ViewPager pager, List<Datum> list) {
             super(fm);
             this.pager = pager;
             this.list = list;
@@ -188,15 +188,17 @@ public class Test extends AppCompatActivity {
             } else {
                 b.putBoolean("last", false);
             }
-            b.putString("ques" , list.get(i).getQuestion());
-            b.putString("image" , list.get(i).getImage());
-            b.putString("opt1" , list.get(i).getOpt1());
-            b.putString("opt2" , list.get(i).getOpt2());
-            b.putString("opt3" , list.get(i).getOpt3());
-            b.putString("opt4" , list.get(i).getOpt4());
-            b.putString("qid" , list.get(i).getId());
-            b.putString("tid" , id);
-            frag.setData(pager , tabs);
+            b.putString("ques", list.get(i).getQuestion());
+            b.putString("image", list.get(i).getImage());
+            b.putString("opt1", list.get(i).getOpt1());
+            b.putString("opt2", list.get(i).getOpt2());
+            b.putString("opt3", list.get(i).getOpt3());
+            b.putString("opt4", list.get(i).getOpt4());
+            b.putString("qid", list.get(i).getId());
+            b.putString("tid", id);
+            b.putString("title", title);
+            b.putString("time", time);
+            frag.setData(pager, tabs);
 
             frag.setArguments(b);
             return frag;
@@ -252,8 +254,7 @@ public class Test extends AppCompatActivity {
         return String.valueOf(number);
     }
 
-    void submitTest()
-    {
+    void submitTest() {
 
 
         //progress.setVisibility(View.VISIBLE);
@@ -266,7 +267,7 @@ public class Test extends AppCompatActivity {
 
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-        Call<questionBean> call = cr.submitTest(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , id);
+        Call<questionBean> call = cr.submitTest(SharePreferenceUtils.getInstance().getString(Constant.USER_id), id);
 
 
         call.enqueue(new Callback<questionBean>() {
@@ -279,8 +280,11 @@ public class Test extends AppCompatActivity {
 
 
                 Intent intent = new Intent(Test.this, TestResult.class);
-                //startActivity(intent);
-
+                intent.putExtra("title" , title);
+                intent.putExtra("time" , time);
+                intent.putExtra("tid" , id);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -288,8 +292,6 @@ public class Test extends AppCompatActivity {
                 //progress.setVisibility(View.GONE);
             }
         });
-
-
 
 
     }

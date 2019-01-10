@@ -154,7 +154,7 @@ public class Download extends Fragment {
 
 
                     DownloadManagerPro dm = new DownloadManagerPro(context);
-                    dm.init("SelectialIndia", 12, new DownloadManagerListener() {
+                    dm.init("Downloads", 12, new DownloadManagerListener() {
                         @Override
                         public void OnDownloadStarted(long taskId) {
 
@@ -185,7 +185,7 @@ public class Download extends Fragment {
 
                             getActivity().runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(context , "File Downloaded in SelectialIndia" , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context , "File Downloaded in Downloads" , Toast.LENGTH_SHORT).show();
                                     progress.setVisibility(View.GONE);
                                 }
                             });

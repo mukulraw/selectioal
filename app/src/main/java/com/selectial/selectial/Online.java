@@ -159,6 +159,14 @@ public class Online  extends Fragment {
                         intent.putExtra("id" , item.getId());
                         context.startActivity(intent);
                     }
+                    else
+                    {
+                        Intent intent = new Intent(context , TestResult.class);
+                        intent.putExtra("title" , item.getTitle());
+                        intent.putExtra("time" , item.getTime());
+                        intent.putExtra("tid" , item.getId());
+                        context.startActivity(intent);
+                    }
 
 
                 }

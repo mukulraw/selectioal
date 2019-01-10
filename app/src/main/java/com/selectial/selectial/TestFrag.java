@@ -51,7 +51,7 @@ public class TestFrag extends Fragment {
 
     ViewPager pager;
 
-    String tid , qid , que , ima , op1 , op2 , op3 , op4;
+    String tid , qid , que , ima , op1 , op2 , op3 , op4 , title , time;
 
     TextView question;
 
@@ -64,6 +64,8 @@ public class TestFrag extends Fragment {
     ProgressBar progress;
 
     RadioGroup group;
+
+
 
     public void setData(ViewPager pager , TabLayout tabs) {
         this.pager = pager;
@@ -83,6 +85,8 @@ public class TestFrag extends Fragment {
         op2 = getArguments().getString("opt2");
         op3 = getArguments().getString("opt3");
         op4 = getArguments().getString("opt4");
+        title = getArguments().getString("title");
+        time = getArguments().getString("time");
 
         last = getArguments().getBoolean("last");
 
@@ -321,7 +325,10 @@ public class TestFrag extends Fragment {
 
 
                 Intent intent = new Intent(getContext(), TestResult.class);
-                //startActivity(intent);
+                intent.putExtra("title" , title);
+                intent.putExtra("time" , time);
+                intent.putExtra("tid" , tid);
+                startActivity(intent);
                 getActivity().finish();
             }
 
