@@ -112,7 +112,7 @@ public class Test extends AppCompatActivity {
 
                 tit.setText(title);
                 que.setText(String.valueOf(response.body().getData().size()));
-                tim.setText(String.valueOf(Float.parseFloat(time) / 60) + " min.");
+                tim.setText(String.valueOf(Float.parseFloat(time) / 60000) + " min.");
 
                 adapter = new FragAdapter(getSupportFragmentManager(), pager, response.body().getData());
 

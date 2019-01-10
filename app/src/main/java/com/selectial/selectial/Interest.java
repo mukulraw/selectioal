@@ -170,20 +170,9 @@ public class Interest extends AppCompatActivity {
                                 Toast.makeText(Interest.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
 
-                                if (SharePreferenceUtils.getInstance().getString(Constant.CLS_id).equals("3"))
-                                {
-
-                                    Intent i = new Intent(context, StartTest.class);
-                                    context.startActivity(i);
-                                    finish();
-                                }
-                                else
-                                {
-
                                     Intent i = new Intent(context, MainActivity.class);
                                     context.startActivity(i);
                                     finish();
-                                }
 
 
                             } else {

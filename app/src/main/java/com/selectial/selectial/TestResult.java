@@ -245,9 +245,9 @@ public class TestResult extends AppCompatActivity {
 
             viewHolder.marks.setText("Marks: " + item.getMarks());
 
-            viewHolder.ques.setText(item.getQuestion());
+            viewHolder.ques.setText("Ques: " + item.getQuestion());
 
-            viewHolder.ans.setText("Ques.:  " + item.getAnswer());
+            viewHolder.ans.setText("Answer.:  " + item.getAnswer());
 
             viewHolder.yranswer.setText("Your Ans: " + item.getYourans());
 
