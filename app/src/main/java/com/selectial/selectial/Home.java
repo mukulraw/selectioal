@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
+import com.selectial.selectial.getHomePOJO.Package;
 import com.selectial.selectial.getHomePOJO.Sucject;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.util.Constant;
@@ -53,10 +54,13 @@ public class Home extends Fragment {
 
     TextView name , email;
 
-    CardView packageView , scholarshipView;
+    CardView scholarshipView;
 
-    TextView packageTitle , packageFeature;
-    Button packgePurchase;
+    RecyclerView packageGrid;
+    GridLayoutManager pManager;
+    PackageAdapter pAdapter;
+
+    List<Package> pList;
 
     @Nullable
     @Override
@@ -68,16 +72,17 @@ public class Home extends Fragment {
         name = view.findViewById(R.id.textView80);
         email = view.findViewById(R.id.textView81);
         grid = view.findViewById(R.id.grid);
-        packageView = view.findViewById(R.id.view12);
+        packageGrid = view.findViewById(R.id.package_grid);
         scholarshipView = view.findViewById(R.id.view13);
 
-        packageTitle = view.findViewById(R.id.textView82);
-        packageFeature = view.findViewById(R.id.textView83);
-        packgePurchase = view.findViewById(R.id.button9);
 
         list = new ArrayList<>();
+        pList = new ArrayList<>();
 
         adapter = new TestAdapter(getContext() , list);
+
+        pAdapter = new PackageAdapter(getContext() , pList);
+        pManager = new GridLayoutManager(getContext() , 1);
 
         manager = new GridLayoutManager(getContext() , 2);
 
@@ -85,7 +90,8 @@ public class Home extends Fragment {
 
         grid.setLayoutManager(manager);
 
-
+        packageGrid.setAdapter(pAdapter);
+        packageGrid.setLayoutManager(pManager);
 
         return view;
     }
@@ -231,7 +237,7 @@ public class Home extends Fragment {
         }
 
 
-        Call<getHomeBean> call = cr.getHome(str , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+        Call<getHomeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
         call.enqueue(new Callback<getHomeBean>() {
             @Override
             public void onResponse(Call<getHomeBean> call, Response<getHomeBean> response) {
@@ -239,19 +245,8 @@ public class Home extends Fragment {
                 if (Objects.equals(response.body().getStatus() , "1")){
 
 
-                    if (response.body().getData().getPackage().size() > 0)
-                    {
-                        packageView.setVisibility(View.VISIBLE);
 
-                        packageTitle.setText(response.body().getData().getPackage().get(0).getTitle());
-                        packageFeature.setText(Html.fromHtml(response.body().getData().getPackage().get(0).getFeatures()));
-                        packgePurchase.setText(response.body().getData().getPackage().get(0).getPrice() + " INR");
 
-                    }
-                    else
-                    {
-                        packageView.setVisibility(View.GONE);
-                    }
 
                     if (response.body().getData().getScholarship().size() > 0)
                     {
@@ -266,6 +261,8 @@ public class Home extends Fragment {
                     Log.d("asdasd" , String.valueOf(response.body().getData().getSucjects().size()));
 
                     adapter.setgrid(response.body().getData().getSucjects());
+
+                    pAdapter.setGridData(response.body().getData().getPackage());
 
                 }else {
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -282,6 +279,87 @@ public class Home extends Fragment {
                 // bar.setVisibility(View.GONE);
             }
         });
+    }
+
+    class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder>
+    {
+
+        Context context;
+        List<Package> pList = new ArrayList<>();
+
+        public PackageAdapter(Context context , List<Package> pList)
+        {
+            this.context = context;
+            this.pList = pList;
+        }
+
+        public void setGridData(List<Package> pList)
+        {
+            this.pList = pList;
+            notifyDataSetChanged();
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.package_list_model , viewGroup , false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+
+            final Package item = pList.get(i);
+
+            viewHolder.title.setText(item.getTitle());
+            viewHolder.feature.setText(Html.fromHtml(item.getFeatures()));
+
+            viewHolder.buy.setText(item.getPrice() + " INR");
+
+            viewHolder.buy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(getContext(), WebViewActivity.class);
+                    intent.putExtra(AvenuesParams.ACCESS_CODE, "AVQS02GA48AW11SQWA");
+                    intent.putExtra(AvenuesParams.MERCHANT_ID, "204672");
+                    intent.putExtra(AvenuesParams.ORDER_ID, item.getTitle());
+                    intent.putExtra(AvenuesParams.CURRENCY, "INR");
+                    intent.putExtra(AvenuesParams.AMOUNT, "1");
+                    intent.putExtra("pid", item.getId());
+
+                    intent.putExtra(AvenuesParams.REDIRECT_URL, "http://selectialindia.com/admin/api/ccavResponseHandler.php");
+                    intent.putExtra(AvenuesParams.CANCEL_URL, "http://selectialindia.com/admin/api/ccavResponseHandler.php");
+                    intent.putExtra(AvenuesParams.RSA_KEY_URL, "http://selectialindia.com/admin/api/GetRSA.php");
+
+                    context.startActivity(intent);
+
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return pList.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder
+        {
+
+            TextView title , feature;
+            Button buy;
+
+            public ViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                title = itemView.findViewById(R.id.textView82);
+                feature = itemView.findViewById(R.id.textView83);
+                buy = itemView.findViewById(R.id.button9);
+
+            }
+        }
     }
 
 }

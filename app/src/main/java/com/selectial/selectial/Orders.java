@@ -9,10 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
+import com.selectial.selectial.ordersPOJO.Datum;
+import com.selectial.selectial.ordersPOJO.ordersBean;
 import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
@@ -36,7 +40,11 @@ public class Orders extends AppCompatActivity {
 
     GridLayoutManager manager;
 
-    List<String> list;
+    ProgressBar bar;
+
+    List<Datum> list;
+
+    ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,8 @@ public class Orders extends AppCompatActivity {
         setContentView(R.layout.activity_orders);
 
         grid = findViewById(R.id.grid);
+bar = findViewById(R.id.progressBar11);
+back = findViewById(R.id.imageButton4);
 
         list = new ArrayList<>();
 
@@ -56,7 +66,7 @@ public class Orders extends AppCompatActivity {
         grid.setLayoutManager(manager);
 
 
-       /* bar.setVisibility(View.GONE);
+        bar.setVisibility(View.GONE);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
@@ -66,10 +76,10 @@ public class Orders extends AppCompatActivity {
 
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-        Call<String> call = cr.ss(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
-        call.enqueue(new Callback<String>() {
+        Call<ordersBean> call = cr.getOrders(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        call.enqueue(new Callback<ordersBean>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ordersBean> call, Response<ordersBean> response) {
 
 
                 if (Objects.equals(response.body().getStatus(), "1")) {
@@ -87,12 +97,18 @@ public class Orders extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ordersBean> call, Throwable t) {
 
                 bar.setVisibility(View.GONE);
             }
         });
-*/
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -100,9 +116,9 @@ public class Orders extends AppCompatActivity {
 
         Context context;
 
-        List<String> list = new ArrayList();
+        List<Datum> list = new ArrayList();
 
-        OrdersAdapter(Context context, List<String> list) {
+        OrdersAdapter(Context context, List<Datum> list) {
             this.context = context;
             this.list = list;
         }
@@ -119,16 +135,16 @@ public class Orders extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
 
-            String item = list.get(i);
-            viewHolder.orderid.setText("");
-            viewHolder.packagename.setText("");
-            viewHolder.date.setText("");
-            viewHolder.inr.setText("");
+            Datum item = list.get(i);
+            viewHolder.orderid.setText(item.getTitle());
+
+            viewHolder.date.setText(item.getCreatedDate());
+            viewHolder.inr.setText("INR " + item.getPrice());
 
 
         }
 
-        public void setgrid(List<String> list) {
+        public void setgrid(List<Datum> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -142,14 +158,14 @@ public class Orders extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView orderid, packagename, date, inr;
+            TextView orderid, date, inr;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 orderid = itemView.findViewById(R.id.textView76);
 
-                packagename = itemView.findViewById(R.id.textView78);
+
 
                 date = itemView.findViewById(R.id.textView79);
 

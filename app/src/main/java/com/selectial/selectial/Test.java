@@ -267,12 +267,12 @@ public class Test extends AppCompatActivity {
 
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-        Call<questionBean> call = cr.submitTest(SharePreferenceUtils.getInstance().getString(Constant.USER_id), id);
+        Call<submitTestBean> call = cr.submitTest(SharePreferenceUtils.getInstance().getString(Constant.USER_id), id);
 
 
-        call.enqueue(new Callback<questionBean>() {
+        call.enqueue(new Callback<submitTestBean>() {
             @Override
-            public void onResponse(Call<questionBean> call, Response<questionBean> response) {
+            public void onResponse(Call<submitTestBean> call, Response<submitTestBean> response) {
 
                 Toast.makeText(Test.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -288,7 +288,7 @@ public class Test extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<questionBean> call, Throwable t) {
+            public void onFailure(Call<submitTestBean> call, Throwable t) {
                 //progress.setVisibility(View.GONE);
             }
         });

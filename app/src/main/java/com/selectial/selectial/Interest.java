@@ -169,6 +169,7 @@ public class Interest extends AppCompatActivity {
 
                                 Toast.makeText(Interest.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
+                                SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id , item.getId());
 
                                     Intent i = new Intent(context, MainActivity.class);
                                     context.startActivity(i);

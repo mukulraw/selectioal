@@ -311,12 +311,12 @@ public class TestFrag extends Fragment {
 
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
-        Call<questionBean> call = cr.submitTest(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , tid);
+        Call<submitTestBean> call = cr.submitTest(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , tid);
 
 
-        call.enqueue(new Callback<questionBean>() {
+        call.enqueue(new Callback<submitTestBean>() {
             @Override
-            public void onResponse(Call<questionBean> call, Response<questionBean> response) {
+            public void onResponse(Call<submitTestBean> call, Response<submitTestBean> response) {
 
                 Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -333,7 +333,7 @@ public class TestFrag extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<questionBean> call, Throwable t) {
+            public void onFailure(Call<submitTestBean> call, Throwable t) {
                 progress.setVisibility(View.GONE);
             }
         });

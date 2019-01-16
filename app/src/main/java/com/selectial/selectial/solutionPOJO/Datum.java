@@ -22,6 +22,9 @@ public class Datum {
     @SerializedName("yourans")
     @Expose
     private String yourans;
+    @SerializedName("explanation")
+    @Expose
+    private String explanation;
     @SerializedName("marks")
     @Expose
     private String marks;
@@ -75,6 +78,14 @@ public class Datum {
 
     public void setYourans(String yourans) {
         this.yourans = yourans;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
     }
 
     public String getMarks() {

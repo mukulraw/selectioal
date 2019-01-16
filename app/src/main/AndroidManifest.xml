@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Explanation"></activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme1">
@@ -91,7 +92,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".OTP"></activity>
+        <activity android:name=".OTP" />
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".StatusActivity" />
     </application>
 
 </manifest>

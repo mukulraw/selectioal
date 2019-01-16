@@ -16,10 +16,12 @@ import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.onlineTestPOJO.onlineTestBean;
+import com.selectial.selectial.ordersPOJO.ordersBean;
 import com.selectial.selectial.questionPOJO.questionBean;
 import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SignupResp;
 import com.selectial.selectial.solutionPOJO.solutionBean;
+import com.selectial.selectial.submitTestBean;
 import com.selectial.selectial.testListPOJO.testListBean;
 
 import okhttp3.MultipartBody;
@@ -227,7 +229,7 @@ public interface ServiceInterface {
 
     @Multipart
     @POST("admin/api/submitTest.php")
-    Call<questionBean> submitTest
+    Call<submitTestBean> submitTest
             (
                     @Part("userId") String userId,
                     @Part("testId") String testId
@@ -239,6 +241,21 @@ public interface ServiceInterface {
             (
                     @Part("userId") String userId,
                     @Part("testId") String testId
+            );
+
+    @Multipart
+    @POST("admin/api/bud_package.php")
+    Call<questionBean> buyPackage
+            (
+                    @Part("userId") String userId,
+                    @Part("package_id") String packageId
+            );
+
+    @Multipart
+    @POST("admin/api/getOrders.php")
+    Call<ordersBean> getOrders
+            (
+                    @Part("userId") String userId
             );
 
     @GET("admin/api/getClasses.php")

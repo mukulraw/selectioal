@@ -241,7 +241,7 @@ public class TestResult extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
-            Datum item = list.get(i);
+            final Datum item = list.get(i);
 
             viewHolder.marks.setText("Marks: " + item.getMarks());
 
@@ -282,6 +282,18 @@ public class TestResult extends AppCompatActivity {
                 }
             });
 
+            viewHolder.explanation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context , Explanation.class);
+                    intent.putExtra("que" , item.getQuestion());
+                    intent.putExtra("exp" , item.getExplanation());
+                    intent.putExtra("ans" , item.getAnswer());
+                    context.startActivity(intent);
+
+                }
+            });
 
         }
         public void setgrid(List<Datum>list){
@@ -297,7 +309,7 @@ public class TestResult extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView ques ,ans , marks , yranswer;
+            TextView ques ,ans , marks , yranswer , explanation;
             ImageView image;
 
             ViewHolder(@NonNull View itemView) {
@@ -312,6 +324,8 @@ public class TestResult extends AppCompatActivity {
                 yranswer = itemView.findViewById(R.id.textView52);
 
                 image = itemView.findViewById(R.id.view16);
+
+                explanation = itemView.findViewById(R.id.textView98);
 
             }
         }
