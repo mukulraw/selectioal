@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,10 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.selectial.selectial.response.SigninResp;
+import com.selectial.selectial.util.Constant;
+import com.selectial.selectial.util.SharePreferenceUtils;
+import com.selectial.selectial.webservices.ServiceInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +43,21 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
 public class SignupLogin extends AppCompatActivity {
 
     Button login , signup;
     TextView subText;
     ImageButton facebook;
     private CallbackManager mCallbackManager;
+
+    ProgressBar pBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +80,83 @@ public class SignupLogin extends AppCompatActivity {
 
                                         try {
 
-                                            String name = object.getString("name");
-                                            String id = object.getString("id");
+                                            final String name = object.getString("name");
+                                            final String id = object.getString("id");
+                                            final String email = object.getString("email");
+
+                                            Retrofit retrofit = new Retrofit.Builder()
+                                                    .baseUrl(Constant.BASE_URL)
+                                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                                    .addConverterFactory(GsonConverterFactory.create())
+                                                    .build();
+
+                                            ServiceInterface serviceInterface = retrofit.create(ServiceInterface.class);
+
+
+                                            Call<SigninResp> call = serviceInterface.socialSignin(email, id);
+                                            call.enqueue(new Callback<SigninResp>() {
+                                                @Override
+                                                public void onResponse(Call<SigninResp> call, Response<SigninResp> response) {
+                                                    if (response.body() != null && response.isSuccessful()) {
+                                                        if (response.body().getStatus().equals("1")) {
+                                                            pBar.setVisibility(View.GONE);
+
+
+
+                                                            Toast.makeText(SignupLogin.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_phone, response.body().getData().getPhone());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_class_id, response.body().getData().getClassId());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_date, response.body().getData().getCreatedDate());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_isPaid, response.body().getData().getIsPaid());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
+                                                            SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
+
+                                                            if (response.body().getData().getIsVerified().equals("0"))
+                                                            {
+                                                                Toast.makeText(SignupLogin.this, "Your phone number is not verified, please check OTP", Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(SignupLogin.this, OTP.class);
+                                                                startActivity(intent);
+                                                                finishAffinity();
+                                                            }
+                                                            else
+                                                            {
+                                                                Intent intent = new Intent(SignupLogin.this, MainActivity.class);
+                                                                startActivity(intent);
+                                                                finishAffinity();
+                                                            }
+
+
+                                                        } else {
+                                                            pBar.setVisibility(View.GONE);
+                                                            socialSignup(name , id , email);
+                                                        }
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<SigninResp> call, Throwable t) {
+                                                    pBar.setVisibility(View.GONE);
+
+                                                    Log.e("error", "" + t);
+                                                    // Toast.makeText(Login.this, "invalid login"+t, Toast.LENGTH_SHORT).show();
+
+
+                                                }
+                                            });
+
+
+
+
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -75,7 +164,7 @@ public class SignupLogin extends AppCompatActivity {
                                     }
                                 });
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,name,email,gender, birthday");
+                        parameters.putString("fields", "id,name,email,gender,birthday"); // id,first_name,last_name,email,gender,birthday,cover,picture.type(large)
                         request.setParameters(parameters);
                         request.executeAsync();
                     }
@@ -97,6 +186,8 @@ public class SignupLogin extends AppCompatActivity {
         signup = findViewById(R.id.button);
         subText = findViewById(R.id.textView91);
         facebook = findViewById(R.id.imageButton);
+
+        pBar = findViewById(R.id.progressBar12);
 
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +264,7 @@ public class SignupLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignupLogin.this , Signup.class);
+                intent.putExtra("social" , "0");
                 startActivity(intent);
             }
         });
@@ -186,6 +278,16 @@ public class SignupLogin extends AppCompatActivity {
         if(mCallbackManager.onActivityResult(requestCode, resultCode, data)) {
             return;
         }
+    }
+
+    void socialSignup(String name , String id , String email)
+    {
+        Intent intent = new Intent(SignupLogin.this , Signup.class);
+        intent.putExtra("social" , "1");
+        intent.putExtra("name" , name);
+        intent.putExtra("id" , id);
+        intent.putExtra("email" , email);
+        startActivity(intent);
     }
 
 }

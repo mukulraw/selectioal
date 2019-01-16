@@ -72,10 +72,16 @@ public class Signup extends AppCompatActivity {
     List<String> className;
     List<String> classId;
 
+String isSocial;
+
+String pid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        isSocial = getIntent().getStringExtra("social");
 
         className = new ArrayList<>();
         classId = new ArrayList<>();
@@ -84,6 +90,23 @@ public class Signup extends AppCompatActivity {
         // getInput();
 
         pBar.setVisibility(View.GONE);
+
+
+        if (isSocial.equals("1"))
+        {
+
+            String nname = getIntent().getStringExtra("name");
+            String eemail = getIntent().getStringExtra("email");
+            String iidd = getIntent().getStringExtra("id");
+
+            username.setText(nname);
+            email.setText(eemail);
+            pid = iidd;
+
+
+        }
+
+
 
         //Retrofit
         // pBar.setVisibility(View.GONE);
@@ -235,54 +258,113 @@ public class Signup extends AppCompatActivity {
     }
 
     private void signupReq() {
-        Call<SignupResp> call = serviceInterface.signup(convertPlainString(mClass), convertPlainString(mUsername),
-                convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(mPhone));
 
-        call.enqueue(new Callback<SignupResp>() {
-            @Override
-            public void onResponse(Call<SignupResp> call, Response<SignupResp> response) {
-                if (response.body() != null && response.isSuccessful()) {
-                    pBar.setVisibility(View.GONE);
 
-                    if (response.body().getStatus().equals("1")) {
-                        Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_phone, response.body().getData().getPhone());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
-                        SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_class_id, response.body().getData().getClassId());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_date, response.body().getData().getCreatedDate());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_isPaid, response.body().getData().getIsPaid());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
-                        SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
-                        SharePreferenceUtils.getInstance().saveString(Constant.CLS_id, response.body().getData().getClassId());
+        if (isSocial.equals("1"))
+        {
+            Call<SignupResp> call = serviceInterface.socialSignup(convertPlainString(mClass), convertPlainString(mUsername),
+                    convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(pid) , convertPlainString(mPhone));
 
-                        Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+            call.enqueue(new Callback<SignupResp>() {
+                @Override
+                public void onResponse(Call<SignupResp> call, Response<SignupResp> response) {
+                    if (response.body() != null && response.isSuccessful()) {
+                        pBar.setVisibility(View.GONE);
 
-                        Intent intent = new Intent(Signup.this, OTP.class);
-                        //Intent intent = new Intent(Signup.this, SetProfileImage.class);
-                        startActivity(intent);
-                        finishAffinity();
-                    } else {
-                        Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        if (response.body().getStatus().equals("1")) {
+                            Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_phone, response.body().getData().getPhone());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
+                            SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_class_id, response.body().getData().getClassId());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_date, response.body().getData().getCreatedDate());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_isPaid, response.body().getData().getIsPaid());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
+                            SharePreferenceUtils.getInstance().saveString(Constant.CLS_id, response.body().getData().getClassId());
+
+                            Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+
+                            Intent intent = new Intent(Signup.this, OTP.class);
+                            //Intent intent = new Intent(Signup.this, SetProfileImage.class);
+                            startActivity(intent);
+                            finishAffinity();
+                        } else {
+                            Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
+
                 }
 
-            }
+                @Override
+                public void onFailure(Call<SignupResp> call, Throwable t) {
+                    pBar.setVisibility(View.GONE);
+                    Log.e("error", "" + t);
 
-            @Override
-            public void onFailure(Call<SignupResp> call, Throwable t) {
-                pBar.setVisibility(View.GONE);
-                Log.e("error", "" + t);
+                }
+            });
+        }
+        else
+        {
+            Call<SignupResp> call = serviceInterface.signup(convertPlainString(mClass), convertPlainString(mUsername),
+                    convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(mPhone));
 
-            }
-        });
+            call.enqueue(new Callback<SignupResp>() {
+                @Override
+                public void onResponse(Call<SignupResp> call, Response<SignupResp> response) {
+                    if (response.body() != null && response.isSuccessful()) {
+                        pBar.setVisibility(View.GONE);
+
+                        if (response.body().getStatus().equals("1")) {
+                            Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_id, response.body().getData().getUserId());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getData().getName());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getData().getEmail());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_phone, response.body().getData().getPhone());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getData().getGender());
+                            SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getData().getAge());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_class, response.body().getData().getClassName());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_class_id, response.body().getData().getClassId());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_date, response.body().getData().getCreatedDate());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_isPaid, response.body().getData().getIsPaid());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_status, response.body().getData().getStatus());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_id, response.body().getData().getSubClassId());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_sub_class_name, response.body().getData().getSubClassName());
+                            SharePreferenceUtils.getInstance().saveString(Constant.USER_password, response.body().getData().getPassword());
+                            SharePreferenceUtils.getInstance().saveString(Constant.CLS_id, response.body().getData().getClassId());
+
+                            Log.d("userid", SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+
+                            Intent intent = new Intent(Signup.this, OTP.class);
+                            //Intent intent = new Intent(Signup.this, SetProfileImage.class);
+                            startActivity(intent);
+                            finishAffinity();
+                        } else {
+                            Toast.makeText(Signup.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<SignupResp> call, Throwable t) {
+                    pBar.setVisibility(View.GONE);
+                    Log.e("error", "" + t);
+
+                }
+            });
+        }
+
+
+
     }
 
     private void getInput() {

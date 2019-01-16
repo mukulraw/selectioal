@@ -66,6 +66,19 @@ public interface ServiceInterface {
     );
 
     @Multipart
+    @POST("admin/api/social_sign_up.php")
+    Call<SignupResp> socialSignup(
+            @Part("class") RequestBody mclass,
+            @Part("name") RequestBody username,
+            @Part("gender") RequestBody gender,
+            @Part("age") RequestBody age,
+            @Part("email") RequestBody email,
+            @Part("password") RequestBody password,
+            @Part("pid") RequestBody pid,
+            @Part("phone") RequestBody phone
+    );
+
+    @Multipart
     @POST("admin/api/verifyOTP.php")
     Call<SignupResp> verifyOTP(
             @Part("userId") RequestBody userId,
@@ -87,6 +100,12 @@ public interface ServiceInterface {
             @Part("password") String password
     );
 
+    @Multipart
+    @POST ("admin/api/social_login.php")
+    Call<SigninResp> socialSignin(
+            @Part("email") String email,
+            @Part("pid") String pid
+    );
 
     @Multipart
     @POST("admin/api/forgotPassword.php")
