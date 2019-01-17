@@ -76,7 +76,7 @@ public class StatusActivity extends AppCompatActivity {
                     public void onResponse(Call<questionBean> call, Response<questionBean> response) {
 
                         image.setImageResource(R.drawable.success);
-                        text.setText("Package Added Successfully");
+                        text.setText("Package Added Successfully. Tests has been added to the particular subject.");
 
                         progress.setVisibility(View.GONE);
 
@@ -109,9 +109,9 @@ public class StatusActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StatusActivity.this , MainActivity.class);
+                /*Intent intent = new Intent(StatusActivity.this , MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                startActivity(intent);*/
                 finish();
             }
         });

@@ -164,13 +164,14 @@ public class WebViewActivity extends AppCompatActivity {
                     } else if (html.indexOf("Aborted") != -1) {
                         status = "cancelled";
                     } else {
-                        status = "success";
+                        status = "cancelled";
                     }
                     //Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), StatusActivity.class);
                     intent.putExtra("transStatus", status);
                     intent.putExtra("pid", pid);
                     startActivity(intent);
+                    finish();
                 }
             }
 

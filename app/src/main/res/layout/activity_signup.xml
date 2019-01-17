@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:text="CHOOSE A USERNAME"
             android:textColor="#ffffff"
             android:typeface="monospace"
@@ -259,6 +259,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="40dp"
             android:text="CHOOSE A CLASS"
+            android:visibility="gone"
             android:textColor="#ffffff"
             android:typeface="monospace"
             app:layout_constraintStart_toStartOf="parent"
@@ -285,6 +286,7 @@
                 android:backgroundTint="#ffffff"
                 android:id="@+id/spinner"
                 android:spinnerMode="dropdown"
+                android:visibility="gone"
                 android:popupBackground="@color/colorAccent"
                 />
 

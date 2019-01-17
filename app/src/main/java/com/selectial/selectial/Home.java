@@ -262,7 +262,9 @@ public class Home extends Fragment {
 
                     adapter.setgrid(response.body().getData().getSucjects());
 
-                    pAdapter.setGridData(response.body().getData().getPackage());
+                    packageGrid.setVisibility(View.GONE);
+
+                    //pAdapter.setGridData(response.body().getData().getPackage());
 
                 }else {
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();

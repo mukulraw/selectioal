@@ -166,14 +166,14 @@ public class SetProfileImage extends AppCompatActivity {
 
                                 //Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                if (SharePreferenceUtils.getInstance().getString(Constant.USER_class_id).equals("1"))
-                                {
+                                /*if (SharePreferenceUtils.getInstance().getString(Constant.USER_class_id).equals("1"))
+                                {*/
 
                                     Intent intent = new Intent(SetProfileImage.this , MainActivity.class);
                                     startActivity(intent);
                                     finishAffinity();
 
-                                }
+                                /*}
                                 else
                                 {
 
@@ -181,7 +181,7 @@ public class SetProfileImage extends AppCompatActivity {
                                     startActivity(intent);
                                     finishAffinity();
 
-                                }
+                                }*/
 
                             } else {
                                 Toast.makeText(SetProfileImage.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

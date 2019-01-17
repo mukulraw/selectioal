@@ -51,11 +51,11 @@ public class Signup extends AppCompatActivity {
 
     ToggleSwitch toggleSwitchGender;
 
-    Spinner chooseClass;
+    //Spinner chooseClass;
 
     int classPositionToggle, genderPositionToggle;
 
-    String mGender, mClass;
+    String mGender, mClass = "";
 
     TextView alreadyMember;
 
@@ -130,9 +130,7 @@ String pid;
                /* signupReq();
                 pBar.setVisibility(View.VISIBLE);*/
 
-                if (selClass.isEmpty()) {
-                    Toast.makeText(Signup.this, " Fill Select a Class", Toast.LENGTH_SHORT).show();
-                } else if (mUsername.isEmpty()) {
+                if (mUsername.isEmpty()) {
                     Toast.makeText(Signup.this, " Fill Username First", Toast.LENGTH_SHORT).show();
                 } else if (mAge.isEmpty()) {
                     Toast.makeText(Signup.this, "Fill age First", Toast.LENGTH_SHORT).show();
@@ -204,7 +202,7 @@ String pid;
             }
         });
 
-        chooseClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*chooseClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -218,9 +216,9 @@ String pid;
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
-        pBar.setVisibility(View.VISIBLE);
+        /*pBar.setVisibility(View.VISIBLE);
 
         Call<classesBean> call = serviceInterface.getClasses();
 
@@ -253,7 +251,7 @@ String pid;
             public void onFailure(Call<classesBean> call, Throwable t) {
                 pBar.setVisibility(View.GONE);
             }
-        });
+        });*/
 
     }
 
@@ -397,7 +395,7 @@ String pid;
         email = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
         confirm = findViewById(R.id.editText5);
-        chooseClass = findViewById(R.id.spinner);
+        //chooseClass = findViewById(R.id.spinner);
         //toggleSwitchClass = findViewById(R.id.textView15);
         toggleSwitchGender = findViewById(R.id.textView17);
         alreadyMember = findViewById(R.id.textView10);

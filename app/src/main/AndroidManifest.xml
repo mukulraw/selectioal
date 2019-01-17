@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Explanation"></activity>
+        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".Explanation" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme1">
