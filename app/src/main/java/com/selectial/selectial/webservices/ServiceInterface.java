@@ -231,7 +231,7 @@ public interface ServiceInterface {
             );
 
     @Multipart
-    @POST("admin/api/getTestQuestions.php")
+    @POST("admin/api/getTestQuestions2.php")
     Call<questionBean> getQuestions
             (
                     @Part("testId") String testId

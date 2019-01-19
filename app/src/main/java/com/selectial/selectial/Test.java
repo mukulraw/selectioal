@@ -189,11 +189,16 @@ public class Test extends AppCompatActivity {
                 b.putBoolean("last", false);
             }
             b.putString("ques", list.get(i).getQuestion());
+            b.putString("qtype", list.get(i).getQtype());
             b.putString("image", list.get(i).getImage());
             b.putString("opt1", list.get(i).getOpt1());
+            b.putString("type1", list.get(i).getType1());
             b.putString("opt2", list.get(i).getOpt2());
+            b.putString("type2", list.get(i).getType2());
             b.putString("opt3", list.get(i).getOpt3());
+            b.putString("type3", list.get(i).getType3());
             b.putString("opt4", list.get(i).getOpt4());
+            b.putString("type4", list.get(i).getType4());
             b.putString("qid", list.get(i).getId());
             b.putString("tid", id);
             b.putString("title", title);

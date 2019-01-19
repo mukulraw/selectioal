@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -51,11 +52,9 @@ public class TestFrag extends Fragment {
 
     ViewPager pager;
 
-    String tid , qid , que , ima , op1 , op2 , op3 , op4 , title , time;
+    String tid , qid , que , ima , op1 , op2 , op3 , op4 , title , time , qtype , type1 , type2 , type3 , type4;
 
-    TextView question;
 
-    RadioButton opt1 , opt2 , opt3 , opt4;
 
     TabLayout tabs;
 
@@ -63,9 +62,13 @@ public class TestFrag extends Fragment {
 
     ProgressBar progress;
 
-    RadioGroup group;
 
+    TextView ques , text1 , text2 , text3 , text4;
+    CheckBox check1 , check2 , check3 , check4;
 
+    ImageView qimage , image1 , image2 , image3 , image4;
+
+    String uurl = "";
 
     public void setData(ViewPager pager , TabLayout tabs) {
         this.pager = pager;
@@ -77,6 +80,7 @@ public class TestFrag extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.test_frag_layout, container, false);
 
+
         tid = getArguments().getString("tid");
         qid = getArguments().getString("qid");
         que = getArguments().getString("ques");
@@ -87,33 +91,121 @@ public class TestFrag extends Fragment {
         op4 = getArguments().getString("opt4");
         title = getArguments().getString("title");
         time = getArguments().getString("time");
+        qtype = getArguments().getString("qtype");
+        type1 = getArguments().getString("type1");
+        type2 = getArguments().getString("type2");
+        type3 = getArguments().getString("type3");
+        type4 = getArguments().getString("type4");
 
         last = getArguments().getBoolean("last");
 
         position = getArguments().getInt("position");
 
+        uurl = Constant.BASE_URL + "admin/upload/questions/" + tid + "/";
+
+
         skip = view.findViewById(R.id.button7);
         progress = view.findViewById(R.id.progressBar10);
         image = view.findViewById(R.id.view15);
-        question = view.findViewById(R.id.textView35);
-        group = view.findViewById(R.id.group);
-
-        opt1 = view.findViewById(R.id.opt1);
-        opt2 = view.findViewById(R.id.opt2);
-        opt3 = view.findViewById(R.id.opt3);
-        opt4 = view.findViewById(R.id.opt4);
 
 
+        ques = view.findViewById(R.id.qtext);
+        text1 = view.findViewById(R.id.text1);
+        text2 = view.findViewById(R.id.text2);
+        text3 = view.findViewById(R.id.text3);
+        text4 = view.findViewById(R.id.text4);
 
-        opt1.setText(op1);
-        opt2.setText(op2);
-        opt3.setText(op3);
-        opt4.setText(op4);
+        check1 = view.findViewById(R.id.opt1);
+        check2 = view.findViewById(R.id.opt2);
+        check3 = view.findViewById(R.id.opt3);
+        check4 = view.findViewById(R.id.opt4);
+
+        qimage = view.findViewById(R.id.qimage);
+        image1 = view.findViewById(R.id.image1);
+        image2 = view.findViewById(R.id.image2);
+        image3 = view.findViewById(R.id.image3);
+        image4 = view.findViewById(R.id.image4);
+
+
+        if (type1.equals("text"))
+        {
+            text1.setText(op1);
+            text1.setVisibility(View.VISIBLE);
+            image1.setVisibility(View.GONE);
+        }
+        else
+        {
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(uurl + op1 , image1 , options);
+            text1.setVisibility(View.GONE);
+            image1.setVisibility(View.VISIBLE);
+        }
+
+
+        if (type2.equals("text"))
+        {
+            text2.setText(op2);
+            text2.setVisibility(View.VISIBLE);
+            image2.setVisibility(View.GONE);
+        }
+        else
+        {
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(uurl + op2 , image2 , options);
+            text2.setVisibility(View.GONE);
+            image2.setVisibility(View.VISIBLE);
+        }
+
+        if (type3.equals("text"))
+        {
+            text3.setText(op3);
+            text3.setVisibility(View.VISIBLE);
+            image3.setVisibility(View.GONE);
+        }
+        else
+        {
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(uurl + op3 , image3 , options);
+            text3.setVisibility(View.GONE);
+            image3.setVisibility(View.VISIBLE);
+        }
+
+        if (type4.equals("text"))
+        {
+            text4.setText(op4);
+            text4.setVisibility(View.VISIBLE);
+            image4.setVisibility(View.GONE);
+        }
+        else
+        {
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(uurl + op4 , image4 , options);
+            text4.setVisibility(View.GONE);
+            image4.setVisibility(View.VISIBLE);
+        }
 
 
         submit = view.findViewById(R.id.button6);
 
-        question.setText(que);
+        if (qtype.equals("text"))
+        {
+            ques.setText(que);
+            ques.setVisibility(View.VISIBLE);
+            qimage.setVisibility(View.GONE);
+        }
+        else
+        {
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(uurl + que , qimage , options);
+            ques.setVisibility(View.GONE);
+            qimage.setVisibility(View.VISIBLE);
+        }
+
 
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
@@ -128,7 +220,7 @@ public class TestFrag extends Fragment {
             skip.setVisibility(View.VISIBLE);
         }
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        /*submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -270,7 +362,7 @@ public class TestFrag extends Fragment {
                 }
 
             }
-        });
+        });*/
 
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
