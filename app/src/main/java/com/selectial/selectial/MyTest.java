@@ -266,7 +266,7 @@ public class MyTest extends Fragment {
                 public void onClick(View v) {
 
                     Intent intent = new Intent(getContext(), WebViewActivity.class);
-                    intent.putExtra(AvenuesParams.ACCESS_CODE, "AVQS02GA48AW11SQWA");
+                    intent.putExtra(AvenuesParams.ACCESS_CODE, "AVML82GA81AW20LMWA");
                     intent.putExtra(AvenuesParams.MERCHANT_ID, "204672");
                     intent.putExtra(AvenuesParams.ORDER_ID, item.getTitle());
                     intent.putExtra(AvenuesParams.CURRENCY, "INR");

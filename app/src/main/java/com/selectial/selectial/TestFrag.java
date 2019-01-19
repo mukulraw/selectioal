@@ -21,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -69,6 +70,8 @@ public class TestFrag extends Fragment {
     ImageView qimage , image1 , image2 , image3 , image4;
 
     String uurl = "";
+
+    String pos = "";
 
     public void setData(ViewPager pager , TabLayout tabs) {
         this.pager = pager;
@@ -216,31 +219,89 @@ public class TestFrag extends Fragment {
 
         if (last) {
             skip.setVisibility(View.GONE);
+            submit.setText("SUBMIT");
         } else {
             skip.setVisibility(View.VISIBLE);
+            submit.setText("NEXT");
         }
 
-        /*submit.setOnClickListener(new View.OnClickListener() {
+        check1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked)
+                {
+                    pos = "1";
+                    setChech();
+                }
+                else
+                {
+                    pos = "";
+                    setChech();
+                }
+
+            }
+        });
+
+        check2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked)
+                {
+                    pos = "2";
+                    setChech();
+                }
+                else
+                {
+                    pos = "";
+                    setChech();
+                }
+
+            }
+        });
+
+        check3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked)
+                {
+                    pos = "3";
+                    setChech();
+                }
+                else
+                {
+                    pos = "";
+                    setChech();
+                }
+
+            }
+        });
+
+        check4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked)
+                {
+                    pos = "4";
+                    setChech();
+                }
+                else
+                {
+                    pos = "";
+                    setChech();
+                }
+
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (last) {
-
-
-                    int iidd = group.getCheckedRadioButtonId();
-
-                    String aa = "";
-
-                    if (iidd > -1)
-                    {
-                        RadioButton btn = (RadioButton)group.findViewById(iidd);
-                        aa = btn.getText().toString();
-                    }
-                    else
-                    {
-                        aa = "";
-                    }
-
 
 
 
@@ -257,10 +318,10 @@ public class TestFrag extends Fragment {
 
                     Log.d("userID" , SharePreferenceUtils.getInstance().getString(Constant.USER_id));
                     Log.d("qid" , qid);
-                    Log.d("aaa" , aa);
+                    Log.d("aaa" , pos);
 
 
-                    Call<questionBean> call = cr.submitAnswer(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , qid , aa);
+                    Call<questionBean> call = cr.submitAnswer(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , qid , pos);
 
                     call.enqueue(new Callback<questionBean>() {
                         @Override
@@ -294,13 +355,9 @@ public class TestFrag extends Fragment {
 
                 } else {
 
-                    int iidd = group.getCheckedRadioButtonId();
 
-                    if (iidd > -1)
+                    if (pos.length() > 0)
                     {
-
-                        RadioButton btn = (RadioButton)group.findViewById(iidd);
-
 
 
                         progress.setVisibility(View.VISIBLE);
@@ -315,9 +372,9 @@ public class TestFrag extends Fragment {
 
                         Log.d("userID" , SharePreferenceUtils.getInstance().getString(Constant.USER_id));
                         Log.d("qid" , qid);
-                        Log.d("aaa" , btn.getText().toString());
+                        Log.d("aaa" , pos);
 
-                        Call<questionBean> call = cr.submitAnswer(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , qid , btn.getText().toString());
+                        Call<questionBean> call = cr.submitAnswer(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , qid , pos);
 
                         call.enqueue(new Callback<questionBean>() {
                             @Override
@@ -362,7 +419,7 @@ public class TestFrag extends Fragment {
                 }
 
             }
-        });*/
+        });
 
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -434,5 +491,48 @@ public class TestFrag extends Fragment {
 
 
     }
+
+
+    void setChech()
+    {
+
+        if (pos.equals("1"))
+        {
+            check1.setChecked(true);
+            check2.setChecked(false);
+            check3.setChecked(false);
+            check4.setChecked(false);
+        }
+        else if (pos.equals("2"))
+        {
+            check1.setChecked(false);
+            check2.setChecked(true);
+            check3.setChecked(false);
+            check4.setChecked(false);
+        }
+        else if (pos.equals("3"))
+        {
+            check1.setChecked(false);
+            check2.setChecked(false);
+            check3.setChecked(true);
+            check4.setChecked(false);
+        }
+        else if (pos.equals("4"))
+        {
+            check1.setChecked(false);
+            check2.setChecked(false);
+            check3.setChecked(false);
+            check4.setChecked(true);
+        }
+        else
+        {
+            check1.setChecked(false);
+            check2.setChecked(false);
+            check3.setChecked(false);
+            check4.setChecked(false);
+        }
+
+    }
+
 
 }

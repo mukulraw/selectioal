@@ -13,18 +13,30 @@ public class Datum {
     @SerializedName("question")
     @Expose
     private String question;
+    @SerializedName("qtype")
+    @Expose
+    private String qtype;
     @SerializedName("answer")
     @Expose
     private String answer;
+    @SerializedName("atype")
+    @Expose
+    private String atype;
     @SerializedName("image")
     @Expose
     private String image;
     @SerializedName("yourans")
     @Expose
     private String yourans;
+    @SerializedName("ytype")
+    @Expose
+    private String ytype;
     @SerializedName("explanation")
     @Expose
     private String explanation;
+    @SerializedName("etype")
+    @Expose
+    private String etype;
     @SerializedName("marks")
     @Expose
     private String marks;
@@ -56,12 +68,28 @@ public class Datum {
         this.question = question;
     }
 
+    public String getQtype() {
+        return qtype;
+    }
+
+    public void setQtype(String qtype) {
+        this.qtype = qtype;
+    }
+
     public String getAnswer() {
         return answer;
     }
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public String getAtype() {
+        return atype;
+    }
+
+    public void setAtype(String atype) {
+        this.atype = atype;
     }
 
     public String getImage() {
@@ -80,12 +108,28 @@ public class Datum {
         this.yourans = yourans;
     }
 
+    public String getYtype() {
+        return ytype;
+    }
+
+    public void setYtype(String ytype) {
+        this.ytype = ytype;
+    }
+
     public String getExplanation() {
         return explanation;
     }
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
+    }
+
+    public String getEtype() {
+        return etype;
+    }
+
+    public void setEtype(String etype) {
+        this.etype = etype;
     }
 
     public String getMarks() {

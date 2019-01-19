@@ -53,9 +53,9 @@ public class TestResult extends AppCompatActivity {
 
     ImageButton back;
 
-    String title , time , tid;
+    String title, time, tid;
 
-    TextView tit , tot , tim , cor , mar;
+    TextView tit, tot, tim, cor, mar;
 
     List<Datum> list;
 
@@ -90,9 +90,9 @@ public class TestResult extends AppCompatActivity {
 
         list = new ArrayList<>();
 
-        adapter = new SolutionAdapter(this , list);
+        adapter = new SolutionAdapter(this, list);
 
-        manager = new GridLayoutManager(this , 1);
+        manager = new GridLayoutManager(this, 1);
 
         grid.setAdapter(adapter);
 
@@ -101,12 +101,14 @@ public class TestResult extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TestResult.this , MainActivity.class);
+                Intent intent = new Intent(TestResult.this, MainActivity.class);
                 startActivity(intent);
                 finishAffinity();
             }
         });
 
+
+        loadData();
 
 
          /* bar.setVisibility(View.GONE);
@@ -150,12 +152,10 @@ public class TestResult extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        loadData();
+
     }
 
-    void loadData()
-    {
-
+    void loadData() {
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -167,7 +167,7 @@ public class TestResult extends AppCompatActivity {
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
 
-        Call<solutionBean> call = cr.viewResult(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , tid);
+        Call<solutionBean> call = cr.viewResult(SharePreferenceUtils.getInstance().getString(Constant.USER_id), tid);
 
         call.enqueue(new Callback<solutionBean>() {
             @Override
@@ -186,8 +186,8 @@ public class TestResult extends AppCompatActivity {
                 Float t = Float.parseFloat(String.valueOf(response.body().getTotal()));
 
 
-                dataEntries.add(new ValueDataEntry("Correct" , c));
-                dataEntries.add(new ValueDataEntry("Incorrect" , t-c));
+                dataEntries.add(new ValueDataEntry("Correct", c));
+                dataEntries.add(new ValueDataEntry("Incorrect", t - c));
 
 
                 pie1.data(dataEntries);
@@ -217,14 +217,13 @@ public class TestResult extends AppCompatActivity {
         finishAffinity();
     }*/
 
-    class SolutionAdapter extends RecyclerView.Adapter<SolutionAdapter.ViewHolder>{
+    class SolutionAdapter extends RecyclerView.Adapter<SolutionAdapter.ViewHolder> {
 
         Context context;
 
-        List<Datum>list = new ArrayList<>();
+        List<Datum> list = new ArrayList<>();
 
-        SolutionAdapter(Context context , List<Datum>list)
-        {
+        SolutionAdapter(Context context, List<Datum> list) {
             this.context = context;
             this.list = list;
         }
@@ -233,7 +232,7 @@ public class TestResult extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.solution_list_model , viewGroup , false);
+            View view = LayoutInflater.from(context).inflate(R.layout.solution_list_model, viewGroup, false);
             return new ViewHolder(view);
 
         }
@@ -241,15 +240,59 @@ public class TestResult extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
+            viewHolder.setIsRecyclable(false);
+
             final Datum item = list.get(i);
+
+            final String uurl = Constant.BASE_URL + "admin/upload/questions/" + tid + "/";
 
             viewHolder.marks.setText("Marks: " + item.getMarks());
 
-            viewHolder.ques.setText("Ques: " + item.getQuestion());
 
-            viewHolder.ans.setText("Answer.:  " + item.getAnswer());
+            viewHolder.index.setText("Question " + String.valueOf(i + 1));
 
-            viewHolder.yranswer.setText("Your Ans: " + item.getYourans());
+            if (item.getQtype().equals("text")) {
+                viewHolder.ques.setText(item.getQuestion());
+                viewHolder.ques.setVisibility(View.VISIBLE);
+                viewHolder.qimage.setVisibility(View.GONE);
+            } else {
+                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                ImageLoader loader = ImageLoader.getInstance();
+                loader.displayImage(uurl + item.getQuestion(), viewHolder.qimage, options);
+                viewHolder.ques.setVisibility(View.GONE);
+                viewHolder.qimage.setVisibility(View.VISIBLE);
+            }
+
+            //viewHolder.ques.setText("Ques: " + item.getQuestion());
+
+            if (item.getAtype().equals("text")) {
+                viewHolder.ans.setText(item.getAnswer());
+                viewHolder.ans.setVisibility(View.VISIBLE);
+                viewHolder.aimage.setVisibility(View.GONE);
+            } else {
+                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                ImageLoader loader = ImageLoader.getInstance();
+                loader.displayImage(uurl + item.getAnswer(), viewHolder.aimage, options);
+                viewHolder.ans.setVisibility(View.GONE);
+                viewHolder.aimage.setVisibility(View.VISIBLE);
+            }
+
+
+            //viewHolder.ans.setText("Answer.:  " + item.getAnswer());
+
+            if (item.getYtype().equals("text")) {
+                viewHolder.yranswer.setText(item.getYourans());
+                viewHolder.yranswer.setVisibility(View.VISIBLE);
+                viewHolder.yimage.setVisibility(View.GONE);
+            } else {
+                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                ImageLoader loader = ImageLoader.getInstance();
+                loader.displayImage(uurl + item.getYourans(), viewHolder.qimage, options);
+                viewHolder.yranswer.setVisibility(View.GONE);
+                viewHolder.yimage.setVisibility(View.VISIBLE);
+            }
+
+            //viewHolder.yranswer.setText("Your Ans: " + item.getYourans());
 
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
@@ -286,17 +329,20 @@ public class TestResult extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(context , Explanation.class);
-                    intent.putExtra("que" , item.getQuestion());
-                    intent.putExtra("exp" , item.getExplanation());
-                    intent.putExtra("ans" , item.getAnswer());
+                    Intent intent = new Intent(context, Explanation.class);
+                    intent.putExtra("que", item.getQuestion());
+                    intent.putExtra("exp", item.getExplanation());
+                    intent.putExtra("etype", item.getEtype());
+                    intent.putExtra("ans", item.getAnswer());
+                    intent.putExtra("url", uurl);
                     context.startActivity(intent);
 
                 }
             });
 
         }
-        public void setgrid(List<Datum>list){
+
+        public void setgrid(List<Datum> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -309,21 +355,25 @@ public class TestResult extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView ques ,ans , marks , yranswer , explanation;
-            ImageView image;
+            TextView ques, ans, marks, yranswer, explanation, index;
+            ImageView image, qimage, aimage, yimage;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                ques = itemView.findViewById(R.id.textView50);
+                ques = itemView.findViewById(R.id.qtext);
+                qimage = itemView.findViewById(R.id.qimage);
 
-                ans = itemView.findViewById(R.id.textView51);
+                ans = itemView.findViewById(R.id.text1);
+                aimage = itemView.findViewById(R.id.image1);
 
                 marks = itemView.findViewById(R.id.textView53);
 
-                yranswer = itemView.findViewById(R.id.textView52);
+                yranswer = itemView.findViewById(R.id.text2);
+                yimage = itemView.findViewById(R.id.image2);
 
                 image = itemView.findViewById(R.id.view16);
+                index = itemView.findViewById(R.id.textView104);
 
                 explanation = itemView.findViewById(R.id.textView98);
 

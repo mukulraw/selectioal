@@ -6,13 +6,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jsibbold.zoomage.ZoomageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 public class Explanation extends AppCompatActivity {
 
     ImageView back;
 
-    String que , ans , exp;
+    String que , ans , exp , etype , uurl;
 
-    TextView question , answer , explanation;
+    TextView etext;
+    ZoomageView eimage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +27,12 @@ public class Explanation extends AppCompatActivity {
         que = getIntent().getStringExtra("que");
         ans = getIntent().getStringExtra("ans");
         exp = getIntent().getStringExtra("exp");
+        etype = getIntent().getStringExtra("etype");
+        uurl = getIntent().getStringExtra("url");
 
         back = findViewById(R.id.imageButton4);
-        question = findViewById(R.id.textView99);
-        answer = findViewById(R.id.textView100);
-        explanation = findViewById(R.id.textView102);
-
-
-        question.setText("Ques: " + que);
-        answer.setText("Ans: " + ans);
-        explanation.setText(exp);
+        etext = findViewById(R.id.etext);
+        eimage = findViewById(R.id.eimage);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +40,23 @@ public class Explanation extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        if (etype.equals("text"))
+        {
+            etext.setText(exp);
+            etext.setVisibility(View.VISIBLE);
+            eimage.setVisibility(View.GONE);
+        }
+        else
+        {
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(uurl + exp , eimage , options);
+            etext.setVisibility(View.GONE);
+            eimage.setVisibility(View.VISIBLE);
+
+        }
 
 
     }
