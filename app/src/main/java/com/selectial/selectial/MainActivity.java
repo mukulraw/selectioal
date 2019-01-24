@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView profile, myTest, orders, compare;
 
-    BottomNavigationView bottom;
+    AHBottomNavigation bottom;
 
     TextView edit, name;
 
@@ -127,12 +129,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Subjects", R.drawable.ic_college_graduation);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem("Packages", R.drawable.ic_college_graduation);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Home", R.drawable.ic_college_graduation);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem("Institution", R.drawable.ic_college_graduation);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem("Orders", R.drawable.ic_college_graduation);
+
+        bottom.addItem(item1);
+        bottom.addItem(item2);
+        bottom.addItem(item3);
+        bottom.addItem(item4);
+        bottom.addItem(item5);
+
+        bottom.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+
         myTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //toolbar.setText("My Test");
 
-                bottom.setSelectedItemId(R.id.test);
+                bottom.setCurrentItem(1);
 
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
@@ -331,7 +347,87 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+        bottom.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+
+                if (position == 0)
+                {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    Subjects test = new Subjects();
+                    ft.replace(R.id.replace, test);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    //ft.addToBackStack(null);
+                    ft.commit();
+                    drawer.closeDrawer(GravityCompat.START);
+
+                    return true;
+                }
+                else if (position == 1)
+                {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    MyTest test = new MyTest();
+                    ft.replace(R.id.replace, test);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    //ft.addToBackStack(null);
+                    ft.commit();
+                    drawer.closeDrawer(GravityCompat.START);
+
+                    return true;
+                }
+                else if (position == 2)
+                {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    Home test = new Home();
+                    ft.replace(R.id.replace, test);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    //ft.addToBackStack(null);
+                    ft.commit();
+                    drawer.closeDrawer(GravityCompat.START);
+
+                    return true;
+                }
+                else if (position == 3)
+                {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    CollegeInfo test = new CollegeInfo();
+                    ft.replace(R.id.replace, test);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    //ft.addToBackStack(null);
+                    ft.commit();
+                    drawer.closeDrawer(GravityCompat.START);
+
+                    return true;
+                }
+                else if (position == 4)
+                {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    OrdersFrag test = new OrdersFrag();
+                    ft.replace(R.id.replace, test);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                    //ft.addToBackStack(null);
+                    ft.commit();
+                    drawer.closeDrawer(GravityCompat.START);
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+        });
+
+
+        /*bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
@@ -381,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             }
-        });
+        });*/
 
         settings1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -561,7 +657,7 @@ public class MainActivity extends AppCompatActivity {
         ft2.commit();
         drawer.closeDrawer(GravityCompat.START);
 
-        bottom.setSelectedItemId(R.id.home);
+        bottom.setCurrentItem(2);
 
     }
 

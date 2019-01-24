@@ -5,11 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-    <android.support.v4.view.ViewPager
+    <TextView
+        android:id="@+id/textView100"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:id="@+id/package_grid"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="NEWS ONE"
+        android:padding="10dp"
+        android:typeface="monospace"
+        android:drawableEnd="@drawable/ic_browser"
+        android:drawablePadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

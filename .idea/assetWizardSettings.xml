@@ -79,8 +79,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_arrow_drop_down_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\nisha" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_browser" />
+                            <entry key="sourceFile" value="C:\Users\mukul\Downloads\browser.svg" />
                           </map>
                         </option>
                       </PersistentState>

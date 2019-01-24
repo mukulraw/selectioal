@@ -11,6 +11,7 @@ import com.selectial.selectial.InsitituteDetailsPOJO.InsititutedetailsBean;
 import com.selectial.selectial.LikeInsititutePOJO.GetLikeInsitituteBean;
 import com.selectial.selectial.RatePOJO.RateBean;
 import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
+import com.selectial.selectial.bannerPOJO.bannerBean;
 import com.selectial.selectial.classesPOJO.classesBean;
 import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
@@ -279,5 +280,8 @@ public interface ServiceInterface {
 
     @GET("admin/api/getClasses.php")
     Call<classesBean> getClasses();
+
+    @GET("admin/api/getBanners.php")
+    Call<bannerBean> getBanners();
 
 }

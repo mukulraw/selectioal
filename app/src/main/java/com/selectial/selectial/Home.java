@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +24,8 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
+import com.selectial.selectial.bannerPOJO.Scholarship;
+import com.selectial.selectial.bannerPOJO.bannerBean;
 import com.selectial.selectial.getHomePOJO.Package;
 import com.selectial.selectial.getHomePOJO.Sucject;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
@@ -56,11 +61,11 @@ public class Home extends Fragment {
 
     CardView scholarshipView;
 
-    RecyclerView packageGrid;
+    ViewPager packageGrid;
     GridLayoutManager pManager;
     PackageAdapter pAdapter;
 
-    List<Package> pList;
+    List<Scholarship> pList;
 
     @Nullable
     @Override
@@ -81,17 +86,16 @@ public class Home extends Fragment {
 
         adapter = new TestAdapter(getContext() , list);
 
-        pAdapter = new PackageAdapter(getContext() , pList);
-        pManager = new GridLayoutManager(getContext() , 1);
+        //pAdapter = new PackageAdapter(getChildFragmentManager() , pList);
 
-        manager = new GridLayoutManager(getContext() , 2);
+        manager = new GridLayoutManager(getContext() , 1);
 
         grid.setAdapter(adapter);
 
         grid.setLayoutManager(manager);
 
-        packageGrid.setAdapter(pAdapter);
-        packageGrid.setLayoutManager(pManager);
+        //packageGrid.setAdapter(pAdapter);
+
 
         return view;
     }
@@ -121,18 +125,18 @@ public class Home extends Fragment {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
 
-           View view = LayoutInflater.from(context).inflate(R.layout.home_test_list_model , viewGroup , false);
+           View view = LayoutInflater.from(context).inflate(R.layout.news_list_model , viewGroup , false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-            final Sucject item = list.get(i);
+            //final Sucject item = list.get(i);
 
-            viewHolder.math.setText(item.getTitle());
+            //viewHolder.math.setText(item.getTitle());
 
-
+/*
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -143,7 +147,7 @@ public class Home extends Fragment {
                     context.startActivity(intent);
 
                 }
-            });
+            });*/
 
         }
 
@@ -155,17 +159,18 @@ public class Home extends Fragment {
 
         @Override
         public int getItemCount() {
-            return list.size();
+            //return list.size();
+            return 1;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{
 
-            TextView math;
+            //TextView math;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                math = itemView.findViewById(R.id.textView68);
+                //math = itemView.findViewById(R.id.textView68);
 
             }
         }
@@ -220,6 +225,24 @@ public class Home extends Fragment {
         });
 
 
+        Call<bannerBean> call = cr.getBanners();
+
+        call.enqueue(new Callback<bannerBean>() {
+            @Override
+            public void onResponse(Call<bannerBean> call, Response<bannerBean> response) {
+
+                pAdapter = new PackageAdapter(getChildFragmentManager() , response.body().getData().getScholarship());
+
+                packageGrid.setAdapter(pAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<bannerBean> call, Throwable t) {
+
+            }
+        });
+
 
         Log.d("streamm1" , SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id));
         Log.d("streamm2" , SharePreferenceUtils.getInstance().getString(Constant.USER_id));
@@ -237,8 +260,8 @@ public class Home extends Fragment {
         }
 
 
-        Call<getHomeBean> call = cr.getHome(SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
-        call.enqueue(new Callback<getHomeBean>() {
+        Call<getHomeBean> call1 = cr.getHome(SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+        call1.enqueue(new Callback<getHomeBean>() {
             @Override
             public void onResponse(Call<getHomeBean> call, Response<getHomeBean> response) {
 
@@ -262,7 +285,7 @@ public class Home extends Fragment {
 
                     adapter.setgrid(response.body().getData().getSucjects());
 
-                    packageGrid.setVisibility(View.GONE);
+                    //packageGrid.setVisibility(View.GONE);
 
                     //pAdapter.setGridData(response.body().getData().getPackage());
 
@@ -283,84 +306,28 @@ public class Home extends Fragment {
         });
     }
 
-    class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder>
+    class PackageAdapter extends FragmentStatePagerAdapter
     {
 
-        Context context;
-        List<Package> pList = new ArrayList<>();
+        List<Scholarship> ll = new ArrayList<>();
 
-        public PackageAdapter(Context context , List<Package> pList)
-        {
-            this.context = context;
-            this.pList = pList;
-        }
-
-        public void setGridData(List<Package> pList)
-        {
-            this.pList = pList;
-            notifyDataSetChanged();
-        }
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.package_list_model , viewGroup , false);
-            return new ViewHolder(view);
+        public PackageAdapter(FragmentManager fm , List<Scholarship> ll) {
+            super(fm);
+            this.ll = ll;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
-            final Package item = pList.get(i);
-
-            viewHolder.title.setText(item.getTitle());
-            viewHolder.feature.setText(Html.fromHtml(item.getFeatures()));
-
-            viewHolder.buy.setText(item.getPrice() + " INR");
-
-            viewHolder.buy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent intent = new Intent(getContext(), WebViewActivity.class);
-                    intent.putExtra(AvenuesParams.ACCESS_CODE, "AVQS02GA48AW11SQWA");
-                    intent.putExtra(AvenuesParams.MERCHANT_ID, "204672");
-                    intent.putExtra(AvenuesParams.ORDER_ID, item.getTitle());
-                    intent.putExtra(AvenuesParams.CURRENCY, "INR");
-                    intent.putExtra(AvenuesParams.AMOUNT, "1");
-                    intent.putExtra("pid", item.getId());
-
-                    intent.putExtra(AvenuesParams.REDIRECT_URL, "http://selectialindia.com/admin/api/ccavResponseHandler.php");
-                    intent.putExtra(AvenuesParams.CANCEL_URL, "http://selectialindia.com/admin/api/ccavResponseHandler.php");
-                    intent.putExtra(AvenuesParams.RSA_KEY_URL, "http://selectialindia.com/admin/api/GetRSA.php");
-
-                    context.startActivity(intent);
-
-                }
-            });
-
+        public Fragment getItem(int i) {
+            banner frag = new banner();
+            Bundle b = new Bundle();
+            b.putString("url" , ll.get(i).getFile());
+            frag.setArguments(b);
+            return frag;
         }
 
         @Override
-        public int getItemCount() {
-            return pList.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
-
-            TextView title , feature;
-            Button buy;
-
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-
-                title = itemView.findViewById(R.id.textView82);
-                feature = itemView.findViewById(R.id.textView83);
-                buy = itemView.findViewById(R.id.button9);
-
-            }
+        public int getCount() {
+            return ll.size();
         }
     }
 
