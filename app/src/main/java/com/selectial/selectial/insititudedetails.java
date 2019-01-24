@@ -47,12 +47,13 @@ public class insititudedetails extends AppCompatActivity {
 
     ProgressBar bar;
 
-    String insid, nme, icon, imge, lik, ratt, fees, estyr, airme, airen, center, students, islike, facu;
+    String insid, nme, icon, imge, lik, ratt, fees, estyr, airme, airen, center, students, islike, facu , deta , ha , fil;
 
 
     ImageView imageView;
     LinearLayout rat;
 
+    TextView more;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class insititudedetails extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrow);
+        more = findViewById(R.id.more);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,6 +185,9 @@ public class insititudedetails extends AppCompatActivity {
         airen = getIntent().getStringExtra("airengg");
         airme = getIntent().getStringExtra("airmed");
         facu = getIntent().getStringExtra("faculties");
+        deta = getIntent().getStringExtra("details");
+        ha = getIntent().getStringExtra("has");
+        fil = getIntent().getStringExtra("file");
 
 
         like.setText(lik);
@@ -245,6 +250,22 @@ public class insititudedetails extends AppCompatActivity {
 
             }
         });
+
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                BottomFragment frag = new BottomFragment();
+                Bundle b = new Bundle();
+                b.putString("details" , deta);
+                b.putString("has" , ha);
+                b.putString("file" , fil);
+                frag.setArguments(b);
+                frag.show(getSupportFragmentManager() , "Bottom Sheet");
+
+            }
+        });
+
         rat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

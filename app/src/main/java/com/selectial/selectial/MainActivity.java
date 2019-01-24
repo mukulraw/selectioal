@@ -129,11 +129,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Subjects", R.drawable.ic_college_graduation);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem("Packages", R.drawable.ic_college_graduation);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Home", R.drawable.ic_college_graduation);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Subjects", R.drawable.ic_translate);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem("Packages", R.drawable.ic_box);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Home", R.drawable.ic_home);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem("Institution", R.drawable.ic_college_graduation);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem("Orders", R.drawable.ic_college_graduation);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem("Orders", R.drawable.ic_shopping_bag);
 
         bottom.addItem(item1);
         bottom.addItem(item2);

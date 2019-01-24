@@ -16,6 +16,7 @@ import com.selectial.selectial.classesPOJO.classesBean;
 import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
+import com.selectial.selectial.newsPOJO.newsBean;
 import com.selectial.selectial.onlineTestPOJO.onlineTestBean;
 import com.selectial.selectial.ordersPOJO.ordersBean;
 import com.selectial.selectial.questionPOJO.questionBean;
@@ -283,5 +284,8 @@ public interface ServiceInterface {
 
     @GET("admin/api/getBanners.php")
     Call<bannerBean> getBanners();
+
+    @GET("admin/api/getScholarship.php")
+    Call<newsBean> getNews();
 
 }

@@ -2,6 +2,7 @@ package com.selectial.selectial;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.halilibo.adm.core.DownloadManagerPro;
+import com.halilibo.adm.report.listener.DownloadManagerListener;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.selectial.selectial.GetProfilePOJO.GetProfileBean;
@@ -29,15 +32,18 @@ import com.selectial.selectial.bannerPOJO.bannerBean;
 import com.selectial.selectial.getHomePOJO.Package;
 import com.selectial.selectial.getHomePOJO.Sucject;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
+import com.selectial.selectial.newsPOJO.newsBean;
 import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,11 +59,11 @@ public class Home extends Fragment {
 
     GridLayoutManager manager;
 
-    List<Sucject> list;
+    List<com.selectial.selectial.newsPOJO.Scholarship> list;
 
     CircleImageView circleImageView;
 
-    TextView name , email;
+    TextView name, email;
 
     CardView scholarshipView;
 
@@ -67,11 +73,13 @@ public class Home extends Fragment {
 
     List<Scholarship> pList;
 
+    CircleIndicator indicator;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.home_layout , container , false);
+        View view = inflater.inflate(R.layout.home_layout, container, false);
 
         circleImageView = view.findViewById(R.id.view11);
         name = view.findViewById(R.id.textView80);
@@ -79,16 +87,17 @@ public class Home extends Fragment {
         grid = view.findViewById(R.id.grid);
         packageGrid = view.findViewById(R.id.package_grid);
         scholarshipView = view.findViewById(R.id.view13);
+        indicator = view.findViewById(R.id.indicator);
 
 
         list = new ArrayList<>();
         pList = new ArrayList<>();
 
-        adapter = new TestAdapter(getContext() , list);
+        adapter = new TestAdapter(getContext(), list);
 
         //pAdapter = new PackageAdapter(getChildFragmentManager() , pList);
 
-        manager = new GridLayoutManager(getContext() , 1);
+        manager = new GridLayoutManager(getContext(), 1);
 
         grid.setAdapter(adapter);
 
@@ -108,14 +117,12 @@ public class Home extends Fragment {
 
     }
 
-    class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder>
-    {
+    class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
 
         Context context;
-        List<Sucject>list;
+        List<com.selectial.selectial.newsPOJO.Scholarship> list;
 
-        TestAdapter(Context context , List<Sucject>list)
-        {
+        TestAdapter(Context context, List<com.selectial.selectial.newsPOJO.Scholarship> list) {
             this.context = context;
             this.list = list;
         }
@@ -125,33 +132,114 @@ public class Home extends Fragment {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
 
-           View view = LayoutInflater.from(context).inflate(R.layout.news_list_model , viewGroup , false);
+            View view = LayoutInflater.from(context).inflate(R.layout.news_list_model, viewGroup, false);
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
             //final Sucject item = list.get(i);
 
-            //viewHolder.math.setText(item.getTitle());
+            final com.selectial.selectial.newsPOJO.Scholarship item = list.get(i);
 
-/*
+            if (item.getType().equals("LINK")) {
+
+                viewHolder.math.setText(item.getTitle());
+                viewHolder.math.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_global, 0);
+            } else {
+
+                viewHolder.math.setText(item.getTitle());
+                viewHolder.math.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down_arrow, 0);
+
+            }
+
+
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(context , MyTests.class);
-                    intent.putExtra("sub_id" , item.getId());
-                    intent.putExtra("title" , item.getTitle());
-                    context.startActivity(intent);
+                    if (item.getType().equals("LINK"))
+                    {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(item.getUrl()));
+                        startActivity(i);
+                    }
+                    else
+                    {
+
+                        DownloadManagerPro dm = new DownloadManagerPro(context);
+                        dm.init("Downloads", 12, new DownloadManagerListener() {
+                            @Override
+                            public void OnDownloadStarted(long taskId) {
+
+                            }
+
+                            @Override
+                            public void OnDownloadPaused(long taskId) {
+
+                            }
+
+                            @Override
+                            public void onDownloadProcess(long taskId, double percent, long downloadedLength) {
+
+                            }
+
+                            @Override
+                            public void OnDownloadFinished(long taskId) {
+
+                            }
+
+                            @Override
+                            public void OnDownloadRebuildStart(long taskId) {
+
+                            }
+
+                            @Override
+                            public void OnDownloadRebuildFinished(long taskId) {
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        Toast.makeText(context, "File Downloaded in Downloads", Toast.LENGTH_SHORT).show();
+                                        //progress.setVisibility(View.GONE);
+                                    }
+                                });
+
+
+                            }
+
+                            @Override
+                            public void OnDownloadCompleted(long taskId) {
+
+                            }
+
+                            @Override
+                            public void connectionLost(long taskId) {
+                                Toast.makeText(context, "Download error", Toast.LENGTH_SHORT).show();
+                                //progress.setVisibility(View.GONE);
+                            }
+                        });
+
+                        String uurrll = item.getFile().replace(" ", "%20");
+
+
+                        int token = dm.addTask(String.valueOf(System.currentTimeMillis()), uurrll, false, false);
+                        try {
+                            dm.startDownload(token);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Toast.makeText(context, "Download error", Toast.LENGTH_SHORT).show();
+                            //progress.setVisibility(View.GONE);
+                        }
+
+                    }
 
                 }
-            });*/
+            });
 
         }
 
-        public void setgrid(List<Sucject>list){
+        public void setgrid(List<com.selectial.selectial.newsPOJO.Scholarship> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -159,29 +247,26 @@ public class Home extends Fragment {
 
         @Override
         public int getItemCount() {
-            //return list.size();
-            return 1;
+            return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder{
+        class ViewHolder extends RecyclerView.ViewHolder {
 
-            //TextView math;
+            TextView math;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                //math = itemView.findViewById(R.id.textView68);
+                math = itemView.findViewById(R.id.textView100);
 
             }
         }
     }
 
-    void loadData()
-    {
+    void loadData() {
 
         name.setText(SharePreferenceUtils.getInstance().getString(Constant.USER_name));
         email.setText(SharePreferenceUtils.getInstance().getString(Constant.USER_email));
-
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -193,23 +278,22 @@ public class Home extends Fragment {
         ServiceInterface cr = retrofit.create(ServiceInterface.class);
 
 
-
         Call<GetProfileBean> call2 = cr.profilee(SharePreferenceUtils.getInstance().getString(Constant.USER_id));
         call2.enqueue(new Callback<GetProfileBean>() {
             @Override
             public void onResponse(Call<GetProfileBean> call, Response<GetProfileBean> response) {
 
-                if (Objects.equals(response.body().getStatus() , "1")){
+                if (Objects.equals(response.body().getStatus(), "1")) {
 
                     name.setText(response.body().getData().getName());
 
-                    SharePreferenceUtils.getInstance().saveString(Constant.USER_image , response.body().getData().getImage());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_image, response.body().getData().getImage());
 
                     DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
                     ImageLoader loader = ImageLoader.getInstance();
-                    loader.displayImage(response.body().getData().getImage() , circleImageView , options);
+                    loader.displayImage(response.body().getData().getImage(), circleImageView, options);
 
-                }else {
+                } else {
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -231,9 +315,11 @@ public class Home extends Fragment {
             @Override
             public void onResponse(Call<bannerBean> call, Response<bannerBean> response) {
 
-                pAdapter = new PackageAdapter(getChildFragmentManager() , response.body().getData().getScholarship());
+                pAdapter = new PackageAdapter(getChildFragmentManager(), response.body().getData().getScholarship());
 
                 packageGrid.setAdapter(pAdapter);
+
+                indicator.setViewPager(packageGrid);
 
             }
 
@@ -244,52 +330,33 @@ public class Home extends Fragment {
         });
 
 
-        Log.d("streamm1" , SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id));
-        Log.d("streamm2" , SharePreferenceUtils.getInstance().getString(Constant.USER_id));
-        Log.d("streamm3" , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
+        Log.d("streamm1", SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id));
+        Log.d("streamm2", SharePreferenceUtils.getInstance().getString(Constant.USER_id));
+        Log.d("streamm3", SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
 
         String str = "";
 
-        if (!SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id).equals("0"))
-        {
+        if (!SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id).equals("0")) {
             str = SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id);
-        }
-        else
-        {
+        } else {
             str = "";
         }
 
 
-        Call<getHomeBean> call1 = cr.getHome(SharePreferenceUtils.getInstance().getString(Constant.USER_sub_class_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_id) , SharePreferenceUtils.getInstance().getString(Constant.USER_class_id));
-        call1.enqueue(new Callback<getHomeBean>() {
+        Call<newsBean> call1 = cr.getNews();
+        call1.enqueue(new Callback<newsBean>() {
             @Override
-            public void onResponse(Call<getHomeBean> call, Response<getHomeBean> response) {
+            public void onResponse(Call<newsBean> call, Response<newsBean> response) {
 
-                if (Objects.equals(response.body().getStatus() , "1")){
+                if (Objects.equals(response.body().getStatus(), "1")) {
 
-
-
-
-
-                    if (response.body().getData().getScholarship().size() > 0)
-                    {
-                        //scholarshipView.setVisibility(View.VISIBLE);
-                        scholarshipView.setVisibility(View.GONE);
-                    }
-                    else
-                    {
-                        scholarshipView.setVisibility(View.GONE);
-                    }
-
-                    Log.d("asdasd" , String.valueOf(response.body().getData().getSucjects().size()));
-
-                    adapter.setgrid(response.body().getData().getSucjects());
+                    adapter.setgrid(response.body().getData().getScholarship());
 
                     //packageGrid.setVisibility(View.GONE);
 
                     //pAdapter.setGridData(response.body().getData().getPackage());
 
-                }else {
+                } else {
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -297,21 +364,20 @@ public class Home extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<getHomeBean> call, Throwable t) {
+            public void onFailure(Call<newsBean> call, Throwable t) {
 
-                Log.d("asdasda" , t.toString());
+                Log.d("asdasda", t.toString());
 
                 // bar.setVisibility(View.GONE);
             }
         });
     }
 
-    class PackageAdapter extends FragmentStatePagerAdapter
-    {
+    class PackageAdapter extends FragmentStatePagerAdapter {
 
         List<Scholarship> ll = new ArrayList<>();
 
-        public PackageAdapter(FragmentManager fm , List<Scholarship> ll) {
+        public PackageAdapter(FragmentManager fm, List<Scholarship> ll) {
             super(fm);
             this.ll = ll;
         }
@@ -320,7 +386,7 @@ public class Home extends Fragment {
         public Fragment getItem(int i) {
             banner frag = new banner();
             Bundle b = new Bundle();
-            b.putString("url" , ll.get(i).getFile());
+            b.putString("url", ll.get(i).getFile());
             frag.setArguments(b);
             return frag;
         }

@@ -16,5 +16,5 @@
         app:layout_constraintStart_toStartOf="parent"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bgp" />
+         />
 </android.support.constraint.ConstraintLayout>

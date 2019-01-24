@@ -323,6 +323,8 @@ public class TestFrag extends Fragment {
 
                     Call<questionBean> call = cr.submitAnswer(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , qid , pos);
 
+                    Toast.makeText(getContext(), pos, Toast.LENGTH_SHORT).show();
+
                     call.enqueue(new Callback<questionBean>() {
                         @Override
                         public void onResponse(Call<questionBean> call, Response<questionBean> response) {
@@ -375,6 +377,8 @@ public class TestFrag extends Fragment {
                         Log.d("aaa" , pos);
 
                         Call<questionBean> call = cr.submitAnswer(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , qid , pos);
+
+                        Toast.makeText(getContext(), pos, Toast.LENGTH_SHORT).show();
 
                         call.enqueue(new Callback<questionBean>() {
                             @Override

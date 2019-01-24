@@ -44,6 +44,15 @@ public class Datum {
     @SerializedName("faculties")
     @Expose
     private String faculties;
+    @SerializedName("details")
+    @Expose
+    private String details;
+    @SerializedName("has_file")
+    @Expose
+    private String hasFile;
+    @SerializedName("file")
+    @Expose
+    private String file;
     @SerializedName("isLiked")
     @Expose
     private String isLiked;
@@ -150,6 +159,30 @@ public class Datum {
 
     public void setFaculties(String faculties) {
         this.faculties = faculties;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public String getHasFile() {
+        return hasFile;
+    }
+
+    public void setHasFile(String hasFile) {
+        this.hasFile = hasFile;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 
     public String getIsLiked() {

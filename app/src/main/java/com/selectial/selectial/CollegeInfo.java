@@ -217,6 +217,9 @@ public class CollegeInfo extends Fragment {
                     i.putExtra("center" ,item.getCentres());
                     i.putExtra("students" ,item.getStudents());
                     i.putExtra("faculties" ,item.getFaculties());
+                    i.putExtra("details" ,item.getDetails());
+                    i.putExtra("has" ,item.getHasFile());
+                    i.putExtra("file" ,item.getFile());
                     i.putExtra("isliked" ,item.getIsLiked());
                     context.startActivity(i);
                 }

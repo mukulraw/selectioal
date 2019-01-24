@@ -54,5 +54,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.jsibbold:zoomage:1.1.0'
     implementation 'com.aurelhubert:ahbottomnavigation:2.2.0'
+    implementation 'me.relex:circleindicator:1.2.2'
+    implementation 'me.angeldevil:AutoScrollViewPager:1.0.8'
 
 }

@@ -287,7 +287,7 @@ public class TestResult extends AppCompatActivity {
             } else {
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
                 ImageLoader loader = ImageLoader.getInstance();
-                loader.displayImage(uurl + item.getYourans(), viewHolder.qimage, options);
+                loader.displayImage(uurl + item.getYourans(), viewHolder.yimage, options);
                 viewHolder.yranswer.setVisibility(View.GONE);
                 viewHolder.yimage.setVisibility(View.VISIBLE);
             }
