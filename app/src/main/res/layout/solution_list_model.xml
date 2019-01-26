@@ -24,7 +24,7 @@
             android:id="@+id/qtext"
             android:text="Q1 : A clock strikes once at 1 o’clock, twice at 2 o’clock, thrice at 3 o’clock and so on. How many times will it strike in 24 hours?"
             android:typeface="monospace"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textColor="#000000"
             />
 
@@ -79,13 +79,15 @@
                 android:id="@+id/text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="18sp"
                 android:typeface="monospace" />
 
             <ImageView
                 android:id="@+id/image1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitCenter" />
+                android:layout_height="30dp"
+                android:scaleType="centerInside" />
 
         </RelativeLayout>
 
@@ -122,14 +124,16 @@
             <TextView
                 android:id="@+id/text2"
                 android:layout_width="match_parent"
+                android:textColor="#000000"
+                android:textSize="18sp"
                 android:layout_height="wrap_content"
                 android:typeface="monospace" />
 
             <ImageView
                 android:id="@+id/image2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitCenter" />
+                android:layout_height="30dp"
+                android:scaleType="centerInside" />
 
         </RelativeLayout>
 

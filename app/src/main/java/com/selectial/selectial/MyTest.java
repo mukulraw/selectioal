@@ -268,9 +268,10 @@ public class MyTest extends Fragment {
                     Intent intent = new Intent(getContext(), WebViewActivity.class);
                     intent.putExtra(AvenuesParams.ACCESS_CODE, "AVML82GA81AW20LMWA");
                     intent.putExtra(AvenuesParams.MERCHANT_ID, "204672");
-                    intent.putExtra(AvenuesParams.ORDER_ID, item.getTitle());
+                    intent.putExtra(AvenuesParams.ORDER_ID, String.valueOf(System.currentTimeMillis()));
                     intent.putExtra(AvenuesParams.CURRENCY, "INR");
                     intent.putExtra(AvenuesParams.AMOUNT, item.getPrice());
+                    //intent.putExtra(AvenuesParams.AMOUNT, "1");
                     intent.putExtra("pid", item.getId());
 
                     intent.putExtra(AvenuesParams.REDIRECT_URL, "http://selectialindia.com/admin/api/ccavResponseHandler.php");

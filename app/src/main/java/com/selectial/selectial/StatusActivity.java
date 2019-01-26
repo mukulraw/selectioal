@@ -53,7 +53,7 @@ public class StatusActivity extends AppCompatActivity {
 
 
         switch (transStatus) {
-            case "success":
+            case "Transaction Successful!":
 
 
                 progress.setVisibility(View.VISIBLE);
@@ -93,7 +93,7 @@ public class StatusActivity extends AppCompatActivity {
                 //Toast.makeText(StatusActivity.this , response.body() , Toast.LENGTH_SHORT).show();
 
                 break;
-            case "declined":
+            case "Transaction Declined!":
                 text.setText("Payment has been declined by your bank");
                 image.setImageResource(R.drawable.failure);
                 break;
