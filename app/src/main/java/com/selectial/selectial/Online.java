@@ -153,10 +153,11 @@ public class Online  extends Fragment {
 
                     if (holder.action.getText().toString().equals("TAKE TEST"))
                     {
-                        Intent intent = new Intent(context , Test.class);
+                        Intent intent = new Intent(context , StartTest.class);
                         intent.putExtra("title" , item.getTitle());
                         intent.putExtra("time" , item.getTime());
                         intent.putExtra("id" , item.getId());
+                        intent.putExtra("inst" , item.getInstructions());
                         context.startActivity(intent);
                     }
                     else

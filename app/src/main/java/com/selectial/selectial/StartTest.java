@@ -26,16 +26,27 @@ public class StartTest extends AppCompatActivity {
 
     Button start;
 
-    TextView text;
+    TextView text , testCode;
+
+    String title , time , id , inst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_test);
 
+        id = getIntent().getStringExtra("id");
+        title = getIntent().getStringExtra("title");
+        time = getIntent().getStringExtra("time");
+        inst = getIntent().getStringExtra("inst");
+
         start = findViewById(R.id.button5);
 
         text = findViewById(R.id.textView30);
+        testCode = findViewById(R.id.textView31);
+
+        testCode.setText(title);
+        text.setText(inst);
 
        /* bar.setVisibility(View.GONE);
 
@@ -76,8 +87,12 @@ public class StartTest extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartTest.this, Test.class);
+                Intent intent = new Intent(StartTest.this , Test.class);
+                intent.putExtra("title" , title);
+                intent.putExtra("time" , time);
+                intent.putExtra("id" , id);
                 startActivity(intent);
+                finish();
             }
         });
 

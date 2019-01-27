@@ -28,6 +28,9 @@ public class Datum {
     @SerializedName("time")
     @Expose
     private String time;
+    @SerializedName("instructions")
+    @Expose
+    private String instructions;
     @SerializedName("file")
     @Expose
     private String file;
@@ -105,6 +108,14 @@ public class Datum {
         this.time = time;
     }
 
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
     public String getFile() {
         return file;
     }
@@ -136,4 +147,5 @@ public class Datum {
     public void setStatus(String status) {
         this.status = status;
     }
+
 }
