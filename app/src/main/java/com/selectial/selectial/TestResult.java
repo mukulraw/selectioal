@@ -34,6 +34,7 @@ import com.selectial.selectial.webservices.ServiceInterface;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.kexanie.library.MathView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -251,7 +252,7 @@ public class TestResult extends AppCompatActivity {
 
             viewHolder.index.setText("Question " + String.valueOf(i + 1));
 
-            if (item.getQtype().equals("text")) {
+            if (item.getQtype().equals("text") || item.getQtype().equals("latex")) {
                 viewHolder.ques.setText(item.getQuestion());
                 viewHolder.ques.setVisibility(View.VISIBLE);
                 viewHolder.qimage.setVisibility(View.GONE);
@@ -265,7 +266,7 @@ public class TestResult extends AppCompatActivity {
 
             //viewHolder.ques.setText("Ques: " + item.getQuestion());
 
-            if (item.getAtype().equals("text")) {
+            if (item.getAtype().equals("text") || item.getAtype().equals("latex")) {
                 viewHolder.ans.setText(item.getAnswer());
                 viewHolder.ans.setVisibility(View.VISIBLE);
                 viewHolder.aimage.setVisibility(View.GONE);
@@ -280,7 +281,7 @@ public class TestResult extends AppCompatActivity {
 
             //viewHolder.ans.setText("Answer.:  " + item.getAnswer());
 
-            if (item.getYtype().equals("text")) {
+            if (item.getYtype().equals("text") || item.getYtype().equals("latex")) {
                 viewHolder.yranswer.setText(item.getYourans());
                 viewHolder.yranswer.setVisibility(View.VISIBLE);
                 viewHolder.yimage.setVisibility(View.GONE);
@@ -355,7 +356,8 @@ public class TestResult extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView ques, ans, marks, yranswer, explanation, index;
+            TextView marks, explanation, index;
+            MathView ques , ans , yranswer;
             ImageView image, qimage, aimage, yimage;
 
             ViewHolder(@NonNull View itemView) {
@@ -376,6 +378,27 @@ public class TestResult extends AppCompatActivity {
                 index = itemView.findViewById(R.id.textView104);
 
                 explanation = itemView.findViewById(R.id.textView98);
+
+                ques.config(
+                        "MathJax.Hub.Config({\n"+
+                                "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                                "         SVG: { linebreaks: { automatic: true } }\n"+
+                                "});");
+
+                ans.config(
+                        "MathJax.Hub.Config({\n"+
+                                "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                                "         SVG: { linebreaks: { automatic: true } }\n"+
+                                "});");
+
+                yranswer.config(
+                        "MathJax.Hub.Config({\n"+
+                                "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                                "         SVG: { linebreaks: { automatic: true } }\n"+
+                                "});");
 
             }
         }

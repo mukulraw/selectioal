@@ -10,13 +10,15 @@ import com.jsibbold.zoomage.ZoomageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import io.github.kexanie.library.MathView;
+
 public class Explanation extends AppCompatActivity {
 
     ImageView back;
 
     String que , ans , exp , etype , uurl;
 
-    TextView etext;
+    MathView etext;
     ZoomageView eimage;
 
     @Override
@@ -34,6 +36,13 @@ public class Explanation extends AppCompatActivity {
         etext = findViewById(R.id.etext);
         eimage = findViewById(R.id.eimage);
 
+        etext.config(
+                "MathJax.Hub.Config({\n"+
+                        "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                        "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                        "         SVG: { linebreaks: { automatic: true } }\n"+
+                        "});");
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +51,7 @@ public class Explanation extends AppCompatActivity {
         });
 
 
-        if (etype.equals("text"))
+        if (etype.equals("text") || etype.equals("latex"))
         {
             etext.setText(exp);
             etext.setVisibility(View.VISIBLE);

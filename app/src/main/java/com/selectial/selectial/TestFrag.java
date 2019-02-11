@@ -36,6 +36,7 @@ import com.selectial.selectial.util.Constant;
 import com.selectial.selectial.util.SharePreferenceUtils;
 import com.selectial.selectial.webservices.ServiceInterface;
 
+import io.github.kexanie.library.MathView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,7 +65,7 @@ public class TestFrag extends Fragment {
     ProgressBar progress;
 
 
-    TextView ques , text1 , text2 , text3 , text4;
+    MathView ques , text1 , text2 , text3 , text4;
     CheckBox check1 , check2 , check3 , check4;
 
     ImageView qimage , image1 , image2 , image3 , image4;
@@ -118,6 +119,44 @@ public class TestFrag extends Fragment {
         text3 = view.findViewById(R.id.text3);
         text4 = view.findViewById(R.id.text4);
 
+
+        ques.config(
+                "MathJax.Hub.Config({\n"+
+                        "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                        "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                        "         SVG: { linebreaks: { automatic: true } }\n"+
+                        "});");
+
+        text1.config(
+                "MathJax.Hub.Config({\n"+
+                        "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                        "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                        "         SVG: { linebreaks: { automatic: true } }\n"+
+                        "});");
+
+        text2.config(
+                "MathJax.Hub.Config({\n"+
+                        "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                        "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                        "         SVG: { linebreaks: { automatic: true } }\n"+
+                        "});");
+
+        text3.config(
+                "MathJax.Hub.Config({\n"+
+                        "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                        "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                        "         SVG: { linebreaks: { automatic: true } }\n"+
+                        "});");
+
+        text4.config(
+                "MathJax.Hub.Config({\n"+
+                        "  CommonHTML: { linebreaks: { automatic: true } },\n"+
+                        "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
+                        "         SVG: { linebreaks: { automatic: true } }\n"+
+                        "});");
+
+
+
         check1 = view.findViewById(R.id.opt1);
         check2 = view.findViewById(R.id.opt2);
         check3 = view.findViewById(R.id.opt3);
@@ -130,7 +169,7 @@ public class TestFrag extends Fragment {
         image4 = view.findViewById(R.id.image4);
 
 
-        if (type1.equals("text"))
+        if (type1.equals("text") || type1.equals("latex"))
         {
             text1.setText(op1);
             text1.setVisibility(View.VISIBLE);
@@ -146,7 +185,7 @@ public class TestFrag extends Fragment {
         }
 
 
-        if (type2.equals("text"))
+        if (type2.equals("text") || type2.equals("latex"))
         {
             text2.setText(op2);
             text2.setVisibility(View.VISIBLE);
@@ -161,7 +200,7 @@ public class TestFrag extends Fragment {
             image2.setVisibility(View.VISIBLE);
         }
 
-        if (type3.equals("text"))
+        if (type3.equals("text") || type3.equals("latex"))
         {
             text3.setText(op3);
             text3.setVisibility(View.VISIBLE);
@@ -176,7 +215,7 @@ public class TestFrag extends Fragment {
             image3.setVisibility(View.VISIBLE);
         }
 
-        if (type4.equals("text"))
+        if (type4.equals("text") || type4.equals("latex"))
         {
             text4.setText(op4);
             text4.setVisibility(View.VISIBLE);
@@ -194,7 +233,7 @@ public class TestFrag extends Fragment {
 
         submit = view.findViewById(R.id.button6);
 
-        if (qtype.equals("text"))
+        if (qtype.equals("text") || qtype.equals("latex"))
         {
             ques.setText(que);
             ques.setVisibility(View.VISIBLE);

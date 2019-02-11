@@ -315,11 +315,18 @@ public class Home extends Fragment {
             @Override
             public void onResponse(Call<bannerBean> call, Response<bannerBean> response) {
 
-                pAdapter = new PackageAdapter(getChildFragmentManager(), response.body().getData().getScholarship());
+                try {
+                    pAdapter = new PackageAdapter(getChildFragmentManager(), response.body().getData().getScholarship());
 
-                packageGrid.setAdapter(pAdapter);
+                    packageGrid.setAdapter(pAdapter);
 
-                indicator.setViewPager(packageGrid);
+                    indicator.setViewPager(packageGrid);
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
 
             }
 
