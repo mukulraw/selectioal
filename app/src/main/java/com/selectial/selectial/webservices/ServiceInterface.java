@@ -19,6 +19,7 @@ import com.selectial.selectial.getHomePOJO.getHomeBean;
 import com.selectial.selectial.newsPOJO.newsBean;
 import com.selectial.selectial.onlineTestPOJO.onlineTestBean;
 import com.selectial.selectial.ordersPOJO.ordersBean;
+import com.selectial.selectial.quesDataPOJO.quesDataBean;
 import com.selectial.selectial.questionPOJO.questionBean;
 import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SignupResp;
@@ -246,6 +247,14 @@ public interface ServiceInterface {
                     @Part("userId") String userId,
                     @Part("quesId") String quesId,
                     @Part("answer") String answer
+            );
+
+    @Multipart
+    @POST("admin/api/getQuesData.php")
+    Call<quesDataBean> getQuesData
+            (
+                    @Part("userId") String userId,
+                    @Part("quesId") String quesId
             );
 
     @Multipart

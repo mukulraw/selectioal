@@ -38,11 +38,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" >
 
-                    <io.github.kexanie.library.MathView
+                    <io.github.sidvenu.mathjaxview.MathJaxView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/qtext"
                         app:engine="MathJax"
+                        app:setClickable="true"
                         android:typeface="monospace"
                         android:textSize="20sp"
                         android:textColor="#000000"
@@ -101,18 +102,19 @@
                             android:layout_gravity="center_vertical"
                             >
 
-                            <io.github.kexanie.library.MathView
+                            <io.github.sidvenu.mathjaxview.MathJaxView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:typeface="monospace"
                                 android:id="@+id/text1"
+                                app:setClickable="true"
                                 app:engine="MathJax"
                                 android:textSize="18sp"
                                 />
 
                             <ImageView
                                 android:layout_width="wrap_content"
-                                android:layout_height="30dp"
+                                android:layout_height="wrap_content"
                                 android:scaleType="fitCenter"
                                 android:id="@+id/image1"
                                 />
@@ -142,18 +144,19 @@
                             android:layout_gravity="center_vertical"
                             >
 
-                            <io.github.kexanie.library.MathView
+                            <io.github.sidvenu.mathjaxview.MathJaxView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:typeface="monospace"
                                 android:id="@+id/text2"
                                 app:engine="MathJax"
+                                app:setClickable="true"
                                 android:textSize="18sp"
                                 />
 
                             <ImageView
                                 android:layout_width="wrap_content"
-                                android:layout_height="30dp"
+                                android:layout_height="wrap_content"
                                 android:scaleType="center"
                                 android:id="@+id/image2"
                                 />
@@ -183,18 +186,19 @@
                             android:layout_gravity="center_vertical"
                             >
 
-                            <io.github.kexanie.library.MathView
+                            <io.github.sidvenu.mathjaxview.MathJaxView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:typeface="monospace"
                                 android:textSize="18sp"
+                                app:setClickable="true"
                                 app:engine="MathJax"
                                 android:id="@+id/text3"
                                 />
 
                             <ImageView
                                 android:layout_width="wrap_content"
-                                android:layout_height="30dp"
+                                android:layout_height="wrap_content"
                                 android:scaleType="fitXY"
                                 android:id="@+id/image3"
                                 />
@@ -224,18 +228,19 @@
                             android:layout_gravity="center_vertical"
                             >
 
-                            <io.github.kexanie.library.MathView
+                            <io.github.sidvenu.mathjaxview.MathJaxView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:typeface="monospace"
                                 app:engine="MathJax"
+                                app:setClickable="true"
                                 android:textSize="18sp"
                                 android:id="@+id/text4"
                                 />
 
                             <ImageView
                                 android:layout_width="wrap_content"
-                                android:layout_height="30dp"
+                                android:layout_height="wrap_content"
                                 android:scaleType="fitCenter"
                                 android:id="@+id/image4"
                                 />

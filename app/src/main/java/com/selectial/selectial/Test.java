@@ -120,7 +120,7 @@ public class Test extends AppCompatActivity {
 
                 tabs.setupWithViewPager(pager);
 
-                pager.setOffscreenPageLimit(response.body().getData().size() - 1);
+                //pager.setOffscreenPageLimit(response.body().getData().size() - 1);
 
 
                 progress.setVisibility(View.GONE);

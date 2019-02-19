@@ -58,5 +58,7 @@ dependencies {
     implementation 'me.angeldevil:AutoScrollViewPager:1.0.8'
 
     implementation 'io.github.kexanie.library:MathView:0.0.6'
+    implementation 'in.hourglass.mathrender:katexmathview:1.0'
+    implementation 'io.github.sidvenu.mathjaxview:mathjaxview:1.0.5'
 
 }
