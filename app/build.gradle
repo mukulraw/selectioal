@@ -60,5 +60,6 @@ dependencies {
     implementation 'io.github.kexanie.library:MathView:0.0.6'
     implementation 'in.hourglass.mathrender:katexmathview:1.0'
     implementation 'io.github.sidvenu.mathjaxview:mathjaxview:1.0.5'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 
 }

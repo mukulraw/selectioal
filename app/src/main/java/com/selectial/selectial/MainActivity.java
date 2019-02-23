@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("Packages", R.drawable.ic_box);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem("Home", R.drawable.ic_home);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem("Institution", R.drawable.ic_college_graduation);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem("Orders", R.drawable.ic_shopping_bag);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem("Scholarship", R.drawable.ic_shopping_bag);
 
         bottom.addItem(item1);
         bottom.addItem(item2);
@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     FragmentManager fm = getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
-                    OrdersFrag test = new OrdersFrag();
+                    Scholarship test = new Scholarship();
                     ft.replace(R.id.replace, test);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                     //ft.addToBackStack(null);
