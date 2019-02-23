@@ -3,6 +3,7 @@ package com.selectial.selectial;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ public class StartTest extends AppCompatActivity {
         testCode = findViewById(R.id.textView31);
 
         testCode.setText(title);
-        text.setText(inst);
+        text.setText(Html.fromHtml(inst));
 
        /* bar.setVisibility(View.GONE);
 
