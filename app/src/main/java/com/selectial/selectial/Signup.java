@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.selectial.selectial.SubClassPOJO.SubClassBean;
 import com.selectial.selectial.classesPOJO.classesBean;
 import com.selectial.selectial.response.SignupResp;
 import com.selectial.selectial.response.SignupResponse;
@@ -51,7 +52,7 @@ public class Signup extends AppCompatActivity {
 
     ToggleSwitch toggleSwitchGender;
 
-    //Spinner chooseClass;
+    Spinner chooseClass , subclass;
 
     int classPositionToggle, genderPositionToggle;
 
@@ -72,14 +73,26 @@ public class Signup extends AppCompatActivity {
     List<String> className;
     List<String> classId;
 
-String isSocial;
+    String isSocial;
 
-String pid;
+    String pid;
+
+    List<String>subid;
+    List<String>sub;
+
+    String s = "";
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+
+        sub = new ArrayList<>();
+        subid = new ArrayList<>();
 
         isSocial = getIntent().getStringExtra("social");
 
@@ -91,9 +104,7 @@ String pid;
 
         pBar.setVisibility(View.GONE);
 
-
-        if (isSocial.equals("1"))
-        {
+        if (isSocial.equals("1")) {
 
             String nname = getIntent().getStringExtra("name");
             String eemail = getIntent().getStringExtra("email");
@@ -105,11 +116,6 @@ String pid;
 
 
         }
-
-
-
-        //Retrofit
-        // pBar.setVisibility(View.GONE);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
@@ -190,7 +196,7 @@ String pid;
 
                         String dd = String.valueOf(dp.getDayOfMonth()) + "-" + String.valueOf(dp.getMonth() + 1) + "-" + dp.getYear();
 
-                        Log.d("dddd" , dd);
+                        Log.d("dddd", dd);
 
                         age.setText(dd);
 
@@ -202,12 +208,52 @@ String pid;
             }
         });
 
-        /*chooseClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        chooseClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if (position > 0) {
                     selClass = classId.get(position - 1);
+
+
+
+                    pBar.setVisibility(View.VISIBLE);
+
+                    Call<SubClassBean> call1 = serviceInterface.subclass(selClass);
+
+
+                    call1.enqueue(new Callback<SubClassBean>() {
+                        @Override
+                        public void onResponse(Call<SubClassBean> call, Response<SubClassBean> response) {
+
+
+                            sub.clear();
+                            subid.clear();
+
+                            sub.add("Select Class");
+
+
+                            for (int j = 0; j < response.body().getData().size(); j++) {
+                                sub.add(response.body().getData().get(j).getName());
+                                subid.add(response.body().getData().get(j).getClassId());
+                            }
+
+                            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(Signup.this,
+                                    R.layout.spinner_item,sub);
+
+                            subclass.setAdapter(adapter1);
+
+                            pBar.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<SubClassBean> call, Throwable t) {
+                            pBar.setVisibility(View.GONE);
+                        }
+                    });
+
+
                 }
 
             }
@@ -216,9 +262,9 @@ String pid;
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });*/
+        });
 
-        /*pBar.setVisibility(View.VISIBLE);
+        pBar.setVisibility(View.VISIBLE);
 
         Call<classesBean> call = serviceInterface.getClasses();
 
@@ -251,17 +297,54 @@ String pid;
             public void onFailure(Call<classesBean> call, Throwable t) {
                 pBar.setVisibility(View.GONE);
             }
-        });*/
+        });
+
+
+
+
+
+
+
+
+        subclass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position > 0) {
+                    s = subid.get(position - 1);
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
     private void signupReq() {
 
 
-        if (isSocial.equals("1"))
-        {
+        if (isSocial.equals("1")) {
             Call<SignupResp> call = serviceInterface.socialSignup(convertPlainString(mClass), convertPlainString(mUsername),
-                    convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(pid) , convertPlainString(mPhone));
+                    convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(pid), convertPlainString(mPhone));
 
             call.enqueue(new Callback<SignupResp>() {
                 @Override
@@ -308,9 +391,7 @@ String pid;
 
                 }
             });
-        }
-        else
-        {
+        } else {
             Call<SignupResp> call = serviceInterface.signup(convertPlainString(mClass), convertPlainString(mUsername),
                     convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(mPhone));
 
@@ -362,7 +443,6 @@ String pid;
         }
 
 
-
     }
 
     private void getInput() {
@@ -395,7 +475,8 @@ String pid;
         email = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
         confirm = findViewById(R.id.editText5);
-        //chooseClass = findViewById(R.id.spinner);
+        chooseClass = findViewById(R.id.spinner);
+        subclass = findViewById(R.id.spinner1);
         //toggleSwitchClass = findViewById(R.id.textView15);
         toggleSwitchGender = findViewById(R.id.textView17);
         alreadyMember = findViewById(R.id.textView10);

@@ -10,6 +10,7 @@ import com.selectial.selectial.GetStreamPOJO.GetStreamBean;
 import com.selectial.selectial.InsitituteDetailsPOJO.InsititutedetailsBean;
 import com.selectial.selectial.LikeInsititutePOJO.GetLikeInsitituteBean;
 import com.selectial.selectial.RatePOJO.RateBean;
+import com.selectial.selectial.SubClassPOJO.SubClassBean;
 import com.selectial.selectial.UpdateStreamPOJO.UpdateStreamBean;
 import com.selectial.selectial.bannerPOJO.bannerBean;
 import com.selectial.selectial.classesPOJO.classesBean;
@@ -287,6 +288,17 @@ public interface ServiceInterface {
             (
                     @Part("userId") String userId
             );
+
+
+
+
+
+    @Multipart
+    @POST("admin/api/getStreams.php")
+    Call<SubClassBean> subclass(
+                    @Part("class_id") String clsid
+            );
+
 
     @GET("admin/api/getClasses.php")
     Call<classesBean> getClasses();

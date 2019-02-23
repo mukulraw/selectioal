@@ -54,12 +54,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="16dp"
             android:text="CHOOSE A USERNAME"
             android:textColor="#ffffff"
             android:typeface="monospace"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            app:layout_constraintTop_toBottomOf="@+id/textView111" />
 
     <EditText
         android:id="@+id/editText3"
@@ -259,7 +259,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="40dp"
             android:text="CHOOSE A CLASS"
-            android:visibility="gone"
+            android:visibility="visible"
             android:textColor="#ffffff"
             android:typeface="monospace"
             app:layout_constraintStart_toStartOf="parent"
@@ -286,11 +286,26 @@
                 android:backgroundTint="#ffffff"
                 android:id="@+id/spinner"
                 android:spinnerMode="dropdown"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:popupBackground="@color/colorAccent"
                 />
 
         </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -361,6 +376,47 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView90" />
+
+        <TextView
+            android:id="@+id/textView106"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="16dp"
+            android:text="SUB CLASS"
+            android:textColor="#ffffff"
+            android:typeface="monospace"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+
+        <RelativeLayout
+            android:id="@+id/textView111"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/white_round"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView106"
+            >
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ffffff"
+                android:id="@+id/spinner1"
+                android:spinnerMode="dropdown"
+                android:visibility="visible"
+                android:popupBackground="@color/colorAccent"
+                />
+
+        </RelativeLayout>
+
 
     </android.support.constraint.ConstraintLayout>
 

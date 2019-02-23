@@ -69,6 +69,8 @@ public class SignupLogin extends AppCompatActivity {
 
     int RC_SIGN_IN = 12;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,9 +128,13 @@ public class SignupLogin extends AppCompatActivity {
         setContentView(R.layout.activity_signup_login);
 
         login = findViewById(R.id.button2);
+
         signup = findViewById(R.id.button);
+
         subText = findViewById(R.id.textView91);
+
         facebook = findViewById(R.id.imageButton);
+
         google = findViewById(R.id.imageButton2);
 
         pBar = findViewById(R.id.progressBar12);
