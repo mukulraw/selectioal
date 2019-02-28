@@ -17,6 +17,7 @@ import com.selectial.selectial.classesPOJO.classesBean;
 import com.selectial.selectial.comparePOJO.compareBean;
 import com.selectial.selectial.forgotpojo.ForgotBean;
 import com.selectial.selectial.getHomePOJO.getHomeBean;
+import com.selectial.selectial.getScholarshipPOJO.getScholarshipBean;
 import com.selectial.selectial.newsPOJO.newsBean;
 import com.selectial.selectial.onlineTestPOJO.onlineTestBean;
 import com.selectial.selectial.ordersPOJO.ordersBean;
@@ -24,6 +25,8 @@ import com.selectial.selectial.quesDataPOJO.quesDataBean;
 import com.selectial.selectial.questionPOJO.questionBean;
 import com.selectial.selectial.response.SigninResp;
 import com.selectial.selectial.response.SignupResp;
+import com.selectial.selectial.scholQuesDataPOJO.scholQuesDataBean;
+import com.selectial.selectial.scholarshipQuesPOJO.scholarshipQuesBean;
 import com.selectial.selectial.solutionPOJO.solutionBean;
 import com.selectial.selectial.submitTestBean;
 import com.selectial.selectial.testListPOJO.testListBean;
@@ -61,6 +64,7 @@ public interface ServiceInterface {
     @POST("admin/api/sign_up.php")
     Call<SignupResp> signup(
             @Part("class") RequestBody mclass,
+            @Part("stream_id") RequestBody stream_id,
             @Part("name") RequestBody username,
             @Part("gender") RequestBody gender,
             @Part("age") RequestBody age,
@@ -73,6 +77,7 @@ public interface ServiceInterface {
     @POST("admin/api/social_sign_up.php")
     Call<SignupResp> socialSignup(
             @Part("class") RequestBody mclass,
+            @Part("stream_id") RequestBody streamId,
             @Part("name") RequestBody username,
             @Part("gender") RequestBody gender,
             @Part("age") RequestBody age,
@@ -242,6 +247,13 @@ public interface ServiceInterface {
             );
 
     @Multipart
+    @POST("admin/api/getScholarQues.php")
+    Call<scholarshipQuesBean> getScholarshipQuestions
+            (
+                    @Part("scholarId") String testId
+            );
+
+    @Multipart
     @POST("admin/api/submitTestAnswers.php")
     Call<questionBean> submitAnswer
             (
@@ -251,8 +263,26 @@ public interface ServiceInterface {
             );
 
     @Multipart
+    @POST("admin/api/submitScholAnswers.php")
+    Call<questionBean> submitScholAnswer
+            (
+                    @Part("userId") String userId,
+                    @Part("quesId") String quesId,
+                    @Part("answer") String answer
+            );
+
+
+    @Multipart
     @POST("admin/api/getQuesData.php")
     Call<quesDataBean> getQuesData
+            (
+                    @Part("userId") String userId,
+                    @Part("quesId") String quesId
+            );
+
+    @Multipart
+    @POST("admin/api/getScholarQuesData.php")
+    Call<scholQuesDataBean> getScholQuesData
             (
                     @Part("userId") String userId,
                     @Part("quesId") String quesId
@@ -264,6 +294,14 @@ public interface ServiceInterface {
             (
                     @Part("userId") String userId,
                     @Part("testId") String testId
+            );
+
+    @Multipart
+    @POST("admin/api/submitScholarship.php")
+    Call<submitTestBean> submitScholarship
+            (
+                    @Part("userId") String userId,
+                    @Part("scholarId") String testId
             );
 
     @Multipart
@@ -298,6 +336,13 @@ public interface ServiceInterface {
     Call<SubClassBean> subclass(
                     @Part("class_id") String clsid
             );
+
+    @Multipart
+    @POST("admin/api/getScholarshipTests.php")
+    Call<getScholarshipBean> getScholarshipTests(
+            @Part("userId") String userId
+    );
+
 
 
     @GET("admin/api/getClasses.php")

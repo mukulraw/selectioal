@@ -68,7 +68,7 @@ public class TestFrag extends Fragment {
     ProgressBar progress;
 
 
-    MathJaxView ques , text1 , text2 , text3 , text4;
+    MyView ques , text1 , text2 , text3 , text4;
     CheckBox check1 , check2 , check3 , check4;
 
     ImageView qimage , image1 , image2 , image3 , image4;
@@ -238,7 +238,7 @@ public class TestFrag extends Fragment {
 
                     Call<questionBean> call = cr.submitAnswer(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , qid , pos);
 
-                    Toast.makeText(getContext(), pos, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), pos, Toast.LENGTH_SHORT).show();
 
                     call.enqueue(new Callback<questionBean>() {
                         @Override
@@ -293,7 +293,7 @@ public class TestFrag extends Fragment {
 
                         Call<questionBean> call = cr.submitAnswer(SharePreferenceUtils.getInstance().getString(Constant.USER_id) , qid , pos);
 
-                        Toast.makeText(getContext(), pos, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), pos, Toast.LENGTH_SHORT).show();
 
                         call.enqueue(new Callback<questionBean>() {
                             @Override

@@ -135,8 +135,15 @@ public class Signup extends AppCompatActivity {
 
                /* signupReq();
                 pBar.setVisibility(View.VISIBLE);*/
-
-                if (mUsername.isEmpty()) {
+                if (selClass.isEmpty())
+                {
+                    Toast.makeText(Signup.this, "Please select a class", Toast.LENGTH_SHORT).show();
+                }
+                else if (s.isEmpty())
+                {
+                    Toast.makeText(Signup.this, "Please select a stream", Toast.LENGTH_SHORT).show();
+                }
+                else if (mUsername.isEmpty()) {
                     Toast.makeText(Signup.this, " Fill Username First", Toast.LENGTH_SHORT).show();
                 } else if (mAge.isEmpty()) {
                     Toast.makeText(Signup.this, "Fill age First", Toast.LENGTH_SHORT).show();
@@ -235,7 +242,7 @@ public class Signup extends AppCompatActivity {
 
                             for (int j = 0; j < response.body().getData().size(); j++) {
                                 sub.add(response.body().getData().get(j).getName());
-                                subid.add(response.body().getData().get(j).getClassId());
+                                subid.add(response.body().getData().get(j).getId());
                             }
 
                             ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(Signup.this,
@@ -343,7 +350,7 @@ public class Signup extends AppCompatActivity {
 
 
         if (isSocial.equals("1")) {
-            Call<SignupResp> call = serviceInterface.socialSignup(convertPlainString(mClass), convertPlainString(mUsername),
+            Call<SignupResp> call = serviceInterface.socialSignup(convertPlainString(mClass) , convertPlainString(s) , convertPlainString(mUsername),
                     convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(pid), convertPlainString(mPhone));
 
             call.enqueue(new Callback<SignupResp>() {
@@ -392,7 +399,7 @@ public class Signup extends AppCompatActivity {
                 }
             });
         } else {
-            Call<SignupResp> call = serviceInterface.signup(convertPlainString(mClass), convertPlainString(mUsername),
+            Call<SignupResp> call = serviceInterface.signup(convertPlainString(mClass) , convertPlainString(s) , convertPlainString(mUsername),
                     convertPlainString(mGender), convertPlainString(mAge), convertPlainString(mEmail), convertPlainString(mPassword), convertPlainString(mPhone));
 
             call.enqueue(new Callback<SignupResp>() {

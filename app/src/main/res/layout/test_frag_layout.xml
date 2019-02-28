@@ -38,7 +38,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" >
 
-                    <io.github.sidvenu.mathjaxview.MathJaxView
+                    <com.selectial.selectial.MyView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/qtext"
@@ -102,7 +102,7 @@
                             android:layout_gravity="center_vertical"
                             >
 
-                            <io.github.sidvenu.mathjaxview.MathJaxView
+                            <com.selectial.selectial.MyView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:typeface="monospace"
@@ -144,7 +144,7 @@
                             android:layout_gravity="center_vertical"
                             >
 
-                            <io.github.sidvenu.mathjaxview.MathJaxView
+                            <com.selectial.selectial.MyView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:typeface="monospace"
@@ -186,7 +186,7 @@
                             android:layout_gravity="center_vertical"
                             >
 
-                            <io.github.sidvenu.mathjaxview.MathJaxView
+                            <com.selectial.selectial.MyView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:typeface="monospace"
@@ -228,7 +228,7 @@
                             android:layout_gravity="center_vertical"
                             >
 
-                            <io.github.sidvenu.mathjaxview.MathJaxView
+                            <com.selectial.selectial.MyView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:typeface="monospace"

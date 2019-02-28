@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,10 @@ public class Subjects extends Fragment {
 
     ProgressBar bar;
 
+    TextView title;
+
+    ImageButton back;
+
 
     @Nullable
     @Override
@@ -53,6 +58,12 @@ public class Subjects extends Fragment {
 
 
         grid = view.findViewById(R.id.grid);
+
+        title = view.findViewById(R.id.textView27);
+        back = view.findViewById(R.id.imageButton4);
+
+        title.setVisibility(View.GONE);
+        back.setVisibility(View.GONE);
         bar = view.findViewById(R.id.progressBar11);
 
         list = new ArrayList<>();

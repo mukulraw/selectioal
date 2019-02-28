@@ -72,6 +72,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent signupIntent = new Intent(Login.this, Signup.class);
+                signupIntent.putExtra("social" , "0");
                 startActivity(signupIntent);
                 finish();
             }
