@@ -21,6 +21,14 @@ public class solutionBean {
     @SerializedName("correct")
     @Expose
     private String correct;
+
+    @SerializedName("not")
+    @Expose
+    private String not;
+    @SerializedName("wrong")
+    @Expose
+    private String wrong;
+
     @SerializedName("data")
     @Expose
     private List<Datum> data = null;
@@ -71,5 +79,21 @@ public class solutionBean {
 
     public void setData(List<Datum> data) {
         this.data = data;
+    }
+
+    public String getNot() {
+        return not;
+    }
+
+    public String getWrong() {
+        return wrong;
+    }
+
+    public void setNot(String not) {
+        this.not = not;
+    }
+
+    public void setWrong(String wrong) {
+        this.wrong = wrong;
     }
 }

@@ -5,6 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,13 +50,12 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class TestResult extends AppCompatActivity {
 
-    RecyclerView grid;
+    ViewPager grid;
 
-    GridLayoutManager manager;
 
-    SolutionAdapter adapter;
+    //SolutionAdapter adapter;
 
-    NestedScrollView scroll;
+    //NestedScrollView scroll;
 
     ImageButton back;
 
@@ -61,6 +66,8 @@ public class TestResult extends AppCompatActivity {
     List<Datum> list;
 
     AnyChartView pie;
+
+    TabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +81,7 @@ public class TestResult extends AppCompatActivity {
         tid = getIntent().getStringExtra("tid");
 
         grid = findViewById(R.id.grid);
-
+        tabs = findViewById(R.id.tabLayout);
         tit = findViewById(R.id.textView39);
         tot = findViewById(R.id.textView41);
         tim = findViewById(R.id.textView42);
@@ -85,26 +92,18 @@ public class TestResult extends AppCompatActivity {
         tit.setText(title);
         tim.setText("Time :" + getDurationString(Integer.parseInt(time) / 1000));
 
-        scroll = findViewById(R.id.scroll);
 
         back = findViewById(R.id.imageButton4);
 
         list = new ArrayList<>();
 
-        adapter = new SolutionAdapter(this, list);
+        //adapter = new SolutionAdapter(this, list);
 
-        manager = new GridLayoutManager(this, 1);
-
-        grid.setAdapter(adapter);
-
-        grid.setLayoutManager(manager);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TestResult.this, MainActivity.class);
-                startActivity(intent);
-                finishAffinity();
+                finish();
             }
         });
 
@@ -186,7 +185,6 @@ public class TestResult extends AppCompatActivity {
                 Float c = Float.parseFloat(response.body().getCorrect());
                 Float t = Float.parseFloat(String.valueOf(response.body().getTotal()));
 
-
                 dataEntries.add(new ValueDataEntry("Correct", c));
                 dataEntries.add(new ValueDataEntry("Incorrect", t - c));
 
@@ -195,7 +193,9 @@ public class TestResult extends AppCompatActivity {
 
                 pie.setChart(pie1);
 
-                adapter.setgrid(response.body().getData());
+                FragAdapter adapter = new FragAdapter(getSupportFragmentManager() , response.body().getData() , response.body().getCorrect() , response.body().getWrong() , response.body().getNot());
+                grid.setAdapter(adapter);
+                tabs.setupWithViewPager(grid);
 
             }
 
@@ -217,6 +217,53 @@ public class TestResult extends AppCompatActivity {
 
         finishAffinity();
     }*/
+
+
+    class FragAdapter extends FragmentStatePagerAdapter
+    {
+        List<Datum> list = new ArrayList<>();
+        String corr , wro , not;
+
+        public FragAdapter(FragmentManager fm , List<Datum> list , String corr , String wro , String not) {
+            super(fm);
+            this.list = list;
+            this.corr = corr;
+            this.wro = wro;
+            this.not = not;
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+
+            solutionFrag frag = new solutionFrag();
+            Bundle b = new Bundle();
+
+            b.putString("title" , title);
+            b.putString("time" , time);
+            b.putString("tid" , tid);
+            b.putString("corr" , corr);
+            b.putString("wro" , wro);
+            b.putString("not" , not);
+
+            frag.setArguments(b);
+
+            frag.setData(list.get(i) , tid , i);
+            return frag;
+
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return String.valueOf(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+    }
+
 
     class SolutionAdapter extends RecyclerView.Adapter<SolutionAdapter.ViewHolder> {
 
@@ -357,7 +404,7 @@ public class TestResult extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView marks, explanation, index;
-            MathView ques , ans , yranswer;
+            MyView ques, ans, yranswer;
             ImageView image, qimage, aimage, yimage;
 
             ViewHolder(@NonNull View itemView) {
@@ -379,30 +426,34 @@ public class TestResult extends AppCompatActivity {
 
                 explanation = itemView.findViewById(R.id.textView98);
 
-                ques.config(
-                        "MathJax.Hub.Config({\n"+
-                                "  CommonHTML: { linebreaks: { automatic: true } },\n"+
-                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
-                                "         SVG: { linebreaks: { automatic: true } }\n"+
+                ques.setConfig(
+                        "MathJax.Hub.Config({\n" +
+                                "  CommonHTML: { linebreaks: { automatic: true } },\n" +
+                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n" +
+                                "         SVG: { linebreaks: { automatic: true } }\n" +
                                 "});");
 
-                ans.config(
-                        "MathJax.Hub.Config({\n"+
-                                "  CommonHTML: { linebreaks: { automatic: true } },\n"+
-                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
-                                "         SVG: { linebreaks: { automatic: true } }\n"+
+                ans.setConfig(
+                        "MathJax.Hub.Config({\n" +
+                                "  CommonHTML: { linebreaks: { automatic: true } },\n" +
+                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n" +
+                                "         SVG: { linebreaks: { automatic: true } }\n" +
                                 "});");
 
-                yranswer.config(
-                        "MathJax.Hub.Config({\n"+
-                                "  CommonHTML: { linebreaks: { automatic: true } },\n"+
-                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
-                                "         SVG: { linebreaks: { automatic: true } }\n"+
+                yranswer.setConfig(
+                        "MathJax.Hub.Config({\n" +
+                                "  CommonHTML: { linebreaks: { automatic: true } },\n" +
+                                "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n" +
+                                "         SVG: { linebreaks: { automatic: true } }\n" +
                                 "});");
 
             }
         }
     }
+
+
+
+
 
     private String getDurationString(int seconds) {
 

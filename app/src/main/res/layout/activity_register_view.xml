@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Explanation">
+    tools:context=".RegisterView">
 
     <TextView
         android:id="@+id/textView27"
@@ -13,11 +13,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Explanation"
+        android:text="Register"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="monospace"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,17 +29,19 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView28"
-        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@color/grey" />
 
-    <ImageView
+
+
+
+    <ImageButton
         android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView27"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView27"
@@ -55,41 +58,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
-
-    <android.support.v4.widget.NestedScrollView
+    <WebView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:id="@+id/web"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView28"
-        >
-
-    <RelativeLayout
-        android:id="@+id/imageView12"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-         >
-
-        <com.selectial.selectial.MyView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etext"
-            app:engine="MathJax"
-            android:typeface="monospace"
-            />
-
-        <com.jsibbold.zoomage.ZoomageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/eimage"
-            />
-
-    </RelativeLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-
+        app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
 
 </android.support.constraint.ConstraintLayout>

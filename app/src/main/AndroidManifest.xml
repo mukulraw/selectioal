@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScholarshipTest"></activity>
+        <activity android:name=".RegisterView"></activity>
+        <activity android:name=".ScholarshipTest" />
         <activity android:name=".ScholarshipStartTest" />
         <activity android:name=".AnswerKeyView" />
         <activity android:name=".TestActivity" />

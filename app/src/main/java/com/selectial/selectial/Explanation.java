@@ -18,7 +18,7 @@ public class Explanation extends AppCompatActivity {
 
     String que , ans , exp , etype , uurl;
 
-    MathView etext;
+    MyView etext;
     ZoomageView eimage;
 
     @Override
@@ -36,11 +36,9 @@ public class Explanation extends AppCompatActivity {
         etext = findViewById(R.id.etext);
         eimage = findViewById(R.id.eimage);
 
-        etext.config(
-                "MathJax.Hub.Config({\n"+
-                        "  CommonHTML: { linebreaks: { automatic: true } },\n"+
-                        "  \"HTML-CSS\": { linebreaks: { automatic: true } },\n"+
-                        "         SVG: { linebreaks: { automatic: true } }\n"+
+        etext.setConfig(
+                "MathJax.Hub.Config({\n" +
+                        "  tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n" +
                         "});");
 
         back.setOnClickListener(new View.OnClickListener() {
